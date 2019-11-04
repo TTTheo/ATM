@@ -14,7 +14,7 @@ public class AccountDao implements Dao<CheckandSave>{
 	
     // auto close connection
     try {
-    	conn =  DriverManager.getConnection(url, user, password) ;
+    	conn =  DriverManager.getConnection(url) ;
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {
@@ -43,11 +43,19 @@ public class AccountDao implements Dao<CheckandSave>{
 	public boolean insert(CheckandSave cs) {
 		// TODO Auto-generated method stub
 		Balance balance = cs.getBalance() ;
+		int type = -1 ;
+		if (cs instanceof Checking) {
+			type = 0 ;
+			
+		}
+		if(cs instanceof Saving) {
+			type = 1 ;
+		}
 		connect() ;
 		try {
 			
-			String query = "INSERT INTO Account VALUES(\"" + cs.getAccount().getUsername() + ",\"" + cs.getMoneypassword() + ",\"" + cs.getAccountNumber() + "\")" ;
-			String query2 = "INSERT INTO Balance VALUES(\"" + cs.getAccountNumber() + "," + balance.getDollar().getMoney() + "," + balance.getRMB().getMoney() + "," + balance.getEuro().getMoney() + ")" ;
+			String query = "INSERT INTO Account VALUES(\"" + cs.getAccount().getUsername() + "\",\"" + cs.getMoneypassword() + "\",\"" + cs.getAccountNumber() + "\"," + type + ")" ;
+			String query2 = "INSERT INTO Balance VALUES(\"" + cs.getAccountNumber() + "\"," + balance.getDollar().getMoney() + "," + balance.getRMB().getMoney() + "," + balance.getEuro().getMoney() + ")" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			st.executeUpdate(query2) ;
@@ -106,18 +114,23 @@ public class AccountDao implements Dao<CheckandSave>{
 		CheckandSave cs = null ;
 		connect() ;
 		try {
-			String query = "SELECT name, password, phone, username, accountnumber, moneypassword,Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE accountnumber = \"" + accountnumber + "\"" ;
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE accountnumber = \"" + accountnumber + "\"" ;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
+				int type = rs.getInt("Type") ;
 				User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
 				Balance balance = new Balance() ;
 				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
 				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
 				balance.setEuro(new Currency("Euro", rs.getDouble("Euro")));
-				cs = new CheckandSave(account, rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
-				
+				if(type == 0) {
+					cs = new Checking(account, rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+				if(type == 1) {
+					cs = new Saving(account, rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
 			}
 		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

@@ -114,7 +114,7 @@ public class StockDao implements Dao<Stock> {
 	
     // auto close connection
     try {
-    	conn =  DriverManager.getConnection(url, user, password) ;
+    	conn =  DriverManager.getConnection(url) ;
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {

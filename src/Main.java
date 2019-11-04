@@ -1,6 +1,7 @@
 
 
 import java.awt.EventQueue;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,6 +37,35 @@ public class Main {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		// UserDao testcase
+		UserDao u = new UserDao() ;
+		User user = u.select("zhjiang") ;
+		System.out.println(user.getName() + " " + user.getPhone());
+		
+		//StockDao testcase
+		StockDao s = new StockDao() ;
+		Stock stock = s.select("Amazon") ;
+		System.out.println(stock.getPrice());
+		
+		// AccountDao testcase
+		AccountDao a = new AccountDao() ;
+		CheckandSave cs = a.select("1") ;
+		System.out.println(cs.getMoneypassword() + " " + cs.getAccount().getPassword() + " " + cs.getBalance().getDollar().getMark() + " " + cs.getBalance().getDollar().getMoney());
+		if(cs instanceof Checking) {
+			System.out.println("YEAH");
+		}
+		a.delete("111111") ;
+		CheckandSave newcs = new Checking(new User("test","test","test","test"), "111111", "1111", new Balance()) ;
+		a.insert(newcs) ;
+		
+		// TransactionDao testcase
+		TransactionDao t = new TransactionDao() ;
+		
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd") ;
+		Date date = new Date(System.currentTimeMillis()) ;
+		Transaction transaction = new Transaction(new Currency("Dollar", 100), date, user, user, cs.getAccountNumber(), newcs.getAccountNumber()) ;
+		t.insert(transaction) ;
+		
 		init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

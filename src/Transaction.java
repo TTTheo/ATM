@@ -4,12 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
-	Currency trans;
-	Date date;
-	String sendAccount;
-	String recieAccount;
-	User senderAccount;
-	User recieveAccount;
+	private Currency trans;
+	private Date date;
+	private String sendAccount;
+	private String receiAccount;
+	private User senderAccount;
+	private User recieveAccount;
+	private String transID ;
+	private int idCount = 0 ;
 	
 	public Transaction(Currency trans, Date date,User senderAccount,User recieveAccount,String sendAccount,String recieAccount){
 		this.trans=trans;
@@ -17,7 +19,8 @@ public class Transaction {
 		this.senderAccount=senderAccount;
 		this.recieveAccount=recieveAccount;
 		this.sendAccount=sendAccount;
-		this.recieAccount=recieAccount;
+		this.receiAccount=recieAccount;
+		this.transID = idCount++ + "" ;
 	}
 	
 	public void setTransaction(Currency trans){
@@ -45,13 +48,21 @@ public class Transaction {
 	}
 	
 	public String getRecieAccount(){
-		return this.recieAccount;
+		return this.receiAccount;
 	}
 	
 	public String getSenAccount(){
 		return this.sendAccount;
 	}
 	
+	public String getTransID() {
+		return transID;
+	}
+
+	public void setTransID(String transID) {
+		this.transID = transID;
+	}
+
 	public String showTrans(){   //show single transaction
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr=sdf.format(getDate());
