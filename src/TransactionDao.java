@@ -3,6 +3,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class TransactionDao implements Dao<Transaction> {
 	private Connection conn = null;
@@ -42,11 +45,11 @@ public class TransactionDao implements Dao<Transaction> {
 	public boolean insert(Transaction transaction) {
 		// TODO Auto-generated method stub
 		connect();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        String d = dateFormat.format(date);
 		try {
-			String query = "INSERT INTO Transaction VALUES (\"" + transaction.getTransID() + "\", "
-					+ transaction.getDate() + "," + "\"" + transaction.getSenAccount() + "\"," + "\""
-					+ transaction.getRecieAccount() + "\",\"" + transaction.getTransaction().getMark() + "\","
-					+ transaction.getTransaction().getMoney() + ")";
+			String query = "INSERT INTO [Transaction] VALUES (\"" + transaction.getTransID() + "\", datetime()," + "\"" + transaction.getSenAccount() + "\"," + "\"" + transaction.getRecieAccount() + "\",\"" + transaction.getTransaction().getMark() + "\"," + transaction.getTransaction().getMoney() + ")";
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 
@@ -66,7 +69,7 @@ public class TransactionDao implements Dao<Transaction> {
 		// TODO Auto-generated method stub
 		connect() ;
 		try {
-			String query = "DELETE FROM Transaction where transid = \"" + transid + "\"" ;
+			String query = "DELETE FROM [Transaction] where transid = \"" + transid + "\"" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			

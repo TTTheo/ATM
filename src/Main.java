@@ -59,12 +59,11 @@ public class Main {
 		a.insert(newcs) ;
 		
 		// TransactionDao testcase
-		TransactionDao t = new TransactionDao() ;
-		
-		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd") ;
-		Date date = new Date(System.currentTimeMillis()) ;
-		Transaction transaction = new Transaction(new Currency("Dollar", 100), date, user, user, cs.getAccountNumber(), newcs.getAccountNumber()) ;
+		TransactionDao t = new TransactionDao() ;	
+		t.delete("0") ;
+		Transaction transaction = new Transaction(new Currency("Dollar", 100), new Date(), user, user, cs.getAccountNumber(), newcs.getAccountNumber()) ;
 		t.insert(transaction) ;
+
 		
 		init();
 		EventQueue.invokeLater(new Runnable() {
