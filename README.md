@@ -1,4 +1,4 @@
-# README for GitHub
+# This branch is outdated, switch to the most recent branch
 
 ## Running with SQLite
 We currently use `SQLite` as an offline database. All the persistent data is stored in a file called `ATM.db`.
