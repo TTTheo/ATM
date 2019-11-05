@@ -2,41 +2,60 @@
 
 import java.util.ArrayList;
 
-public class Customer{
-	private User user;
+public class Customer extends User{
+	//private User user;
 	private Checking checkingAccount;
 	private Saving savingAccount;
 	private ArrayList<Loan> loans=new ArrayList<Loan>();
 	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private Investment invest;
+	private ArrayList<CheckandSave> accounts=new ArrayList<CheckandSave>();
 	
 	public Customer(String name, String username,String password,String phone){
-		this.setUser(new User(name,username,password,phone));
+		super(name,username,password,phone);
 	}
 	
-	public void setUser(User user){
+	/*public void setUser(User user){
 		this.user=user;		
 	}
 	
 	public User getUser(){
 		return this.user;	
+	}*/
+	
+	public ArrayList<CheckandSave> getAccounts(){
+		return this.accounts;
 	}
 	
 	public void createChecking(Checking checking){
 		//checkingAccount=new Checking();
-		this.checkingAccount=checking;
+		//this.checkingAccount=checking;
+		getAccounts().add(checking);
 	}
 	
 	public void createSaving(Saving saving){
-		this.savingAccount=saving;
+		//this.savingAccount=saving;
+		getAccounts().add(saving);
 	}
 	
-	public Checking getChecking(){
-		return this.checkingAccount;
+	public ArrayList<CheckandSave> getChecking(){
+		ArrayList<CheckandSave> checking=new ArrayList<CheckandSave>();
+		for(int i=0;i<getAccounts().size();i++){
+			if(getAccounts().get(i) instanceof Checking){
+				checking.add(getAccounts().get(i));
+			}
+		}
+		return checking;
 	}
 	
-	public Saving getSaving(){
-		return this.savingAccount;
+	public ArrayList<CheckandSave> getSaving(){
+		ArrayList<CheckandSave> saving=new ArrayList<CheckandSave>();
+		for(int i=0;i<getAccounts().size();i++){
+			if(getAccounts().get(i) instanceof Saving){
+				saving.add(getAccounts().get(i));
+			}
+		}
+		return saving;
 	}
 	
 	public void addLoan(Loan loan){
@@ -55,12 +74,12 @@ public class Customer{
 		return this.transactions;
 	}
 	
-	public Investment getInvest(){
+	/*public Investment getInvest(){
 		return this.invest;
-	}
+	}*/
 	
 	public void createInvest(Investment invest){
-		this.invest=invest;
+		getAccounts().add(invest);
 	}
 	
 	public String showCustomer(){   //show customer's total information
@@ -73,12 +92,15 @@ public class Customer{
 	}
 	
 	public String showCustomerInfo(){   //show basic information
-		String info="======================\r\nName: "+getUser().getName()+"\r\nPhone: "+getUser().getPhone()
-				+"\r\nUsername: "+getUser().getUsername()+"\r\n";
+		String info="======================\r\nName: "+getName()+"\r\nPhone: "+getPhone()
+				+"\r\nUsername: "+getUsername()+"\r\n";
 		return info;
 	}
 	
 	public String showCustomerCheck(){   //show checking information
+		for(int i=0;i<getChecking().size();i++){
+			
+		}
 		String info="Chencking account: "+getChecking().getAccountNumber()
 				+"\r\nChencking balance: \r\n"+getChecking().getBalance().showAll()
 				+"\r\n";

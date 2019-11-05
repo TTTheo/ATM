@@ -156,7 +156,7 @@ public class CustomerFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//test();
 				BalanceFrame balanceframe=new BalanceFrame(getCustomer());
-				//balanceframe.setCustomer(getCustomer());
+				balanceframe.setCustomer(getCustomer());
 				balanceframe.setVisible(true);
 			}
 		});
@@ -199,6 +199,7 @@ public class CustomerFrame extends JFrame {
 				setCustomers(closeaccountframe.getCustomers());
 				setIncomes(closeaccountframe.getIncomes());*/
 				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer());
+				setCustomer(closeaccountframe.getCustomer());
 				dispose();
 			}
 		});

@@ -89,6 +89,7 @@ public class BalanceFrame extends JFrame {
 	}
 	
 	public void showBalance(){  //set the balance in label
+		
 		lblCheckingMoney.setText(getCustomer().getChecking().getBalance().showDollar());		
 		lblCheckingrmb.setText(getCustomer().getChecking().getBalance().showRMB());
 		lblCheckingeruo.setText(getCustomer().getChecking().getBalance().showEuro());

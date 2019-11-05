@@ -35,6 +35,7 @@ public class Main {
 		 }
 	}*/
 	public static void main(String[] args) {
+		/*
 		// TODO Auto-generated method stub
 				// UserDao testcase
 				UserDao u = new UserDao() ;
@@ -61,20 +62,15 @@ public class Main {
 				TransactionDao t = new TransactionDao() ;	
 				t.delete("0") ;
 				Transaction transaction = new Transaction(new Currency("Dollar", 100), new Date(),cs.getAccountNumber(), newcs.getAccountNumber(),cs.getAccountNumber()) ;
-				t.insert(transaction) ;
+				t.insert(transaction) ;*/
 		// TODO Auto-generated method stub
 		//init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					//Conn con=new Conn();
-					//con.getConnection();
-							
+				
 					Login login = new Login();
 					login.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				
 			}
 		});
 

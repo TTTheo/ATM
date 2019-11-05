@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class ManageStockFrame extends JFrame {
@@ -104,8 +105,10 @@ public class ManageStockFrame extends JFrame {
 		
 		btnUpdatePrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UpdatePriceFrame updateprice=new UpdatePriceFrame();
-				updateprice.setVisible(true);
+				//UpdatePriceFrame updateprice=new UpdatePriceFrame();
+				//updateprice.setVisible(true);
+				Random rd=new Random();
+				
 			}
 		});
 		

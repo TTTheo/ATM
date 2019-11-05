@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
 
-public class Investment {
+public class Investment extends CheckandSave{
 	private ArrayList<CustomerStock> stocks=new ArrayList<CustomerStock>();
 	//private Customer customer;
-	private String accountID;
+	//private String accountID;
 	private Tool reminder=new Tool();
 	private StockDao conn=new StockDao();
 	
-	public Investment(ArrayList<CustomerStock> stocks,String accountID){
+	public Investment(String accountNumber,String moneypassword,ArrayList<CustomerStock> stocks){
+		super(accountNumber, moneypassword);
 		setStock(stocks);
-		setAccountID(accountID);
 	}
 	
 	public void setStock(ArrayList<CustomerStock> stocks){
@@ -27,7 +27,7 @@ public class Investment {
 	
 	public void setUser(User user){
 		this.user=user;
-	}*/
+	}
 	
 	public String getAccountID(){
 		return this.accountID;

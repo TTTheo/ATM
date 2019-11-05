@@ -3,21 +3,21 @@
 public class CheckandSave {
 	private String moneypassword;
 	private String accountNumber;
-	private Balance balance;
+	//private Balance balance;
 	
-	public CheckandSave(String accountNumber,String moneypassword,Balance balance){
+	public CheckandSave(String accountNumber,String moneypassword){
 		this.moneypassword=moneypassword;
 		this.accountNumber=accountNumber;
-		this.balance=balance;
+		//this.balance=balance;
 	}
 	
-	public void setBalance(Balance balance){
+	/*public void setBalance(Balance balance){
 		this.balance=balance;
 	}
 	
 	public Balance getBalance(){
 		return balance;
-	}
+	}*/
 	
 	public void deposit(Currency currency){
 		balance.add(currency);
