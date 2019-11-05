@@ -34,14 +34,15 @@ public class DepositFrame extends JFrame {
 	private JRadioButton rdbtnSaving;
 	private ButtonGroup btngroup;
 	private Customer customer=new Customer("","","","");
-	private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
+	private AccountDao con=new AccountDao();
 
 	/**
 	 * Create the frame.
 	 */
-	public DepositFrame(Customer customer,ArrayList<Income> incomes) {
+	public DepositFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -50,7 +51,7 @@ public class DepositFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.incomes=incomes;
+		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -104,9 +105,9 @@ public class DepositFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public ArrayList<Income> getIncomes(){
+	/*public ArrayList<Income> getIncomes(){
 		return this.incomes;
-	}
+	}*/
 	
 	public static boolean isNumeric(String str){  //check if the string composed with numbers
 		for (int i = str.length();--i>=0;){
@@ -146,6 +147,8 @@ public class DepositFrame extends JFrame {
 									double depositnumber=Double.parseDouble(deposit);
 									Currency curren=new Currency(currency,depositnumber);
 									getCustomer().getChecking().getBalance().add(curren);
+									
+									con.update(getCustomer().getChecking());
 									reminder("Deposit successfully!");
 									dispose();
 								}
@@ -155,6 +158,7 @@ public class DepositFrame extends JFrame {
 										double depositnumber=Double.parseDouble(deposit);
 										Currency curren=new Currency(currency,depositnumber);
 										getCustomer().getSaving().getBalance().add(curren);
+										con.update(getCustomer().getSaving());
 										reminder("Deposit successfully!");
 										dispose();
 									}else{

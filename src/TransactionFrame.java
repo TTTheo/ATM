@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+
 import javax.swing.JPasswordField;
 
 public class TransactionFrame extends JFrame {
@@ -29,16 +31,17 @@ public class TransactionFrame extends JFrame {
 	private JButton btnSubmit;	
 	private JButton btnCancle;
 	private Customer customer=new Customer("","","","");
-	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 
 	/**
 	 * Create the frame.
 	 */
-	public TransactionFrame(Customer customer,ArrayList<Customer> customers,ArrayList<Income> incomes,ArrayList<Transaction> transactions) {
+	//public TransactionFrame(Customer customer,ArrayList<Income> incomes,ArrayList<Transaction> transactions) {
+	public TransactionFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -47,9 +50,9 @@ public class TransactionFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.customers=customers;
-		this.incomes=incomes;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.incomes=incomes;
+		//this.transactions=transactions;
 		init();
 		addAction();
 		
@@ -100,7 +103,7 @@ public class TransactionFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public ArrayList<Customer> getCustomers(){
+	/*public ArrayList<Customer> getCustomers(){
 		return this.customers;
 	}
 	
@@ -113,7 +116,7 @@ public class TransactionFrame extends JFrame {
 	}
 	public void setTransactions(ArrayList<Transaction> transactions){
 		this.transactions=transactions;
-	}
+	}*/
 	
 	public static boolean isNumeric(String str){
 		for (int i = str.length();--i>=0;){
@@ -163,7 +166,16 @@ public class TransactionFrame extends JFrame {
 								reminder("Wrong PIN number!");
 							}else{
 								boolean ifright=false;
-								for(int i=0;i<customers.size();i++){
+								AccountDao conn=new AccountDao();
+								CheckandSave cs=conn.select(recieverID);
+								//CheckandSave cs1=conn.select(senderID);
+								if(!recieverID.equals(senderID)&&cs!=null){
+									ifright=true;
+									Transaction transaction=new Transaction(transcurren,date,senderID,recieverID,createTransID());
+									TransactionDao con=new TransactionDao();
+									con.insert(transaction);
+								}
+								/*for(int i=0;i<customers.size();i++){
 									if(customers.get(i).getChecking().getAccountNumber().equals(recieverID)		
 										&&!customers.get(i).getChecking().getAccountNumber().equals(senderID)){   //find receiver
 										Transaction transaction=new Transaction(transcurren,date,getCustomer().getUser(),customers.get(i).getUser(),senderID,recieverID);
@@ -175,11 +187,11 @@ public class TransactionFrame extends JFrame {
 										
 										ifright=true;
 										reminder("Transaction successfully!");
-										getIncomes().add(new Income(new Currency("Dollar",5),"Transaction"));    //add bank's incomes
+										//getIncomes().add(new Income(new Currency("Dollar",5),"Transaction"));    //add bank's incomes
 										dispose();
 										break;
 									}
-								}
+								}*/
 								if(!ifright){
 									reminder("Wrong account number!Please input againe!");
 								}
@@ -195,6 +207,25 @@ public class TransactionFrame extends JFrame {
 				dispose();
 			}
 		});
+	}
+	
+	public String createTransID(){     //create new checking account number
+		 Random rand=new Random();
+	     String newAccount="";
+	     for(int a=0;a<10;a++){
+	    	 newAccount+=rand.nextInt(10);
+	     }
+	     AccountDao con=new AccountDao();
+	     CheckandSave cs=con.select(newAccount);
+	     while(cs!=null){
+	    	 Random rands=new Random();
+   	     String newAccounts="";
+   	     for(int a=0;a<10;a++){
+   	    	 newAccounts+=rand.nextInt(10);
+   	     }
+   	     newAccount=newAccounts;
+	     }
+	     return newAccount;
 	}
 	
 }

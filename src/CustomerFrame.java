@@ -26,11 +26,11 @@ public class CustomerFrame extends JFrame {
 	private JButton btnWithdraw;	
 	private JButton btnLoan;
 	private Customer customer=new Customer("","","","");
-	private ArrayList<Manager> managers=new ArrayList<Manager>();
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Loan> loans=new ArrayList<Loan>();
-	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
+	//private ArrayList<Manager> managers=new ArrayList<Manager>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Loan> loans=new ArrayList<Loan>();
+	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	
 	private JButton btnCloseAccount;
 	private JButton btnLogOut;
@@ -41,8 +41,8 @@ public class CustomerFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CustomerFrame(Customer customer,ArrayList<Customer> customers,ArrayList<Manager> managers,
-			ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	//public CustomerFrame(Customer customer,ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	public CustomerFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 512, 351);
@@ -51,11 +51,11 @@ public class CustomerFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.customers=customers;
-		this.managers=managers;
-		this.incomes=incomes;
-		this.loans=loans;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.managers=managers;
+		//this.incomes=incomes;
+		//this.loans=loans;
+		//this.transactions=transactions;
 		//this.con=con;
 		init();
 		addAction();
@@ -67,7 +67,13 @@ public class CustomerFrame extends JFrame {
 	public Customer getCustomer(){
 		return this.customer;
 	}
+	/*public ArrayList<Income> getIncomes(){
+		return this.incomes;
+	}
 	
+	public void setIncomes(ArrayList<Income> incomes){
+		this.incomes=incomes;
+	}
 	public void setCustomers(ArrayList<Customer> customers){
 		this.customers=customers;
 	}
@@ -76,9 +82,7 @@ public class CustomerFrame extends JFrame {
 		return this.customers;
 	}
 	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
+	
 	
 	public ArrayList<Transaction> getTransactions(){
 		return this.transactions;
@@ -88,9 +92,6 @@ public class CustomerFrame extends JFrame {
 		return this.loans;
 	}
 	
-	public void setIncomes(ArrayList<Income> incomes){
-		this.incomes=incomes;
-	}
 	
 	public void setTransactions(ArrayList<Transaction> transactions){
 		this.transactions=transactions;
@@ -99,6 +100,7 @@ public class CustomerFrame extends JFrame {
 	public void setLoans(ArrayList<Loan> loans){
 		this.loans=loans;
 	}
+	*/
 	
 	public void init(){
 		btnBalance = new JButton("Balance");
@@ -143,10 +145,10 @@ public class CustomerFrame extends JFrame {
 	public void addAction(){
 		btnDeposit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DepositFrame depositframe=new DepositFrame(getCustomer(),getIncomes());
+				DepositFrame depositframe=new DepositFrame(getCustomer());
 				depositframe.setVisible(true);
 				setCustomer(depositframe.getCustomer());
-				setIncomes(depositframe.getIncomes());
+				//setIncomes(depositframe.getIncomes());
 			}
 		});
 		
@@ -161,41 +163,42 @@ public class CustomerFrame extends JFrame {
 		
 		btnWithdraw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WithDrawFrame withdrawframe=new WithDrawFrame(getCustomer(),getIncomes());
+				WithDrawFrame withdrawframe=new WithDrawFrame(getCustomer());
 				withdrawframe.setVisible(true);
 				setCustomer(withdrawframe.getCustomer());
-				setIncomes(withdrawframe.getIncomes());
+				//setIncomes(withdrawframe.getIncomes());
 			}
 		});
 		
 		btnLoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoanFrame loanframe=new LoanFrame(getCustomer(),loans,getIncomes());
+				LoanFrame loanframe=new LoanFrame(getCustomer());
 				loanframe.setVisible(true);
 				setCustomer(loanframe.getCustomer());
-				setLoans(loanframe.getLoans());
+				//setLoans(loanframe.getLoans());
 			}
 		});
 		
 		btnShowTranscation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TransactionFrame transactionframe=new TransactionFrame(getCustomer(),customers,getIncomes(),transactions);
+				TransactionFrame transactionframe=new TransactionFrame(getCustomer());
 				transactionframe.setVisible(true);
 				setCustomer(transactionframe.getCustomer());
-				setCustomers(transactionframe.getCustomers());
-				setIncomes(transactionframe.getIncomes());
-				setTransactions(transactionframe.getTransactions());
+				//setCustomers(transactionframe.getCustomers());
+				//setIncomes(transactionframe.getIncomes());
+				//setTransactions(transactionframe.getTransactions());
 			}
 		});
 		
 		btnCloseAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer(),customers,managers,
+				/*CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer(),customers,managers,
 						getIncomes(),getLoans(),getTransactions());
 				closeaccountframe.setVisible(true);
 				setCustomer(closeaccountframe.getCustomer());
 				setCustomers(closeaccountframe.getCustomers());
-				setIncomes(closeaccountframe.getIncomes());
+				setIncomes(closeaccountframe.getIncomes());*/
+				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer());
 				dispose();
 			}
 		});
@@ -203,18 +206,25 @@ public class CustomerFrame extends JFrame {
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Login login=new Login(customers,managers,incomes,loans,transactions);
+				Login login=new Login();
 				login.setVisible(true);
 			}
 		});
 		
 		btnOpenSaving.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//check
+				AccountDao con=new AccountDao();
+				con.select(getCustomer().getUser().getUsername());
 				if(customer.getSaving()==null){
-					customer.createSaving(new Saving(customer.getUser(),getNewSavingAccount(),customer.getChecking().getMoneypassword(),new Balance()));
+					
+					
 					if(customer.getChecking().getBalance().getDollar().getMoney()>=5){
+						customer.createSaving(new Saving(getNewSavingAccount(),customer.getChecking().getMoneypassword(),new Balance()));
+						con.insert(customer.getSaving());
 						customer.getChecking().getBalance().substract(new Currency("Dollar",5));
-						incomes.add(new Income(new Currency("Dollar",5),"Open account"));
+						con.update(customer.getChecking());
+						//incomes.add(new Income(new Currency("Dollar",5),"Open account"));
 						reminder("Open saving account successfully!");
 					}else{
 						reminder("You do not have enough money to open!");
@@ -240,7 +250,17 @@ public class CustomerFrame extends JFrame {
 	     for(int a=0;a<12;a++){
 	    	 newAccount+=rand.nextInt(10);
 	     }
-	     for(int i=0;i<customers.size();i++){   // check if the account number exist
+	     AccountDao con=new AccountDao();
+	     CheckandSave cs=con.select(newAccount);
+	     while(cs!=null){
+	    	 Random rands=new Random();
+    	     String newAccounts="";
+    	     for(int a=0;a<12;a++){
+    	    	 newAccounts+=rand.nextInt(10);
+    	     }
+    	     newAccount=newAccounts;
+	     }
+	     /*for(int i=0;i<customers.size();i++){   // check if the account number exist
 	    	 if(customers.get(i).getSaving()!=null){
 		    	 while(newAccount.equals(customers.get(i).getSaving().getAccountNumber())){	
 		    		 Random rands=new Random();
@@ -251,7 +271,7 @@ public class CustomerFrame extends JFrame {
 			    	 newAccount=newAccounts;
 		    	 }
 	    	 }		
-	     }
+	     }*/
 	     return newAccount;
 	}
 	

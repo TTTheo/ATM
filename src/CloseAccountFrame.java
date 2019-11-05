@@ -25,18 +25,20 @@ public class CloseAccountFrame extends JFrame {
 	private JButton btnBack;
 	private JButton btnSubmit;
 	private Customer customer=new Customer("","","","");
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Manager> managers=new ArrayList<Manager>();
-	private ArrayList<Loan> loans=new ArrayList<Loan>();
-	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Manager> managers=new ArrayList<Manager>();
+	//private ArrayList<Loan> loans=new ArrayList<Loan>();
+	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	//private Conn con;
+	private AccountDao con=new AccountDao();
 
 	/**
 	 * Create the frame.
 	 */
-	public CloseAccountFrame(Customer customer,ArrayList<Customer> customers,ArrayList<Manager> managers,
-			ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	//public CloseAccountFrame(Customer customer,
+			//ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	public CloseAccountFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -45,11 +47,11 @@ public class CloseAccountFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.customers=customers;
-		this.managers=managers;
-		this.incomes=incomes;
-		this.loans=loans;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.managers=managers;
+		//this.incomes=incomes;
+		//this.loans=loans;
+		//this.transactions=transactions;
 		//this.con=con;
 		init();
 		addAction();
@@ -85,13 +87,13 @@ public class CloseAccountFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public ArrayList<Customer> getCustomers(){
-		return this.customers;
-	}
+	//public ArrayList<Customer> getCustomers(){
+		//return this.customers;
+	//}
 	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
+	//public ArrayList<Income> getIncomes(){
+		//return this.incomes;
+	//}
 	
 	public void reminder(String str){
 		Object[] okObjects = new Object[] {"OK"};
@@ -105,7 +107,6 @@ public class CloseAccountFrame extends JFrame {
 				if(!chckbxChecking.isSelected()&&!chckbxSaving.isSelected()){   //reminder when no account is chosen
 					reminder("Choose an account!");
 				}
-				
 				if(chckbxSaving.isSelected()){
 					if(customer.getSaving()==null){    //reminder when there is no saving account
 						reminder("You do not have saving account!");
@@ -118,6 +119,8 @@ public class CloseAccountFrame extends JFrame {
 								if(customer.getChecking()==null){
 									reminder("You do not have checking account!"); //reminder when there is no checking account
 								}else{
+									con.delete(getCustomer().getSaving().getAccountNumber());
+									con.delete(getCustomer().getChecking().getAccountNumber());
 									destroySaving();
 									destroyChecking();
 									dispose();
@@ -128,6 +131,7 @@ public class CloseAccountFrame extends JFrame {
 								//reminder when there are not enough money to pay the charge
 								reminder("You do not have enough money to close the account!");
 							}else{
+								con.delete(getCustomer().getSaving().getAccountNumber());
 								destroySaving();
 								
 							}
@@ -157,9 +161,11 @@ public class CloseAccountFrame extends JFrame {
 				}
 				
 				if(customer.getChecking()==null&&customer.getSaving()==null){  //both accounts do not exist, delete the customer.
-					customers.remove(customer);
+					//customers.remove(customer);
+					UserDao conn=new UserDao();
+					conn.delete(customer.getUser().getUsername());
 					dispose();
-					Login login=new Login(customers,managers,incomes,loans,transactions);
+					Login login=new Login();
 					login.setVisible(true);
 				}
 				//dispose();
@@ -169,7 +175,7 @@ public class CloseAccountFrame extends JFrame {
 		
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CustomerFrame customerframe=new CustomerFrame(getCustomer(),customers,managers,incomes,loans,transactions);
+				CustomerFrame customerframe=new CustomerFrame(getCustomer());
 				customerframe.setVisible(true);
 				
 				dispose();
@@ -179,14 +185,14 @@ public class CloseAccountFrame extends JFrame {
 	
 	public void destroyChecking(){	
 		getCustomer().createChecking(null);  //close checking account
-		getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));  //add bank's income
+		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));  //add bank's income
 		reminder("Close checking account successfully!");		
 	}
 	
 	public void destroySaving(){
 		getCustomer().createSaving(null);    //close saving account
 		customer.getChecking().getBalance().substract(new Currency("Dollar",5));   //pay the charge
-		getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));   //add bank's income
+		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));   //add bank's income
 		reminder("Close saving account successfully!");
 	}
 }

@@ -94,9 +94,15 @@ public class AddStockFrame extends JFrame {
 					}catch(SQLException ex) {
 						System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
 					}*/
+					
 					StockDao conn=new StockDao();
-					conn.insert(stock);
-					reminder.reminder("Add successfully!");
+					Stock selectstock=conn.select(company);
+					if(selectstock!=null){
+						reminder.reminder("The stock have already existed!");
+					}else{
+						conn.insert(stock);
+						reminder.reminder("Add successfully!");
+					}
 				}
 			}
 		});

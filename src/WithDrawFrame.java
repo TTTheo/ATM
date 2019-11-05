@@ -28,14 +28,16 @@ public class WithDrawFrame extends JFrame {
 	private JRadioButton rdbtnSaving;
 	private ButtonGroup btngroup;
 	private Customer customer=new Customer("","","","");
-	private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
+	private AccountDao con=new AccountDao();
 
 	/**
 	 * Create the frame.
 	 */
-	public WithDrawFrame(Customer customer,ArrayList<Income> incomes) {
+	//public WithDrawFrame(Customer customer,ArrayList<Income> incomes) {
+	public WithDrawFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -44,7 +46,7 @@ public class WithDrawFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.incomes=incomes;
+		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -97,9 +99,9 @@ public class WithDrawFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
+	//public ArrayList<Income> getIncomes(){
+		//return this.incomes;
+	//}
 	
 	public static boolean isNumeric(String str){
 		for (int i = str.length();--i>=0;){
@@ -148,7 +150,8 @@ public class WithDrawFrame extends JFrame {
 									if(withdrawnumber<=actualnumber){		//check if customer have enough money
 										Currency curren=new Currency(currency,withdrawnumber);
 										getCustomer().getChecking().getBalance().substract(curren);
-										getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
+										con.update(getCustomer().getChecking());
+										//getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
 										reminder("Withdraw successfully!");
 										dispose();
 											
@@ -171,7 +174,8 @@ public class WithDrawFrame extends JFrame {
 										if(withdrawnumber<actualnumbersave){		//check if customer have enough money
 											Currency curren=new Currency(currency,withdrawnumber);
 											getCustomer().getSaving().getBalance().substract(curren);
-											getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
+											con.update(getCustomer().getSaving());
+											//getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
 											reminder("Withdraw successfully!");
 											dispose();									
 										}else{

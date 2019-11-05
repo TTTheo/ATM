@@ -31,8 +31,8 @@ public class ManagerFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ManagerFrame(ArrayList<Customer> customers,ArrayList<Manager> managers, ArrayList<Income> incomes,
-			ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	//public ManagerFrame(ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	public ManagerFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -41,11 +41,11 @@ public class ManagerFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//this.customer=customer;
-		this.customers=customers;
-		this.managers=managers;
-		this.incomes=incomes;
-		this.loans=loans;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.managers=managers;
+		//this.incomes=incomes;
+		//this.loans=loans;
+		//this.transactions=transactions;
 		//this.con=con;
 		init();
 		addAction();
@@ -110,14 +110,14 @@ public class ManagerFrame extends JFrame {
 	public void addAction(){
 		btnDailyReport.addActionListener(new ActionListener() {   //daily report
 			public void actionPerformed(ActionEvent e) {
-				DailyReportFrame dailyreportfram=new DailyReportFrame(customers,transactions);
+				DailyReportFrame dailyreportfram=new DailyReportFrame();
 				dailyreportfram.setVisible(true);
 			}
 		});
 		
 		btnCheckup.addActionListener(new ActionListener() {      //check up a specific customer
 			public void actionPerformed(ActionEvent e) {
-				CheckupFrame checkupframe=new CheckupFrame(customers);
+				CheckupFrame checkupframe=new CheckupFrame();
 				checkupframe.setVisible(true);
 			}
 		});
@@ -125,21 +125,21 @@ public class ManagerFrame extends JFrame {
 		btnLogOut.addActionListener(new ActionListener() {        //log out and back to login
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Login login=new Login(customers,managers,getIncomes(),getLoans(),getTransactions());
+				Login login=new Login();
 				login.setVisible(true);
 			}
 		});
 		
 		btnIncome.addActionListener(new ActionListener() {          //see income
 			public void actionPerformed(ActionEvent e) {
-				IncomeFrame incomeframe=new IncomeFrame(getCustomers(),getIncomes());
+				IncomeFrame incomeframe=new IncomeFrame();
 				incomeframe.setVisible(true);
 			}
 		});
 		
 		btnPayment.addActionListener(new ActionListener() {         //see payment
 			public void actionPerformed(ActionEvent e) {
-				PaymentFrame paymentframe=new PaymentFrame(getCustomers());
+				PaymentFrame paymentframe=new PaymentFrame();
 				paymentframe.setVisible(true);
 			}
 		});

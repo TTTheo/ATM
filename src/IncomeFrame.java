@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,8 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.SwingConstants;
 
 public class IncomeFrame extends JFrame {
@@ -21,13 +24,15 @@ public class IncomeFrame extends JFrame {
 	 private JScrollPane scrollPane;	  
 	 private JTextArea textArea;	  
 	 private JButton btnBack;
-	 private ArrayList<Income> incomes=new ArrayList<Income>();
-	 private ArrayList<Customer> customers=new ArrayList<Customer>();
+	 //private ArrayList<Income> incomes=new ArrayList<Income>();
+	 //private ArrayList<Customer> customers=new ArrayList<Customer>();
 	 private JLabel lblNewLabel;
+	 private IncomeDao con=new IncomeDao();
 	 /**
 	  * Create the frame.
 	  */
-	 public IncomeFrame(ArrayList<Customer> customers,ArrayList<Income> incomes) {
+	// public IncomeFrame(ArrayList<Customer> customers,ArrayList<Income> incomes) {
+	 public IncomeFrame() {
 	 	setResizable(false);
 	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	  setBounds(100, 100, 456, 335);
@@ -35,8 +40,8 @@ public class IncomeFrame extends JFrame {
 	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	  setContentPane(contentPane);
 	  contentPane.setLayout(null);
-	  this.customers=customers;
-	  this.incomes=incomes;
+	  //this.customers=customers;
+	  //this.incomes=incomes;
 	  init();
 	  addAction();
 	 }
@@ -83,7 +88,7 @@ public class IncomeFrame extends JFrame {
 				 incomes.add(new Income(customers.get(i).getLoans().get(j).getLoanTotal(),"Loan"));
 			 }
 		 }*/
-		 
+		 List<Income> incomes=con.selectAll();
 		 for(int i=0;i<incomes.size();i++){    //show incomes and calculate the total incomes for three currency
 			 printIncome+="-------------------------------\n"+incomes.get(i).showIncome();
 			 if(incomes.get(i).getIncome().getMark().equals("Dollar")){
@@ -107,9 +112,9 @@ public class IncomeFrame extends JFrame {
 		 return this.customer;
 	 }
 		 
-	 public ArrayList<Income> getIncomes(){
+	 /*public ArrayList<Income> getIncomes(){
 			return this.incomes;
-	}
+	}*/
 	 
 	 public void addAction(){
 		 btnBack.addActionListener(new ActionListener() {

@@ -111,6 +111,13 @@ public class InvestFrame extends JFrame {
 	
 	public void setMarket(){
 		//set customer stocks
+		ArrayList<CustomerStock> stock=getCustomer().getInvest().getStock();
+		String str="";
+		for(int i=0;i<stock.size();i++){
+			str+="Company:"+stock.get(i).getCompany()+"\nPrice:"+stock.get(i).getPrice()+"Dollars\nAmount:"+
+					stock.get(i).getNumofStock()+"\n---------------------------------------------";
+		}
+		textArea.setText(str);
 	}
 	
 	public Customer getCustomer(){

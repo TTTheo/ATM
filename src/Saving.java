@@ -2,8 +2,8 @@
 
 public class Saving extends CheckandSave{
 
-	public Saving(User user,String accountNumber,String moneypassword,Balance balance){
-		super(user,accountNumber, moneypassword, balance);
+	public Saving(String accountNumber,String moneypassword,Balance balance){
+		super(accountNumber, moneypassword, balance);
 
 	}	
 }

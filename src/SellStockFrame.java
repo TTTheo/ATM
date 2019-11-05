@@ -157,6 +157,12 @@ public class SellStockFrame extends JFrame {
 						reminder.reminder("No such stock!");
 					}else{
 						//delete stock and reset balance
+						CustomerStock custock=new CustomerStock(company, stock.getPrice(),Integer.parseInt(num));
+						double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
+						AccountDao con=new AccountDao();
+						con.deleteStock(getCustomer().getInvest().getAccountID(),custock);
+						getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+						con.update(getCustomer().getChecking());
 					}
 					/*try{
 					String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
@@ -184,6 +190,10 @@ public class SellStockFrame extends JFrame {
 			}
 		}
 		return true;
+	}
+	
+	public Customer getCustomer(){
+		return this.customer;
 	}
 	
 }

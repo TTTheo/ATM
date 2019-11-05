@@ -23,6 +23,7 @@ public class DeleteStockFrame extends JFrame {
 	private JButton btnDelete;
 	private JButton btnCancel;
 	//private Conn con;
+	private Tool reminder=new Tool();
 
 	/**
 	 * Create the frame.
@@ -62,7 +63,7 @@ public class DeleteStockFrame extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String company=textField.getText();
-				ArrayList<Customer> customers=new ArrayList<Customer>();
+				//ArrayList<Customer> customers=new ArrayList<Customer>();
 				//customers=selectAll();
 				//check if customer have the stock
 				/*try {
@@ -74,10 +75,23 @@ public class DeleteStockFrame extends JFrame {
 				}catch(SQLException ex) {
 					System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
 				}*/
-				StockDao conn=new StockDao();
-				conn.delete(company);
-				Tool reminder=new Tool();
-				reminder.reminder("Delete successfully!");
+				StockDao stockcon=new StockDao();
+				Stock stock=stockcon.select(company);
+				if(stock==null){
+					reminder.reminder("The stock do not exist!");
+				}else{
+					//check if any customer have the stock
+					AccountDao con=new AccountDao();
+					ArrayList<Investment> invest=con.selectInvest(company);
+					if(invest!=null){
+						reminder.reminder("You can not delete it because someone owe it!");
+					}else{
+						StockDao conn=new StockDao();
+						conn.delete(company);
+						Tool reminder=new Tool();
+						reminder.reminder("Delete successfully!");
+					}
+				}
 			}
 		});
 		

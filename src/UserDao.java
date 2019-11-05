@@ -103,5 +103,31 @@ public class UserDao implements Dao<User> {
 		
 		return user;
 	}
+	
+	public List<User> selectAll() {
+		// TODO Auto-generated method stub
+		List<User> users = new ArrayList<>() ;
+		
+		connect() ;
+		try {
+			String query = "SELECT * FROM User" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				String name = rs.getString("name") ;
+				String username=rs.getString("username");
+				String password=rs.getString("password");
+				String phone=rs.getString("phone");
+				users.add(new User(name,username,password,phone)) ;
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return users;
+	}
 
 }

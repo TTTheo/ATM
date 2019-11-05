@@ -25,8 +25,8 @@ public class Login extends JFrame {
 	private JButton btnLogin;
 	private ButtonGroup btngroup;
 	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Manager> managers=new ArrayList<Manager>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Manager> managers=new ArrayList<Manager>();
 	private ArrayList<Loan> loans=new ArrayList<Loan>();
 	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private Customer customer;
@@ -36,8 +36,8 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login(ArrayList<Customer> customers,ArrayList<Manager> managers,ArrayList<Income> incomes,
-			ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	//public Login(ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
+	public Login() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 457, 320);
@@ -45,11 +45,11 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		this.customers=customers;
-		this.managers=managers;
-		this.incomes=incomes;
-		this.loans=loans;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.managers=managers;
+		//this.incomes=incomes;
+		//this.loans=loans;
+		//this.transactions=transactions;
 		//this.con=con;
 
 		init();
@@ -108,9 +108,31 @@ public class Login extends JFrame {
 				
 				if(rdbtnCustomer.isSelected()){   //login as customer
 					boolean ifright=false;
-					for(int i=0;i<customers.size();i++){  
+					//check if the username and the password are correct
+					UserDao conn=new UserDao();
+					User user=conn.select(userName);
+					if(user==null){
+						ifright=false;
+					}else{
+						if(user.getPassword().equals(passWord)){
+							ifright=true;
+							AccountDao con=new AccountDao();
+							Checking check=(Checking) con.selectChecking(userName);
+							Saving save=(Saving) con.selectSaving(userName);
+							customer=new Customer(user.getName(),user.getUsername(),user.getPassword(),user.getPhone());
+							customer.createChecking(check);
+							customer.createSaving(save);
+							//create investment
+							CustomerFrame customerFrame=new CustomerFrame(getCustomer());
+							customerFrame.setVisible(true);
+							dispose();
+						}
+						//setCustomer(customers.get(i));
+						
+					}
+					/*for(int i=0;i<customers.size();i++){  
 						//check if the username and the password are correct
-						if(customers.get(i).getUser().getUsername().equals(userName)&&customers.get(i).getUser().getPassword().equals(passWord)){
+						/*if(customers.get(i).getUser().getUsername().equals(userName)&&customers.get(i).getUser().getPassword().equals(passWord)){
 							setCustomer(customers.get(i));
 							
 							CustomerFrame customerFrame=new CustomerFrame(getCustomer(),customers,managers,incomes,loans,transactions);
@@ -121,15 +143,28 @@ public class Login extends JFrame {
 							setTransactions(customerFrame.getTransactions());
 							setLoans(customerFrame.getLoans());
 							break;
-						}						
-					}
+						}	
+						
+					}*/
 					if(!ifright){  //if wrong, reminder
 						reminder("Wrong Username or Password!");
 					}
 					
 				}else if(rdbtnManager.isSelected()){   //login as manager
 					boolean ifright=false;
-					for(int i=0;i<managers.size();i++){
+					ManagerDao conn=new ManagerDao();
+					User mg=conn.select(userName);
+					if(mg==null){
+						ifright=false;
+					}else{
+						if(mg.getPassword().equals(passWord)){
+							ifright=true;
+							ManagerFrame managerFrame=new ManagerFrame();
+							managerFrame.setVisible(true);
+							dispose();
+						}
+					}
+					/*for(int i=0;i<managers.size();i++){
 						//check if the username and the password are correct
 						if(managers.get(i).getUser().getUsername().equals(userName)&&managers.get(i).getUser().getPassword().equals(passWord)){
 							ManagerFrame managerFrame=new ManagerFrame(customers,managers,incomes,loans,transactions);
@@ -138,7 +173,7 @@ public class Login extends JFrame {
 							dispose();
 							break;
 						}						
-					}
+					}*/
 					if(!ifright){
 						reminder("Wrong Username or Password!");
 					}
@@ -152,10 +187,10 @@ public class Login extends JFrame {
 		
 		btnOpenANew.addActionListener(new ActionListener() {    //open a new account
 			public void actionPerformed(ActionEvent e) {
-				OpenAccount newAccount=new OpenAccount(getCustomers(),incomes);
+				OpenAccount newAccount=new OpenAccount();
 				newAccount.setVisible(true);
-				setCustomers(newAccount.getCusto());
-				setIncomes(newAccount.getIncomes());
+				//setCustomers(newAccount.getCusto());
+				//setIncomes(newAccount.getIncomes());
 			}
 		});
 	}
@@ -174,7 +209,7 @@ public class Login extends JFrame {
 		return this.customer;
 	}
 	
-	public void setIncomes(ArrayList<Income> incomes){
+	/*public void setIncomes(ArrayList<Income> incomes){
 		this.incomes=incomes;
 	}
 	
@@ -193,7 +228,7 @@ public class Login extends JFrame {
 	
 	public void setCustomers(ArrayList<Customer> customers){
 		this.customers=customers;
-	}
+	}*/
 	
 	
 }

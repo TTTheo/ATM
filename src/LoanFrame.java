@@ -31,12 +31,13 @@ public class LoanFrame extends JFrame {
 	private JLabel lbltheInterestOf;
 	private JLabel lblCollateral;
 	private JTextField textField_1;
-	private ArrayList<Loan> loans=new ArrayList<Loan>();
-	private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Loan> loans=new ArrayList<Loan>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	/**
 	 * Create the frame.
 	 */
-	public LoanFrame(Customer customer,ArrayList<Loan> loans,ArrayList<Income> incomes) {
+	//public LoanFrame(Customer customer,ArrayList<Loan> loans,ArrayList<Income> incomes) {
+	public LoanFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -45,8 +46,8 @@ public class LoanFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		this.loans=loans;
-		this.incomes=incomes;
+		//this.loans=loans;
+		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -105,9 +106,9 @@ public class LoanFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public ArrayList<Loan> getLoans(){
+	/*public ArrayList<Loan> getLoans(){
 		return this.loans;
-	}
+	}*/
 	
 	public static boolean isNumeric(String str){  //check if the string composed with numbers
 		for (int i = str.length();--i>=0;){
@@ -142,8 +143,8 @@ public class LoanFrame extends JFrame {
 					}else{
 						Loan loan=new Loan(curren,interest,loanlength,collateral);
 						getCustomer().addLoan(loan);  					 //add loans to customer's whole loan
-						loans.add(loan);  
-						incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));//add loans to whole loan
+						//loans.add(loan);  
+						//incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));//add loans to whole loan
 						reminder("Loan successfully!");
 						dispose();
 					}

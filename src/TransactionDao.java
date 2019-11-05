@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TransactionDao implements Dao<Transaction> {
@@ -99,7 +101,7 @@ public class TransactionDao implements Dao<Transaction> {
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				transaction = new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), rs.getDate("date"), null, null, rs.getString("sender"), rs.getString("receiver")) ;
+				transaction = new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), rs.getDate("date"), rs.getString("sender"), rs.getString("receiver"),rs.getString("transid")) ;
 			}
 		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -108,6 +110,28 @@ public class TransactionDao implements Dao<Transaction> {
 		}
 		
 		return transaction;
+	}
+	
+	public List<Transaction> selectAll() {
+		// TODO Auto-generated method stub
+		List<Transaction> trans = new ArrayList<>() ;
+		
+		connect() ;
+		try {
+			String query = "SELECT * FROM Transaction" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				trans.add(new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), rs.getDate("date"), rs.getString("sender"), rs.getString("receiver"),rs.getString("transid"))) ;
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return trans;
 	}
 
 }

@@ -23,4 +23,5 @@ public class Stock {
 	public void setPrice(double price){
 		this.price=price;
 	}
+
 }

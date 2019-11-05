@@ -3,6 +3,7 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,13 +31,13 @@ public class CheckupFrame extends JFrame {
 	private JComboBox comboBox;
 	private JScrollPane scrollPane;
 	//private Customer customer=new Customer("","","");	
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JTextArea textArea;
-	
+	private AccountDao con=new AccountDao();
 	/**
 	 * Create the frame.
 	 */
-	public CheckupFrame(ArrayList<Customer> customers) {
+	public CheckupFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 523, 366);
@@ -45,7 +46,7 @@ public class CheckupFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//this.customer=customer;
-		this.customers=customers;
+		//this.customers=customers;
 		init();
 		addAction();
 	}
@@ -76,8 +77,19 @@ public class CheckupFrame extends JFrame {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
-		for(int i=0;i<customers.size();i++){
+		/*for(int i=0;i<customers.size();i++){
 			comboBox.addItem(customers.get(i).getUser().getName());
+		}*/
+		setcomboBox();
+	}
+	
+	public void setcomboBox(){
+		UserDao con=new UserDao();
+		List<User> users=con.selectAll();
+		if(users!=null){
+			for(int i=0;i<users.size();i++){
+				comboBox.addItem(users.get(i).getName());
+			}
 		}
 	}
 	
@@ -88,19 +100,23 @@ public class CheckupFrame extends JFrame {
 				String choosename=(String)comboBox.getSelectedItem();
 				String infoall="";
 				if(choosename.equals("All")){   //all customers' information will show
+					List<Customer> customers=con.selectAllCustomer();
 					for(int i=0;i<customers.size();i++){
 						infoall+=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"
 								+customers.get(i).showLoan()+"\r\n";						
 					}
 					textArea.setText(infoall);
 				}else{
-					for(int i=0;i<customers.size();i++){  //specific customer's information will show
+					Customer customer=con.selectCustomer(choosename);			//select a specifc customer
+					/*for(int i=0;i<customers.size();i++){  //specific customer's information will show
 						if(choosename.equals(customers.get(i).getUser().getName())){
 							infoall=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"+customers.get(i).showLoan();
 							textArea.setText(infoall);
 							break;
 						}
-					}
+					}*/
+					infoall=customer.showCustomer()+"------------------------\r\nLoan:\r\n"+customer.showLoan();
+					textArea.setText(infoall);
 				}
 			}
 		});

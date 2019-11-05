@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.util.List;
+
 import javax.swing.JLabel;
 
 public class BuyStockFrame extends JFrame {
@@ -104,20 +106,6 @@ public class BuyStockFrame extends JFrame {
 				}else{
 					textArea.setText("Company: "+stock.getCompany()+"\nPrice: "+stock.getPrice()+" Dollars");
 				}
-				/*try{
-					sql=con.getCon().prepareStatement("SELECT * FROM Stock where company=?");
-					sql.setString(1, company);
-					res=sql.executeQuery();
-					if(res==null){
-						reminder("No such stock!");
-					}else{
-						double price=res.getDouble("price");
-						textArea.setText("Company: "+company+"\nPrice: "+price+" Dollars");
-					}
-					
-				}catch(Exception ex){
-					ex.printStackTrace();
-				}*/
 			}
 		});
 		
@@ -139,21 +127,26 @@ public class BuyStockFrame extends JFrame {
 						CustomerStock custock=new CustomerStock(stock.getCompany(),stock.getPrice(),Integer.parseInt(num));
 						//getCustomer().getInvest().addStock(custock);
 						//add stock to customer
-					}
-					/*try{
-						String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
-						Statement st = con.getCon().createStatement();
-						ResultSet rs = st.executeQuery(query);
-						if(rs==null){
-							reminder("No such stock!");
+						AccountDao con=new AccountDao();
+						double checking=getCustomer().getChecking().getBalance().getDollar().getMoney();
+						double stockmoney=custock.getPrice()*custock.getNumofStock()+5;
+						if(checking<stockmoney){
+							reminder.reminder("You do not have enough money!");
 						}else{
-							//check if the customer have enough money 
-							CustomerStock custock=new CustomerStock(company,rs.getDouble("price"),Integer.parseInt(num));
-							//insert into customer's stock
+							Stock selctstock=conn.select(stock.getCompany());
+							if(selctstock==null){
+								reminder.reminder("No such stock!");
+							}else{
+								//add stock to customer
+								getCustomer().getInvest().addStock(custock);
+								con.updateInvest(getCustomer().getInvest());
+								//substract balance
+								getCustomer().getChecking().getBalance().substract(new Currency("Dollar",stockmoney));
+								con.update(getCustomer().getChecking());
+								reminder.reminder("Buy successfully!");
+							}
 						}
-					}catch(SQLException ex) {
-						System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-					}*/
+					}
 				}
 				
 			}
@@ -179,9 +172,4 @@ public class BuyStockFrame extends JFrame {
 		return true;
 	}
 	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
 }

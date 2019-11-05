@@ -126,10 +126,106 @@ public class AccountDao implements Dao<CheckandSave>{
 				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
 				balance.setEuro(new Currency("Euro", rs.getDouble("Euro")));
 				if(type == 0) {
-					cs = new Checking(account, rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+					cs = new Checking(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
 				}
 				if(type == 1) {
-					cs = new Saving(account, rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+					cs = new Saving(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return cs;
+	}
+	
+	public CheckandSave selectCustomer(String username) {
+		// TODO Auto-generated method stub
+		CheckandSave cs = null ;
+		connect() ;
+		try {
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE username = \"" + username + "\"" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				int type = rs.getInt("Type") ;
+				User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
+				Balance balance = new Balance() ;
+				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
+				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
+				balance.setEuro(new Currency("Euro", rs.getDouble("Euro")));
+				if(type == 0) {
+					cs = new Checking(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+				if(type == 1) {
+					cs = new Saving(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return cs;
+	}
+	
+	public CheckandSave selectSaving(String username) {
+		// TODO Auto-generated method stub
+		CheckandSave cs = null ;
+		connect() ;
+		try {
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE username = \"" + username + "\""+"and type = \"" + 1 + "\"";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				int type = rs.getInt("Type") ;
+				User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
+				Balance balance = new Balance() ;
+				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
+				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
+				balance.setEuro(new Currency("Euro", rs.getDouble("Euro")));
+				if(type == 0) {
+					cs = new Checking(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+				if(type == 1) {
+					cs = new Saving(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return cs;
+	}
+	
+	public CheckandSave selectChecking(String username) {
+		// TODO Auto-generated method stub
+		CheckandSave cs = null ;
+		connect() ;
+		try {
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE username = \"" + username + "\""+"and type = \"" + 2 + "\"";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				int type = rs.getInt("Type") ;
+				User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
+				Balance balance = new Balance() ;
+				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
+				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
+				balance.setEuro(new Currency("Euro", rs.getDouble("Euro")));
+				if(type == 0) {
+					cs = new Checking(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
+				}
+				if(type == 1) {
+					cs = new Saving(rs.getString("accountnumber"), rs.getString("moneypassword"), balance) ;
 				}
 			}
 		}catch(SQLException e) {

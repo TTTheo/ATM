@@ -3,13 +3,14 @@ import java.util.ArrayList;
 
 public class Investment {
 	private ArrayList<CustomerStock> stocks=new ArrayList<CustomerStock>();
-	//private User user;
-	private Customer customer;
+	//private Customer customer;
 	private String accountID;
+	private Tool reminder=new Tool();
+	private StockDao conn=new StockDao();
 	
-	public Investment(ArrayList<CustomerStock> stocks,Customer customer){
+	public Investment(ArrayList<CustomerStock> stocks,String accountID){
 		setStock(stocks);
-		setCustomer(customer);
+		setAccountID(accountID);
 	}
 	
 	public void setStock(ArrayList<CustomerStock> stocks){
@@ -20,30 +21,47 @@ public class Investment {
 		return this.stocks;
 	}
 	
-	public Customer getCustomer(){
+	/*public User getUser(){
+		return this.user;
+	}
+	
+	public void setUser(User user){
+		this.user=user;
+	}*/
+	
+	public String getAccountID(){
+		return this.accountID;
+	}
+	
+	public void setAccountID(String accountID){
+		this.accountID=accountID;
+	}
+	
+	/*public Customer getCustomer(){
 		return this.customer;
 	}
 	
 	public void setCustomer(Customer user){
 		this.customer=user;
-	}
+	}*/
 	
 	public void addStock(CustomerStock stock){
-		double checking=getCustomer().getChecking().getBalance().getDollar().getMoney();
-		double stockmoney=stock.getPrice()*stock.getNumofStock()+5;
-		if(checking<stockmoney){
-			Tool reminder=new Tool();
-			reminder.reminder("You do not have enough money!");
-		}else{
-			//add stock to customer
-			//substract balance
-		}
+		stocks.add(stock);
 	}
 	
 	public void deleteStock(CustomerStock stock){
-		double stockmoney=stock.getPrice()*stock.getNumofStock()-5;
+		//double stockmoney=stock.getPrice()*stock.getNumofStock()-5;
 		getStock().remove(stock);
-		getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+		//getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+	}
+	
+	public String printStock(){
+		String print="";
+		for(int i=0;i<getStock().size();i++){
+			print+="Company: "+stocks.get(i).getCompany()+"\nPrice: "+stocks.get(i).getPrice()+
+					" Dollars\nAmount: "+stocks.get(i).getNumofStock()+"\n-----------------------------";
+		}
+		return print;
 	}
 
 }

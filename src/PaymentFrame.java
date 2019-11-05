@@ -14,6 +14,8 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.SwingConstants;
 
 public class PaymentFrame extends JFrame {
@@ -24,13 +26,13 @@ public class PaymentFrame extends JFrame {
 	private JTextArea textArea;	
 	private JButton btnBack;	
 	private JLabel lblTotalPayment;
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JLabel lblNewLabel;
 
 	/**
 	 * Create the frame.
 	 */
-	public PaymentFrame(ArrayList<Customer> customers) {
+	public PaymentFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 455, 337);
@@ -38,7 +40,7 @@ public class PaymentFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		this.customers=customers;
+		//this.customers=customers;
 		init();
 		addAction();
 		showPayment();
@@ -73,6 +75,8 @@ public class PaymentFrame extends JFrame {
 	}
 	
 	public void showPayment(){   //show the payment in label
+		AccountDao con=new AccountDao();
+		List<Customer> customers=con.selectAllCustomer();
 		String[] showpay=new String[customers.size()];
 		for(int i=0;i<customers.size();i++){
 			showpay[i]="";

@@ -59,6 +59,10 @@ public class Customer{
 		return this.invest;
 	}
 	
+	public void createInvest(Investment invest){
+		this.invest=invest;
+	}
+	
 	public String showCustomer(){   //show customer's total information
 		String info=showCustomerInfo();
 		info+=showCustomerCheck();

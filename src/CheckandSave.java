@@ -1,13 +1,11 @@
 
 
 public class CheckandSave {
-	private User user;
 	private String moneypassword;
 	private String accountNumber;
 	private Balance balance;
 	
-	public CheckandSave(User user,String accountNumber,String moneypassword,Balance balance){
-		this.user=user;
+	public CheckandSave(String accountNumber,String moneypassword,Balance balance){
 		this.moneypassword=moneypassword;
 		this.accountNumber=accountNumber;
 		this.balance=balance;
@@ -37,12 +35,5 @@ public class CheckandSave {
 		return this.moneypassword;
 	}
 	
-	public User getAccount(){
-		return this.user;
-	}
-	
-	public void setUser(User user){
-		this.user=user;
-	}
 	
 }

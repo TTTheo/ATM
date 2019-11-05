@@ -10,6 +10,12 @@ public class Balance {
 		rmb=new Currency("RMB",0);
 		Euro=new Currency("Euro",0);
 	}
+	
+	public Balance(Currency dollar,Currency rmb,Currency Euro){
+		setDollar(dollar);
+		 setRMB(rmb);
+		 setEuro(Euro);
+	}
 		
 	public void setDollar(Currency dollar){
 		this.dollar=dollar;

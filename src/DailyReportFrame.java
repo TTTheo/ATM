@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DailyReportFrame extends JFrame {
 
@@ -19,13 +20,14 @@ public class DailyReportFrame extends JFrame {
 	private JTextArea textArea;	
 	private JButton btnBack;
 	//private Customer customer=new Customer("","","");	
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 
 	/**
 	 * Create the frame.
 	 */
-	public DailyReportFrame(ArrayList<Customer> customers,ArrayList<Transaction> transactions) {
+	//public DailyReportFrame(ArrayList<Customer> customers,ArrayList<Transaction> transactions) {
+	public DailyReportFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 526, 378);
@@ -34,8 +36,8 @@ public class DailyReportFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//this.customer=customer;
-		this.customers=customers;
-		this.transactions=transactions;
+		//this.customers=customers;
+		//this.transactions=transactions;
 		init();
 		addAction();
 		setReport();
@@ -60,14 +62,22 @@ public class DailyReportFrame extends JFrame {
 	}
 	
 	public void setReport(){   //set daily report in textArea
-		String coustomerinfo="";
-		for(int i=0;i<transactions.size();i++){
+		String coustomerinfo="No transactions";
+		TransactionDao con=new TransactionDao();
+		List<Transaction> trans=con.selectAll();
+		if(trans!=null){
+			for(int i=0;i<trans.size();i++){
+				coustomerinfo="";
+				coustomerinfo+="Transactions:\r\n"+trans.get(i).showTrans()+"\n";
+			}
+		}
+		/*for(int i=0;i<transactions.size();i++){
 			if(transactions.size()==0){
 				continue;
 			}else{
 				coustomerinfo+="Transactions:\r\n"+transactions.get(i).showTrans()+"\n";
 			}
-		}
+		}*/
 		
 		textArea.setText(coustomerinfo);
 	}

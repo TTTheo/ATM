@@ -36,8 +36,8 @@ public class OpenAccount extends JFrame {
 	private JLabel lblpasswordShouldBe;	
 	private JLabel lblPinNumber;	
 	private JLabel lblThePinOf;
-	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
+	//private ArrayList<Income> incomes=new ArrayList<Income>();
+	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JLabel lblYouMustDeposit;
 	private Customer newCustomer;
 	private JButton btnBack;
@@ -47,14 +47,15 @@ public class OpenAccount extends JFrame {
 	private JLabel lblPhone;
 	private JTextField textField_1;
 	private JLabel lbldigitsNumbers;
+	private AccountDao conaccount=new AccountDao();
 	
 	/**
 	 * Create the frame.
 	 */
-	public OpenAccount(ArrayList<Customer> customers,ArrayList<Income> incomes) {
+	public OpenAccount() {
 		//customers=new Customers(custo.getCustomers());
-		this.customers=customers;
-		this.incomes=incomes;
+		//this.customers=customers;
+		//this.incomes=incomes;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 515, 428);
 		contentPane = new JPanel();
@@ -196,13 +197,21 @@ public class OpenAccount extends JFrame {
 							reminder("Please fill the right username!");
 						}else{
 							boolean ifright=true;
-							for(int i=0;i<customers.size();i++){
+							UserDao conn=new UserDao();
+							User user=conn.select(username);
+							if(user!=null){
+								reminder("The username exists!");
+								ifright=false;
+							}else{
+								ifright=true;
+							}
+							/*for(int i=0;i<customers.size();i++){
 								if(customers.get(i).getUser().getUsername().equals(username)){  //check if username exist
 									reminder("The username exists!");
 									ifright=false;
 									break;
 								}
-							}
+							}*/
 							if(ifright){
 								String password=textpassword.getText();
 								if(password.equals("")){     //check password
@@ -241,22 +250,34 @@ public class OpenAccount extends JFrame {
 														if(amount<payment){    //check deposit
 															reminder("Your checking deposit is not enough!");
 														}else{
+															//newCustomer=new Customer(name,username, password,phone);
+															User user2=new User(name,username, password,phone);
+															UserDao con=new UserDao();
+															con.insert(user2);
 															newCustomer=new Customer(name,username, password,phone);
-														
 															if(checking){         //create new checking account
 																checkingID=getNewCheckingAccount();
-																newCustomer.createChecking(new Checking(newCustomer.getUser(),checkingID,PIN,new Balance()));
-																getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
+																
+																newCustomer.createChecking(new Checking(checkingID,PIN,new Balance(new Currency("Dollar",amount-payment),
+																		new Currency("RMB",0),new Currency("Euro",0))));
+																
+																conaccount.insert(newCustomer.getChecking());
+																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
+																conaccount.update(newCustomer.getChecking());
 															}
 															if(saving){			//create new saving account
 																savingID=getNewSavingAccount();
-																getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));//add bank's income
-																newCustomer.createSaving(new Saving(newCustomer.getUser(),savingID,PIN,new Balance()));
-																getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
+																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));//add bank's income
+																newCustomer.createSaving(new Saving(savingID,PIN,new Balance()));
+																
+																conaccount.insert(newCustomer.getSaving());
+																//conaccount.update(newCustomer.getSaving());
+																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
 															}
-															newCustomer.getChecking().getBalance().add(new Currency("Dollar",amount));   //set balance
-															newCustomer.getChecking().getBalance().substract(new Currency("Dollar",payment));  //pay the charge
-															customers.add(newCustomer);   //add customer
+															//conaccount.update(newCustomer.getChecking());
+															//newCustomer.getChecking().getBalance().add(new Currency("Dollar",amount));   //set balance
+															//newCustomer.getChecking().getBalance().substract(new Currency("Dollar",payment));  //pay the charge
+															//customers.add(newCustomer);   //add customer
 															reminder("Open account successfully!");
 															ShowInfo showinfo=new ShowInfo(name,username,checkingID,savingID,phone);  //show information
 															showinfo.setVisible(true);
@@ -287,13 +308,13 @@ public class OpenAccount extends JFrame {
 		this.newCustomer=newCustomer;
 	}
 	
-	public ArrayList<Customer> getCusto(){
+	/*public ArrayList<Customer> getCusto(){
 		return this.customers;
-	}
+	}*/
 	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
+	//public ArrayList<Income> getIncomes(){
+		//return this.incomes;
+	//}
 	
 	public String getNewCheckingAccount(){     //create new checking account number
 		 Random rand=new Random();
@@ -301,7 +322,17 @@ public class OpenAccount extends JFrame {
 	     for(int a=0;a<12;a++){
 	    	 newAccount+=rand.nextInt(10);
 	     }
-	     for(int i=0;i<customers.size();i++){  // check if the account number exist
+	     AccountDao con=new AccountDao();
+	     CheckandSave cs=con.select(newAccount);
+	     while(cs!=null){
+	    	 Random rands=new Random();
+    	     String newAccounts="";
+    	     for(int a=0;a<12;a++){
+    	    	 newAccounts+=rand.nextInt(10);
+    	     }
+    	     newAccount=newAccounts;
+	     }
+	     /*for(int i=0;i<customers.size();i++){  // check if the account number exist
 	    	 while(newAccount.equals(customers.get(i).getChecking().getAccountNumber())){
 	    		 Random rands=new Random();
 	    	     String newAccounts="";
@@ -310,7 +341,7 @@ public class OpenAccount extends JFrame {
 	    	     }
 	    	     newAccount=newAccounts;
 	    	 }
-	     }	
+	     }	*/
 	     return newAccount;
 	}
 	
@@ -320,7 +351,17 @@ public class OpenAccount extends JFrame {
 	     for(int a=0;a<12;a++){
 	    	 newAccount+=rand.nextInt(10);
 	     }
-	     for(int i=0;i<customers.size();i++){   // check if the account number exist
+	     AccountDao con=new AccountDao();
+	     CheckandSave cs=con.select(newAccount);
+	     while(cs!=null){
+	    	 Random rands=new Random();
+    	     String newAccounts="";
+    	     for(int a=0;a<12;a++){
+    	    	 newAccounts+=rand.nextInt(10);
+    	     }
+    	     newAccount=newAccounts;
+	     }
+	     /*for(int i=0;i<customers.size();i++){   // check if the account number exist
 	    	 if(customers.get(i).getSaving()!=null){
 		    	 while(newAccount.equals(customers.get(i).getSaving().getAccountNumber())){	
 		    		 Random rands=new Random();
@@ -331,7 +372,7 @@ public class OpenAccount extends JFrame {
 			    	 newAccount=newAccounts;
 		    	 }
 	    	 }	
-	     }		
+	     }	*/	
 	     return newAccount;
 	}
 

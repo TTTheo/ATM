@@ -7,20 +7,20 @@ public class Transaction {
 	private Currency trans;
 	private Date date;
 	private String sendAccount;
-	private String receiAccount;
-	private User senderAccount;
-	private User recieveAccount;
-	private String transID ;
-	private int idCount = 0 ;
+	private String recieAccount;
+	//private User senderAccount;
+	//private User recieveAccount;
+	private String transID;
 	
-	public Transaction(Currency trans, Date date,User senderAccount,User recieveAccount,String sendAccount,String recieAccount){
+	public Transaction(Currency trans, Date date,String sendAccount,String recieAccount,String transID){
+	//public Transaction(Currency trans, Date date,String sendAccount,String recieAccount){
 		this.trans=trans;
 		this.date=date;
-		this.senderAccount=senderAccount;
-		this.recieveAccount=recieveAccount;
+		//this.senderAccount=senderAccount;
+		//this.recieveAccount=recieveAccount;
 		this.sendAccount=sendAccount;
-		this.receiAccount=recieAccount;
-		this.transID = idCount++ + "" ;
+		this.recieAccount=recieAccount;
+		this.transID=transID;
 	}
 	
 	public void setTransaction(Currency trans){
@@ -39,35 +39,32 @@ public class Transaction {
 		return this.date;
 	}
 	
-	public User getRecieveAccount(){
+	/*public User getRecieveAccount(){
 		return this.recieveAccount;
 	}
 	
 	public User getSendAccount(){
 		return this.senderAccount;
-	}
+	}*/
 	
 	public String getRecieAccount(){
-		return this.receiAccount;
+		return this.recieAccount;
 	}
 	
 	public String getSenAccount(){
 		return this.sendAccount;
 	}
 	
-	public String getTransID() {
-		return transID;
+	public String getTransID(){
+		return this.transID;
 	}
-
-	public void setTransID(String transID) {
-		this.transID = transID;
-	}
-
+	
+	
 	public String showTrans(){   //show single transaction
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr=sdf.format(getDate());
-		String showtrans=getSendAccount().getName()+"("+getSenAccount()+")--> "
-				+getRecieveAccount().getName()+"("+getRecieAccount()+")\r\nAmount:"
+		String showtrans="("+getSenAccount()+")--> "
+				+"("+getRecieAccount()+")\r\nAmount:"
 				+getTransaction().getMark()+":"+(getTransaction().getMoney()-5)+"\r\n"
 				+"Date:"+dateStr+"\r\n";
 		return showtrans;
