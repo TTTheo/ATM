@@ -35,10 +35,9 @@ public class Main {
 		 }
 	}*/
 	public static void main(String[] args) {
-		/*
 		// TODO Auto-generated method stub
 				// UserDao testcase
-				UserDao u = new UserDao() ;
+				/*UserDao u = new UserDao() ;
 				User user = u.select("zhjiang") ;
 				System.out.println(user.getName() + " " + user.getPhone());
 				
@@ -67,10 +66,15 @@ public class Main {
 		//init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				
+				try {
+					//Conn con=new Conn();
+					//con.getConnection();
+							
 					Login login = new Login();
 					login.setVisible(true);
-				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 

@@ -163,7 +163,7 @@ public class CloseAccountFrame extends JFrame {
 				if(customer.getChecking()==null&&customer.getSaving()==null){  //both accounts do not exist, delete the customer.
 					//customers.remove(customer);
 					UserDao conn=new UserDao();
-					conn.delete(customer.getUser().getUsername());
+					conn.delete(customer.getUsername());
 					dispose();
 					Login login=new Login();
 					login.setVisible(true);
@@ -186,6 +186,8 @@ public class CloseAccountFrame extends JFrame {
 	public void destroyChecking(){	
 		getCustomer().createChecking(null);  //close checking account
 		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));  //add bank's income
+		IncomeDao incomedao=new IncomeDao();
+		incomedao.insert(new Income(new Currency("Dollar",5),"Close Account"));
 		reminder("Close checking account successfully!");		
 	}
 	
@@ -193,6 +195,8 @@ public class CloseAccountFrame extends JFrame {
 		getCustomer().createSaving(null);    //close saving account
 		customer.getChecking().getBalance().substract(new Currency("Dollar",5));   //pay the charge
 		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));   //add bank's income
+		IncomeDao incomedao=new IncomeDao();
+		incomedao.insert(new Income(new Currency("Dollar",5),"Close Account"));
 		reminder("Close saving account successfully!");
 	}
 }

@@ -76,6 +76,52 @@ public class PaymentFrame extends JFrame {
 	
 	public void showPayment(){   //show the payment in label
 		AccountDao con=new AccountDao();
+		List<CheckandSave> account=con.selectAllSaving();
+		List<Saving> accounts=new ArrayList<>();
+		for(int i=0;i<account.size();i++){
+			accounts.add((Saving)account.get(i));
+		}
+		//List<Customer> customers=con.selectAllCustomer();
+		String[] showpay=new String[accounts.size()];
+		for(int i=0;i<accounts.size();i++){
+			showpay[i]="";
+		}
+		String show="";
+		String showtotal="";
+		double dollaramount=0;
+		double rmbamount=0;
+		double euroamount=0;
+		boolean ifgo=false;
+		for(int i=0;i<accounts.size();i++){
+			boolean ifright=false;
+			if(accounts.get(i)!=null){   //check customer have saving account
+				if(accounts.get(i).getBalance().getDollar().getMoney()>50){
+					showpay[i]+="Dollar:"+accounts.get(i).getBalance().getDollar().getMoney()*0.05+" ";
+					dollaramount+=accounts.get(i).getBalance().getDollar().getMoney()*0.05;
+					ifright=true;
+					ifgo=true;
+				}
+				if(accounts.get(i).getBalance().getRMB().getMoney()>50){
+					showpay[i]+="RMB:"+accounts.get(i).getBalance().getRMB().getMoney()*0.05+" ";
+					rmbamount+=accounts.get(i).getBalance().getRMB().getMoney()*0.05;
+					ifright=true;
+					ifgo=true;
+				}
+				if(accounts.get(i).getBalance().getEuro().getMoney()>50){
+					showpay[i]+="Euro:"+accounts.get(i).getBalance().getEuro().getMoney()*0.05+" ";
+					euroamount+=accounts.get(i).getBalance().getEuro().getMoney()*0.05;
+					ifright=true;
+					ifgo=true;
+				}
+				if(ifright){
+					showpay[i]=accounts.get(i).showCustomerSave()+"Payment: "+showpay[i];
+				}
+				if(!showpay[i].equals("")){
+				show+=showpay[i];
+				}
+			}
+		}
+		/*
 		List<Customer> customers=con.selectAllCustomer();
 		String[] showpay=new String[customers.size()];
 		for(int i=0;i<customers.size();i++){
@@ -115,7 +161,7 @@ public class PaymentFrame extends JFrame {
 				show+=showpay[i];
 				}
 			}
-		}
+		}*/
 		showtotal="<html>Dollar:"+dollaramount+"\r\nRMB:"+rmbamount+"\r\nEuro:"+euroamount+"</html>";   //set total payment
 		lblNewLabel.setText(showtotal);
 		if(!ifgo){

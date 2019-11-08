@@ -3,10 +3,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class UserDao implements Dao<Customer> {
+public class AccountStockDao implements Dao<CustomerStock>{
 	private Connection conn = null ;
 	@Override
 	public void connect() {
@@ -38,13 +39,12 @@ public class UserDao implements Dao<Customer> {
 			System.out.println("Failed to close connection!");
 		}
 	}
-
-	@Override
-	public boolean insert(Customer user) {
+	
+	public boolean insert(CustomerStock custock) {
 		// TODO Auto-generated method stub
 		connect() ;
 		try {
-			String query = "INSERT INTO User VALUES (\"" + user.getName() + "\", "+  "\"" + user.getUsername() + "\"," + "\"" + user.getPassword() + "\"," + "\"" + user.getPhone() + "\")" ;
+			String query = "INSERT INTO User VALUES ";  //need to be completed
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			
@@ -55,58 +55,86 @@ public class UserDao implements Dao<Customer> {
 		}
 		close() ;
 		return true;
-	}
-
-	@Override
-	public boolean delete(String username) {
-		// TODO Auto-generated method stub
-		connect() ;
-		try {
-			String query = "DELETE FROM User where username = \"" + username + "\"" ;
-			Statement st = conn.createStatement();
-			st.executeUpdate(query);
-			
-		}catch(SQLException e) {
-			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-			close() ;
-			return false ;
-		}
-		close() ;
-		return true;
-	}
-
-	@Override
-	public boolean update(Customer user) {
-		// TODO Auto-generated method stub
-		// will add it if user info can be changed
-		return true;
-	}
-
-	@Override
-	public Customer select(String username) {
-		// TODO Auto-generated method stub
-		Customer user = null ;
-		connect() ;
-		try {
-			String query = "SELECT * FROM User where username = \"" + username + "\"" ;
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery(query);
-			
-			while(rs.next()) {
-				user = new Customer(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
-			}
-		}catch(SQLException e) {
-			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-		}finally {
-			close() ;
-		}
-		
-		return user;
 	}
 	
-	public List<Customer> selectAll() {
+	public boolean insert(String acountnumber,CustomerStock custock) {
 		// TODO Auto-generated method stub
-		List<Customer> users = new ArrayList<>() ;
+		connect() ;
+		try {
+			String query = "INSERT INTO User VALUES ";  //need to be completed
+			Statement st = conn.createStatement();
+			st.executeUpdate(query);
+			
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+			close() ;
+			return false ;
+		}
+		close() ;
+		return true;
+	}
+
+	@Override
+	public boolean delete(String acountnumber) {
+		// TODO Auto-generated method stub
+		connect() ;
+		
+		close() ;
+		return true;
+	}
+	
+
+	public boolean delete(String acountnumber,CustomerStock custock) {
+		// TODO Auto-generated method stub
+		connect() ;
+		
+		close() ;
+		return true;
+	}
+
+	@Override
+	public boolean update(CustomerStock custock) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		return true;
+	}
+
+	@Override
+	public CustomerStock select(String company) {
+		// TODO Auto-generated method stub
+		connect() ;
+		CustomerStock custock=null;
+		
+		
+		
+		return custock;
+	}
+	
+	public List<CustomerStock> selectList(String company) {
+		// TODO Auto-generated method stub
+		connect() ;
+		List<CustomerStock> custock=new ArrayList<CustomerStock>();
+		
+		
+		
+		return custock;
+	}
+	
+	public List<CustomerStock> selectListofAccount(String accountNumber) {
+		// TODO Auto-generated method stub
+		connect() ;
+		List<CustomerStock> custock=new ArrayList<CustomerStock>();
+		
+		
+		
+		return custock;
+	}
+	
+	public List<CustomerStock> selectAll() {
+		// TODO Auto-generated method stub
+		List<CustomerStock> stocks = new ArrayList<>() ;
 		
 		connect() ;
 		try {
@@ -115,11 +143,7 @@ public class UserDao implements Dao<Customer> {
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				String name = rs.getString("name") ;
-				String username=rs.getString("username");
-				String password=rs.getString("password");
-				String phone=rs.getString("phone");
-				users.add(new Customer(name,username,password,phone)) ;
+				
 			}
 		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -127,7 +151,8 @@ public class UserDao implements Dao<Customer> {
 			close() ;
 		}
 		
-		return users;
+		return stocks;
 	}
+
 
 }

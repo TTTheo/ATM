@@ -36,6 +36,7 @@ public class TransactionFrame extends JFrame {
 	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -118,29 +119,14 @@ public class TransactionFrame extends JFrame {
 		this.transactions=transactions;
 	}*/
 	
-	public static boolean isNumeric(String str){
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
-	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currency=(String)comboBox.getSelectedItem();
 				String transferAmount=textAmount.getText();
 				String PINnumber=String.valueOf(passwordField.getPassword());
-				if(transferAmount.equals("")||!isNumeric(transferAmount)){    //check transaction number
-					reminder("Please input right transaction!");
+				if(transferAmount.equals("")||!tool.isNumeric(transferAmount)){    //check transaction number
+					tool.reminder("Please input right transaction!");
 				}else{
 					double transfernumber=Double.parseDouble(transferAmount)+5;
 					double actualnumber=0;
@@ -152,7 +138,7 @@ public class TransactionFrame extends JFrame {
 						actualnumber=getCustomer().getChecking().getBalance().getEuro().getMoney();
 					}
 					if(transfernumber>actualnumber){      //check if the customer have enough money
-						reminder("You do not have enough money!");
+						tool.reminder("You do not have enough money!");
 					}else{
 						Currency curren=new Currency(currency,transfernumber);
 						Currency transcurren=new Currency(currency,transfernumber-5);
@@ -160,10 +146,10 @@ public class TransactionFrame extends JFrame {
 						Date date=new Date();
 						String senderID=getCustomer().getChecking().getAccountNumber();	
 						if(recieverID.equals("")){
-							reminder("Please input reciever's account number!");
+							tool.reminder("Please input reciever's account number!");
 						}else{
 							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())){      //check PIN number
-								reminder("Wrong PIN number!");
+								tool.reminder("Wrong PIN number!");
 							}else{
 								boolean ifright=false;
 								AccountDao conn=new AccountDao();
@@ -174,6 +160,8 @@ public class TransactionFrame extends JFrame {
 									Transaction transaction=new Transaction(transcurren,date,senderID,recieverID,createTransID());
 									TransactionDao con=new TransactionDao();
 									con.insert(transaction);
+									IncomeDao incomedao=new IncomeDao();
+									incomedao.insert(new Income(new Currency("Dollar",5),"Transaction"));
 								}
 								/*for(int i=0;i<customers.size();i++){
 									if(customers.get(i).getChecking().getAccountNumber().equals(recieverID)		
@@ -193,7 +181,7 @@ public class TransactionFrame extends JFrame {
 									}
 								}*/
 								if(!ifright){
-									reminder("Wrong account number!Please input againe!");
+									tool.reminder("Wrong account number!Please input againe!");
 								}
 							}
 						}

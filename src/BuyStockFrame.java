@@ -35,7 +35,7 @@ public class BuyStockFrame extends JFrame {
 	private JLabel lblCompany;
 	private JTextField textField_2;
 	private StockDao conn=new StockDao();
-	private Tool reminder=new Tool();
+	private Tool tool=new Tool();
 	/**
 	 * Create the frame.
 	 */
@@ -102,7 +102,7 @@ public class BuyStockFrame extends JFrame {
 				String company=textField.getText();
 				Stock stock=conn.select(company);
 				if(stock==null){
-					reminder.reminder("No such stock!");
+					tool.reminder("No such stock!");
 				}else{
 					textArea.setText("Company: "+stock.getCompany()+"\nPrice: "+stock.getPrice()+" Dollars");
 				}
@@ -114,15 +114,15 @@ public class BuyStockFrame extends JFrame {
 				String company=textField_2.getText();
 				String num=textField_1.getText();
 				if(company.equals("")){
-					reminder.reminder("The company can not be empty!");
+					tool.reminder("The company can not be empty!");
 				}else if(num.equals("")){
-					reminder.reminder("The price can not be empty!");
-				}else if(!isNumeric(num)){
-					reminder.reminder("The price can not be negtive!");
+					tool.reminder("The price can not be empty!");
+				}else if(!Tool.isNumeric(num)){
+					tool.reminder("The price can not be negtive!");
 				}else{
 					Stock stock=conn.select(company);
 					if(stock==null){
-						reminder.reminder("No such stock!");
+						tool.reminder("No such stock!");
 					}else{
 						CustomerStock custock=new CustomerStock(stock.getCompany(),stock.getPrice(),Integer.parseInt(num));
 						//getCustomer().getInvest().addStock(custock);
@@ -131,19 +131,23 @@ public class BuyStockFrame extends JFrame {
 						double checking=getCustomer().getChecking().getBalance().getDollar().getMoney();
 						double stockmoney=custock.getPrice()*custock.getNumofStock()+5;
 						if(checking<stockmoney){
-							reminder.reminder("You do not have enough money!");
+							tool.reminder("You do not have enough money!");
 						}else{
 							Stock selctstock=conn.select(stock.getCompany());
 							if(selctstock==null){
-								reminder.reminder("No such stock!");
+								tool.reminder("No such stock!");
 							}else{
 								//add stock to customer
 								getCustomer().getInvest().addStock(custock);
-								con.updateInvest(getCustomer().getInvest());
+								AccountStockDao conn=new AccountStockDao();
+								conn.insert(getCustomer().getInvest().getAccountID(),custock);
 								//substract balance
 								getCustomer().getChecking().getBalance().substract(new Currency("Dollar",stockmoney));
 								con.update(getCustomer().getChecking());
-								reminder.reminder("Buy successfully!");
+								
+								IncomeDao incomedao=new IncomeDao();
+								incomedao.insert(new Income(new Currency("Dollar",5),"Buy Stock"));
+								tool.reminder("Buy successfully!");
 							}
 						}
 					}
@@ -161,15 +165,6 @@ public class BuyStockFrame extends JFrame {
 	
 	public Customer getCustomer(){
 		return this.customer;
-	}
-	
-	public static boolean isNumeric(String str){  //check if the string composed with numbers
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
 	}
 	
 }

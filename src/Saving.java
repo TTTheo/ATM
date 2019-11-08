@@ -1,18 +1,16 @@
 
 
 public class Saving extends CheckandSave{
-	private Balance balance;
-	
+
 	public Saving(String accountNumber,String moneypassword,Balance balance){
-		super(accountNumber, moneypassword);
-		setBalance(balance);
-	}
+		super(accountNumber, moneypassword, balance);
+
+	}	
 	
-	public void setBalance(Balance balance){
-		this.balance=balance;
-	}
-	
-	public Balance getBalance(){
-		return balance;
+	public String showCustomerSave(){   //show saving information
+		String info="Saving account: "+getAccountNumber()
+				+"\r\nSaving balance: \r\n"+getBalance().showAll()
+				+"\r\n";
+		return info;
 	}
 }

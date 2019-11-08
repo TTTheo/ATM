@@ -36,7 +36,7 @@ public class SellStockFrame extends JFrame {
 	private JTextField textField_1;
 	private JTextArea textArea;
 	private StockDao conn=new StockDao();
-	private Tool reminder=new Tool();
+	private Tool tool=new Tool();
 	/**
 	 * Create the frame.
 	 */
@@ -146,23 +146,26 @@ public class SellStockFrame extends JFrame {
 				String company=textField.getText();
 				String num=textField_1.getText();
 				if(company.equals("")){
-					reminder.reminder("The company can not be empty!");
+					tool.reminder("The company can not be empty!");
 				}else if(num.equals("")){
-					reminder.reminder("The price can not be empty!");
-				}else if(!isNumeric(num)){
-					reminder.reminder("The price can not be negtive!");
+					tool.reminder("The price can not be empty!");
+				}else if(!tool.isNumeric(num)){
+					tool.reminder("The price can not be negtive!");
 				}else{
 					Stock stock=conn.select(company);
 					if(stock==null){
-						reminder.reminder("No such stock!");
+						tool.reminder("No such stock!");
 					}else{
 						//delete stock and reset balance
 						CustomerStock custock=new CustomerStock(company, stock.getPrice(),Integer.parseInt(num));
 						double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
-						AccountDao con=new AccountDao();
-						con.deleteStock(getCustomer().getInvest().getAccountID(),custock);
+						AccountStockDao con=new AccountStockDao();
+						con.delete(getCustomer().getInvest().getAccountID(),custock);
 						getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
-						con.update(getCustomer().getChecking());
+						AccountDao conn=new AccountDao();
+						conn.update(getCustomer().getChecking());
+						IncomeDao incomedao=new IncomeDao();
+						incomedao.insert(new Income(new Currency("Dollar",5),"Sell Stock"));
 					}
 					/*try{
 					String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
@@ -183,14 +186,7 @@ public class SellStockFrame extends JFrame {
 		});
 	}
 	
-	public static boolean isNumeric(String str){  //check if the string composed with numbers
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
+
 	
 	public Customer getCustomer(){
 		return this.customer;

@@ -38,6 +38,7 @@ public class DepositFrame extends JFrame {
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 	private AccountDao con=new AccountDao();
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -109,21 +110,6 @@ public class DepositFrame extends JFrame {
 		return this.incomes;
 	}*/
 	
-	public static boolean isNumeric(String str){  //check if the string composed with numbers
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
-	
 	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
@@ -131,17 +117,17 @@ public class DepositFrame extends JFrame {
 				String currency=(String)combCurrency.getSelectedItem();
 				String deposit=textField.getText();
 				String PINnumber=String.valueOf(passwordField.getPassword());
-				if(deposit.equals("")||!isNumeric(deposit)){    //check number of deposit
-					reminder("Please input the right deposit!");
+				if(deposit.equals("")||!tool.isNumeric(deposit)){    //check number of deposit
+					tool.reminder("Please input the right deposit!");
 				}else{
 					if(Double.parseDouble(deposit)<=0){    //check number of deposit
-						reminder("Please input the positive number!");
+						tool.reminder("Please input the positive number!");
 					}else{
 						if(!rdbtnChecking.isSelected()&&!rdbtnSaving.isSelected()){   //check if there is an account be chosen
-							reminder("Please choose one account!");
+							tool.reminder("Please choose one account!");
 						}else{
-							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())||!isNumeric(PINnumber)){//check the PIN number
-								reminder("Wrong PIN number!");
+							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())||!tool.isNumeric(PINnumber)){//check the PIN number
+								tool.reminder("Wrong PIN number!");
 							}else{
 								if(rdbtnChecking.isSelected()){		 //deposit in checking account						
 									double depositnumber=Double.parseDouble(deposit);
@@ -149,7 +135,7 @@ public class DepositFrame extends JFrame {
 									getCustomer().getChecking().getBalance().add(curren);
 									
 									con.update(getCustomer().getChecking());
-									reminder("Deposit successfully!");
+									tool.reminder("Deposit successfully!");
 									dispose();
 								}
 							
@@ -159,10 +145,10 @@ public class DepositFrame extends JFrame {
 										Currency curren=new Currency(currency,depositnumber);
 										getCustomer().getSaving().getBalance().add(curren);
 										con.update(getCustomer().getSaving());
-										reminder("Deposit successfully!");
+										tool.reminder("Deposit successfully!");
 										dispose();
 									}else{
-										reminder("You do not have saving account!");
+										tool.reminder("You do not have saving account!");
 									}
 								}
 								

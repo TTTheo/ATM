@@ -85,10 +85,10 @@ public class CheckupFrame extends JFrame {
 	
 	public void setcomboBox(){
 		UserDao con=new UserDao();
-		List<User> users=con.selectAll();
-		if(users!=null){
-			for(int i=0;i<users.size();i++){
-				comboBox.addItem(users.get(i).getName());
+		List<Customer> customers=con.selectAll();
+		if(customers!=null){
+			for(int i=0;i<customers.size();i++){
+				comboBox.addItem(customers.get(i).getName());
 			}
 		}
 	}
@@ -97,24 +97,35 @@ public class CheckupFrame extends JFrame {
 	public void addAction(){
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UserDao conn=new UserDao();
+				List<Customer> customers=conn.selectAll();
+				for(int i=0;i<customers.size();i++){
+					AccountDao accountdao=new AccountDao();
+					customers.get(i).createChecking((Checking)accountdao.selectChecking(customers.get(i).getUsername()));
+					customers.get(i).createSaving((Saving)accountdao.selectChecking(customers.get(i).getUsername()));
+					LoanDao loandao=new LoanDao();
+					ArrayList<Loan> loans=(ArrayList<Loan>) loandao.selectSpecific(customers.get(i).getUsername());
+					customers.get(i).setLoans(loans);
+				}
 				String choosename=(String)comboBox.getSelectedItem();
 				String infoall="";
-				if(choosename.equals("All")){   //all customers' information will show
-					List<Customer> customers=con.selectAllCustomer();
+				if(choosename.equals("All")){   //all customers' information will show					
+					//List<Customer> customers=con.selectAllCustomer();
 					for(int i=0;i<customers.size();i++){
 						infoall+=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"
 								+customers.get(i).showLoan()+"\r\n";						
 					}
 					textArea.setText(infoall);
 				}else{
-					Customer customer=con.selectCustomer(choosename);			//select a specifc customer
-					/*for(int i=0;i<customers.size();i++){  //specific customer's information will show
-						if(choosename.equals(customers.get(i).getUser().getName())){
+					Customer customer=null;
+					for(int i=0;i<customers.size();i++){  //specific customer's information will show
+						if(choosename.equals(customers.get(i).getName())){
+							customer=customers.get(i);
 							infoall=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"+customers.get(i).showLoan();
 							textArea.setText(infoall);
 							break;
 						}
-					}*/
+					}
 					infoall=customer.showCustomer()+"------------------------\r\nLoan:\r\n"+customer.showLoan();
 					textArea.setText(infoall);
 				}

@@ -31,6 +31,7 @@ public class LoanFrame extends JFrame {
 	private JLabel lbltheInterestOf;
 	private JLabel lblCollateral;
 	private JTextField textField_1;
+	private Tool tool=new Tool();
 	//private ArrayList<Loan> loans=new ArrayList<Loan>();
 	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	/**
@@ -110,28 +111,15 @@ public class LoanFrame extends JFrame {
 		return this.loans;
 	}*/
 	
-	public static boolean isNumeric(String str){  //check if the string composed with numbers
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
+
 	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currency=(String)comboBox.getSelectedItem();
 				String loanAmount=textField.getText();
-				if(loanAmount.equals("")||!isNumeric(loanAmount)){    //check the entering numbers
-					reminder("Please input right number!");
+				if(loanAmount.equals("")||!tool.isNumeric(loanAmount)){    //check the entering numbers
+					tool.reminder("Please input right number!");
 				}else{
 					double loannumber=Double.parseDouble(loanAmount);
 					Currency curren=new Currency(currency,loannumber);
@@ -139,13 +127,15 @@ public class LoanFrame extends JFrame {
 					float interest=(float) 0.1;
 					String collateral=textField_1.getText();
 					if(collateral.equals("")){       					 //check the collateral
-						reminder("You are not allowed to loan if you do not have a collateral!");
+						tool.reminder("You are not allowed to loan if you do not have a collateral!");
 					}else{
 						Loan loan=new Loan(curren,interest,loanlength,collateral);
 						getCustomer().addLoan(loan);  					 //add loans to customer's whole loan
 						//loans.add(loan);  
 						//incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));//add loans to whole loan
-						reminder("Loan successfully!");
+						IncomeDao incomedao=new IncomeDao();
+						incomedao.insert(new Income(new Currency(currency,loannumber*0.1),"Loan"));
+						tool.reminder("Loan successfully!");
 						dispose();
 					}
 				}

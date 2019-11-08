@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+
 import javax.swing.SwingConstants;
 
 public class OpenAccount extends JFrame {
@@ -48,6 +49,8 @@ public class OpenAccount extends JFrame {
 	private JTextField textField_1;
 	private JLabel lbldigitsNumbers;
 	private AccountDao conaccount=new AccountDao();
+	private IncomeDao incomedao=new IncomeDao();
+	private Tool tool=new Tool();
 	
 	/**
 	 * Create the frame.
@@ -165,42 +168,27 @@ public class OpenAccount extends JFrame {
 		
 	}
 	
-	public static boolean isNumeric(String str){
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
-	
 	public void addAction(){
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//String accountID=getNewAccount();
 				String name=textname.getText();
 				if(name.equals("")){    //check name
-					reminder("Please fill the name!");
+					tool.reminder("Please fill the name!");
 				}else{
 					String phone=textField_1.getText();     
-					if(phone.equals("")||!isNumeric(phone)||phone.length()!=10){     //check phone
-						reminder("Please fill the right phone!");
+					if(phone.equals("")||!tool.isNumeric(phone)||phone.length()!=10){     //check phone
+						tool.reminder("Please fill the right phone!");
 					}else{
 						String username=textusername.getText();
 						if(username.equals("")||username.length()>10){           //check username
-							reminder("Please fill the right username!");
+							tool.reminder("Please fill the right username!");
 						}else{
 							boolean ifright=true;
 							UserDao conn=new UserDao();
 							User user=conn.select(username);
 							if(user!=null){
-								reminder("The username exists!");
+								tool.reminder("The username exists!");
 								ifright=false;
 							}else{
 								ifright=true;
@@ -215,20 +203,20 @@ public class OpenAccount extends JFrame {
 							if(ifright){
 								String password=textpassword.getText();
 								if(password.equals("")){     //check password
-									reminder("Please fill the password!");
+									tool.reminder("Please fill the password!");
 								}else{
 									if(password.length()>10){    //check password's length
-										reminder("The password should be mo more than 10 characters!");
+										tool.reminder("The password should be mo more than 10 characters!");
 									}else{
 										String PIN=textPIN.getText();
 										if(PIN.equals("")){   //check PIN number
-											reminder("Please fill the PIN number!");
+											tool.reminder("Please fill the PIN number!");
 										}else{
 											if(PIN.length()!=6){     //check PIN number's length
-												reminder("The PIN number should be 6 numbers!");
+												tool.reminder("The PIN number should be 6 numbers!");
 											}else{
-												if(!isNumeric(PIN)){		//check PIN number
-													reminder("The PIN number should be numbers!");
+												if(!tool.isNumeric(PIN)){		//check PIN number
+													tool.reminder("The PIN number should be numbers!");
 												}else{
 													//deposit
 													String amountstr=textField.getText();
@@ -237,8 +225,8 @@ public class OpenAccount extends JFrame {
 													boolean saving=checksaving.isSelected();
 													String checkingID=null;
 													String savingID=null;
-													if(amountstr.equals("")||!isNumeric(amountstr)){    //check deposit
-														reminder("Please enter the right deposit!");
+													if(amountstr.equals("")||!tool.isNumeric(amountstr)){    //check deposit
+														tool.reminder("Please enter the right deposit!");
 													}else{
 														if(checking){        
 															payment+=5;	
@@ -248,12 +236,12 @@ public class OpenAccount extends JFrame {
 														}
 														double amount=Double.parseDouble(amountstr);
 														if(amount<payment){    //check deposit
-															reminder("Your checking deposit is not enough!");
+															tool.reminder("Your checking deposit is not enough!");
 														}else{
 															//newCustomer=new Customer(name,username, password,phone);
-															User user2=new User(name,username, password,phone);
+															Customer customer=new Customer(name,username, password,phone);
 															UserDao con=new UserDao();
-															con.insert(user2);
+															con.insert(customer);
 															newCustomer=new Customer(name,username, password,phone);
 															if(checking){         //create new checking account
 																checkingID=getNewCheckingAccount();
@@ -263,14 +251,16 @@ public class OpenAccount extends JFrame {
 																
 																conaccount.insert(newCustomer.getChecking());
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
+																
+																incomedao.insert(new Income(new Currency("Dollar",5),"Open Account"));
 																conaccount.update(newCustomer.getChecking());
 															}
 															if(saving){			//create new saving account
 																savingID=getNewSavingAccount();
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));//add bank's income
-																newCustomer.createSaving(new Saving(savingID,PIN,new Balance()));
-																
+																newCustomer.createSaving(new Saving(savingID,PIN,new Balance()));	
 																conaccount.insert(newCustomer.getSaving());
+																incomedao.insert(new Income(new Currency("Dollar",5),"Open Account"));
 																//conaccount.update(newCustomer.getSaving());
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
 															}
@@ -278,7 +268,7 @@ public class OpenAccount extends JFrame {
 															//newCustomer.getChecking().getBalance().add(new Currency("Dollar",amount));   //set balance
 															//newCustomer.getChecking().getBalance().substract(new Currency("Dollar",payment));  //pay the charge
 															//customers.add(newCustomer);   //add customer
-															reminder("Open account successfully!");
+															tool.reminder("Open account successfully!");
 															ShowInfo showinfo=new ShowInfo(name,username,checkingID,savingID,phone);  //show information
 															showinfo.setVisible(true);
 																

@@ -31,6 +31,7 @@ public class Login extends JFrame {
 	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private Customer customer;
 	private JPasswordField password;
+	private Tool tool=new Tool();
 	//private Conn con;
 	
 	/**
@@ -122,6 +123,15 @@ public class Login extends JFrame {
 							customer=new Customer(user.getName(),user.getUsername(),user.getPassword(),user.getPhone());
 							customer.createChecking(check);
 							customer.createSaving(save);
+							LoanDao loandao=new LoanDao();
+							ArrayList<Loan> loans=(ArrayList<Loan>) loandao.selectSpecific(customer.getUsername());
+							customer.setLoans(loans);
+							AccountStockDao stockdao=new AccountStockDao();
+							InvestmentDao investdao=new InvestmentDao();
+							Investment invest=investdao.select(userName);
+							customer.createInvest(invest);
+							ArrayList<CustomerStock> custock=(ArrayList<CustomerStock>) stockdao.selectListofAccount(customer.getInvest().getAccountID());
+							customer.getInvest().setStock(custock);
 							//create investment
 							CustomerFrame customerFrame=new CustomerFrame(getCustomer());
 							customerFrame.setVisible(true);
@@ -147,13 +157,13 @@ public class Login extends JFrame {
 						
 					}*/
 					if(!ifright){  //if wrong, reminder
-						reminder("Wrong Username or Password!");
+						tool.reminder("Wrong Username or Password!");
 					}
 					
 				}else if(rdbtnManager.isSelected()){   //login as manager
 					boolean ifright=false;
 					ManagerDao conn=new ManagerDao();
-					User mg=conn.select(userName);
+					Manager mg=conn.select(userName);
 					if(mg==null){
 						ifright=false;
 					}else{
@@ -175,12 +185,12 @@ public class Login extends JFrame {
 						}						
 					}*/
 					if(!ifright){
-						reminder("Wrong Username or Password!");
+						tool.reminder("Wrong Username or Password!");
 					}
 					
 				}else{
 					//check if the user choose the type of users
-					reminder("Choose you are customer or manager!");
+					tool.reminder("Choose you are customer or manager!");
 				}
 			}
 		});
@@ -195,11 +205,6 @@ public class Login extends JFrame {
 		});
 	}
 	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
 	
 	public void setCustomer(Customer customer){
 		this.customer=customer;

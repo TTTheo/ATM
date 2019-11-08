@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+
 import javax.swing.JPasswordField;
 
 public class WithDrawFrame extends JFrame {
@@ -32,6 +33,7 @@ public class WithDrawFrame extends JFrame {
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 	private AccountDao con=new AccountDao();
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -103,38 +105,23 @@ public class WithDrawFrame extends JFrame {
 		//return this.incomes;
 	//}
 	
-	public static boolean isNumeric(String str){
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
-	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currency=(String)comboBox.getSelectedItem();
 				String withdraw=textField.getText();
 				String PINnumber=String.valueOf(passwordField.getPassword());
-				if(withdraw.equals("")||!isNumeric(withdraw)){     //check withdraw numbers
-					reminder("Please input the right withdraw!");
+				if(withdraw.equals("")||!tool.isNumeric(withdraw)){     //check withdraw numbers
+					tool.reminder("Please input the right withdraw!");
 				}else{
 					if(Double.parseDouble(withdraw)<=0){
-						reminder("Please input positive number!");
+						tool.reminder("Please input positive number!");
 					}else{
 						if(!rdbtnChecking.isSelected()&&!rdbtnSaving.isSelected()){    //check if there is one account be chosen
-							reminder("Please choose one account!");
+							tool.reminder("Please choose one account!");
 						}else{
 							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())){     //check PIN number
-								reminder("Wrong PIN number!");
+								tool.reminder("Wrong PIN number!");
 							}else{
 								double actualnumber=0;
 								if(currency.equals("Dollar")){
@@ -152,11 +139,13 @@ public class WithDrawFrame extends JFrame {
 										getCustomer().getChecking().getBalance().substract(curren);
 										con.update(getCustomer().getChecking());
 										//getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
-										reminder("Withdraw successfully!");
+										IncomeDao incomedao=new IncomeDao();
+										incomedao.insert(new Income(new Currency("Dollar",5),"Withdraw"));
+										tool.reminder("Withdraw successfully!");
 										dispose();
 											
 									}else{
-										reminder("You do not have enough money!");
+										tool.reminder("You do not have enough money!");
 									}							
 								}
 								
@@ -176,13 +165,15 @@ public class WithDrawFrame extends JFrame {
 											getCustomer().getSaving().getBalance().substract(curren);
 											con.update(getCustomer().getSaving());
 											//getIncomes().add(new Income(new Currency("Dollar",5),"Withdraw"));
-											reminder("Withdraw successfully!");
+											IncomeDao incomedao=new IncomeDao();
+											incomedao.insert(new Income(new Currency("Dollar",5),"Withdraw"));
+											tool.reminder("Withdraw successfully!");
 											dispose();									
 										}else{
-											reminder("You do not have enough money!");
+											tool.reminder("You do not have enough money!");
 										}							
 									}else{
-										reminder("You do not have saving account!");
+										tool.reminder("You do not have saving account!");
 									}
 								}
 							}

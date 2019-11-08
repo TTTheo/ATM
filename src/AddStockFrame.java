@@ -26,7 +26,7 @@ public class AddStockFrame extends JFrame {
 	//private Conn con;
 	private PreparedStatement sql;
 	private ResultSet res;
-	private Tool reminder=new Tool();
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -77,11 +77,11 @@ public class AddStockFrame extends JFrame {
 				String company=textField.getText();
 				String pricestr=textField_1.getText();
 				if(company.equals("")){
-					reminder.reminder("The company can not be empty!");
+					tool.reminder("The company can not be empty!");
 				}else if(pricestr.equals("")){
-					reminder.reminder("The price can not be empty!");
-				}else if(!isNumeric(pricestr)){
-					reminder.reminder("The price can not be negtive!");
+					tool.reminder("The price can not be empty!");
+				}else if(!Tool.isNumeric(pricestr)){
+					tool.reminder("The price can not be negtive!");
 				}else{
 					Stock stock=new Stock(company,Double.parseDouble(pricestr));
 					/*try{
@@ -98,10 +98,10 @@ public class AddStockFrame extends JFrame {
 					StockDao conn=new StockDao();
 					Stock selectstock=conn.select(company);
 					if(selectstock!=null){
-						reminder.reminder("The stock have already existed!");
+						tool.reminder("The stock have already existed!");
 					}else{
 						conn.insert(stock);
-						reminder.reminder("Add successfully!");
+						tool.reminder("Add successfully!");
 					}
 				}
 			}
@@ -112,15 +112,6 @@ public class AddStockFrame extends JFrame {
 				dispose();
 			}
 		});
-	}
-	
-	public static boolean isNumeric(String str){  //check if the string composed with numbers
-		for (int i = str.length();--i>=0;){
-			if (!Character.isDigit(str.charAt(i))){
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	/*public void reminder(String str){

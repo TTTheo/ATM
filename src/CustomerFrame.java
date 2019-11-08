@@ -37,6 +37,7 @@ public class CustomerFrame extends JFrame {
 	private JButton btnOpenSaving;
 	private JButton btnInvestment;
 	//private Conn con;
+	private Tool tool=new Tool();
 	
 	/**
 	 * Create the frame.
@@ -156,7 +157,7 @@ public class CustomerFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//test();
 				BalanceFrame balanceframe=new BalanceFrame(getCustomer());
-				balanceframe.setCustomer(getCustomer());
+				//balanceframe.setCustomer(getCustomer());
 				balanceframe.setVisible(true);
 			}
 		});
@@ -199,7 +200,6 @@ public class CustomerFrame extends JFrame {
 				setCustomers(closeaccountframe.getCustomers());
 				setIncomes(closeaccountframe.getIncomes());*/
 				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer());
-				setCustomer(closeaccountframe.getCustomer());
 				dispose();
 			}
 		});
@@ -216,7 +216,7 @@ public class CustomerFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//check
 				AccountDao con=new AccountDao();
-				con.select(getCustomer().getUser().getUsername());
+				con.select(getCustomer().getUsername());
 				if(customer.getSaving()==null){
 					
 					
@@ -226,12 +226,14 @@ public class CustomerFrame extends JFrame {
 						customer.getChecking().getBalance().substract(new Currency("Dollar",5));
 						con.update(customer.getChecking());
 						//incomes.add(new Income(new Currency("Dollar",5),"Open account"));
-						reminder("Open saving account successfully!");
+						IncomeDao incomedao=new IncomeDao();
+						incomedao.insert(new Income(new Currency("Dollar",5),"Open Account"));
+						tool.reminder("Open saving account successfully!");
 					}else{
-						reminder("You do not have enough money to open!");
+						tool.reminder("You do not have enough money to open!");
 					}
 				}else{
-					reminder("You already have saving account!");
+					tool.reminder("You already have saving account!");
 				}
 			}
 		});
@@ -274,11 +276,5 @@ public class CustomerFrame extends JFrame {
 	    	 }		
 	     }*/
 	     return newAccount;
-	}
-	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
 	}
 }

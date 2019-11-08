@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DeleteStockFrame extends JFrame {
@@ -81,9 +82,9 @@ public class DeleteStockFrame extends JFrame {
 					reminder.reminder("The stock do not exist!");
 				}else{
 					//check if any customer have the stock
-					AccountDao con=new AccountDao();
-					ArrayList<Investment> invest=con.selectInvest(company);
-					if(invest!=null){
+					AccountStockDao con=new AccountStockDao();
+					List<CustomerStock> custock=con.selectList(company);
+					if(custock!=null){
 						reminder.reminder("You can not delete it because someone owe it!");
 					}else{
 						StockDao conn=new StockDao();
