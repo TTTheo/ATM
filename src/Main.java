@@ -42,7 +42,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test() ;
+		test() ;
 		// init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -74,6 +74,7 @@ public class Main {
 //		// AccountDao testcase
 		AccountDao a = new AccountDao();
 		CheckandSave cs = a.select("1");
+		
 		System.out.println(cs.getMoneypassword() + " " + cs.getBalance().getDollar().getMark() + " "
 				+ cs.getBalance().getDollar().getMoney());
 		if (cs instanceof Checking) {

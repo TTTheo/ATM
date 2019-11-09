@@ -120,12 +120,12 @@ public class AccountDao implements Dao<CheckandSave>{
 		CheckandSave cs = null ;
 		connect() ;
 		try {
-			String query = "SELECT * from Account WHERE accountnumber = \"" + accountnumber + "\"" ;
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE accountnumber = \"" + accountnumber + "\"" ;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				int type = rs.getInt("Type") ;
+				int type = rs.getInt("type") ;
 				Balance balance = new Balance() ;
 				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
 				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
