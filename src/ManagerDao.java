@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -41,27 +42,36 @@ public class ManagerDao implements Dao<Manager> {
 
 	public boolean insert(Manager manager) {
 		// TODO Auto-generated method stub
-		connect();
+		connect() ;
 		try {
-			String query = "INSERT INTO User VALUES "; // need to be completed
+			String query = "INSERT INTO [Manager] VALUES (\"" + manager.getName() + "\", "+  "\"" + manager.getUsername() + "\"," + "\"" + manager.getPassword() + "\"," + "\"" + manager.getPhone() + "\")" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
-
-		} catch (SQLException e) {
+			
+		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-			close();
-			return false;
+			close() ;
+			return false ;
 		}
-		close();
+		close() ;
 		return true;
 	}
 
 	@Override
 	public boolean delete(String username) {
 		// TODO Auto-generated method stub
-		connect();
-
-		close();
+		connect() ;
+		try {
+			String query = "DELETE FROM [Manager] where username = \"" + username + "\"" ;
+			Statement st = conn.createStatement();
+			st.executeUpdate(query);
+			
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+			close() ;
+			return false ;
+		}
+		close() ;
 		return true;
 	}
 
@@ -76,17 +86,45 @@ public class ManagerDao implements Dao<Manager> {
 	public Manager select(String username) {
 		// TODO Auto-generated method stub
 		Manager manager = null;
-		connect();
-
+		connect() ;
+		try {
+			String query = "SELECT * FROM [Manager] where username = \"" + username + "\"" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				manager = new Manager(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
 		return manager;
 	}
 
 	public List<Manager> selectAll() {
 		// TODO Auto-generated method stub
 		List<Manager> managers = new ArrayList<>();
-
-		connect();
-
+		connect() ;
+		try {
+			String query = "SELECT * FROM Manager" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				String name = rs.getString("name") ;
+				String username=rs.getString("username");
+				String password=rs.getString("password");
+				String phone=rs.getString("phone");
+				managers.add(new Manager(name,username,password,phone)) ;
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
 		return managers;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 public class InvestmentDao implements Dao<Investment>{
 	private Connection conn = null ;
+	CustomerStockDao csd = new CustomerStockDao() ;
 	@Override
 	public void connect() {
 		// TODO Auto-generated method stub
@@ -43,46 +44,27 @@ public class InvestmentDao implements Dao<Investment>{
 	@Override
 	public boolean insert(Investment invest) {
 		// TODO Auto-generated method stub
-		connect() ;
-		
-		close() ;
 		return true;
 	}
 
 	@Override
 	public boolean delete(String username) {
 		// TODO Auto-generated method stub
-		connect() ;
-		
-		close() ;
-		return true;
+		return csd.delete(username) ;
 	}
 
 	@Override
 	public boolean update(Investment invest) {
 		// TODO Auto-generated method stub
-		// will add it if user info can be changed
 		return true;
 	}
 
 	@Override
 	public Investment select(String username) {
 		// TODO Auto-generated method stub
-		Investment invest = null ;
-		connect() ;
+		ArrayList<CustomerStock> list = csd.selectByUsername(username) ;
+		Investment investment = new Investment(list) ;
 		
-		
-		return invest;
+		return investment ;
 	}
-	
-	public List<Investment> selectAll() {
-		// TODO Auto-generated method stub
-		List<Investment> invest = new ArrayList<>() ;
-		
-		connect() ;
-		
-		
-		return invest;
-	}
-
 }

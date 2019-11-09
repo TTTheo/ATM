@@ -4,13 +4,11 @@ import java.util.ArrayList;
 public class Investment {
 	private ArrayList<CustomerStock> stocks=new ArrayList<CustomerStock>();
 	//private Customer customer;
-	private String accountID;
 	private Tool reminder=new Tool();
 	private StockDao conn=new StockDao();
 	
-	public Investment(ArrayList<CustomerStock> stocks,String accountID){
+	public Investment(ArrayList<CustomerStock> stocks){
 		setStock(stocks);
-		setAccountID(accountID);
 	}
 	
 	public void setStock(ArrayList<CustomerStock> stocks){
@@ -29,13 +27,6 @@ public class Investment {
 		this.user=user;
 	}*/
 	
-	public String getAccountID(){
-		return this.accountID;
-	}
-	
-	public void setAccountID(String accountID){
-		this.accountID=accountID;
-	}
 	
 	/*public Customer getCustomer(){
 		return this.customer;

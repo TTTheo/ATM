@@ -67,7 +67,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 		// TODO Auto-generated method stub
 		connect() ;
 		try {
-			String query = "DELETE FROM AccountStock where username = \"" + username + "\"" ;
+			String query = "DELETE * FROM AccountStock where username = \"" + username + "\"" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			
