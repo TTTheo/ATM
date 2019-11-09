@@ -3,6 +3,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp ;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,11 +50,10 @@ public class TransactionDao implements Dao<Transaction> {
 	public boolean insert(Transaction transaction) {
 		// TODO Auto-generated method stub
 		connect();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-        Date date = new Date(System.currentTimeMillis());
-        String d = dateFormat.format(date);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd") ;
+		String date = df.format(transaction.getDate()) ;
 		try {
-			String query = "INSERT INTO [Transaction] VALUES (\"" + transaction.getTransID() + "\", datetime()," + "\"" + transaction.getSenAccount() + "\"," + "\"" + transaction.getRecieAccount() + "\",\"" + transaction.getTransaction().getMark() + "\"," + transaction.getTransaction().getMoney() + ")";
+			String query = "INSERT INTO [Transaction] VALUES (\"" + transaction.getTransID() + "\",\"" + date + "\"," + "\"" + transaction.getSenAccount() + "\"," + "\"" + transaction.getRecieAccount() + "\",\"" + transaction.getTransaction().getMark() + "\"," + transaction.getTransaction().getMoney() + ")";
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 
@@ -96,12 +98,19 @@ public class TransactionDao implements Dao<Transaction> {
 		Transaction transaction = null ;
 		connect() ;
 		try {
-			String query = "SELECT * FROM Transaction where transid = \"" + transid + "\"" ;
+			String query = "SELECT * FROM [Transaction] where transid = \"" + transid + "\"" ;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				transaction = new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), rs.getDate("date"), rs.getString("sender"), rs.getString("receiver"),rs.getString("transid")) ;
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date today = null ;
+				try {
+				    today = df.parse(rs.getString("date"));
+				} catch (ParseException e) {
+				   e.printStackTrace();
+				}
+				transaction = new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), today, rs.getString("sender"), rs.getString("receiver"),rs.getString("transid")) ;
 			}
 		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -118,12 +127,19 @@ public class TransactionDao implements Dao<Transaction> {
 		
 		connect() ;
 		try {
-			String query = "SELECT * FROM Transaction" ;
+			String query = "SELECT * FROM [Transaction]" ;
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
-				trans.add(new Transaction(new Currency(rs.getString("currency"), rs.getDouble("amount")), rs.getDate("date"), rs.getString("sender"), rs.getString("receiver"),rs.getString("transid"))) ;
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				Date today = null ;
+				try {
+				    today = df.parse(rs.getString("date"));
+				} catch (ParseException e) {
+				   e.printStackTrace();
+				}
+				trans.add(new Transaction(new Currency(rs.getString("currency"),rs.getDouble("amount")), today, rs.getString("sender"), rs.getString("receiver"),rs.getString("transid"))) ;
 			}
 		}catch(SQLException e) {
 			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

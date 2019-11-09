@@ -49,7 +49,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 		// TODO Auto-generated method stub
 		connect() ;
 		try {
-			String query = "INSERT INTO AccountStock VALUES(\"" + username + "\"," + "\"" + custock.getCompany() + "\"," + custock.getPrice() + "," + custock.getNumofStock() + ")";  //need to be completed
+			String query = "INSERT INTO [CustomerStock] VALUES(\"" + username + "\"," + "\"" + custock.getCompany() + "\"," + custock.getPrice() + "," + custock.getNumofStock() + ")";  //need to be completed
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			
@@ -67,7 +67,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 		// TODO Auto-generated method stub
 		connect() ;
 		try {
-			String query = "DELETE * FROM AccountStock where username = \"" + username + "\"" ;
+			String query = "DELETE FROM [CustomerStock] where username = \"" + username + "\"" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			
@@ -84,6 +84,23 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 	public boolean update(CustomerStock customerStock) {
 		return true ;
 	}
+	
+	public boolean update(String username, CustomerStock customerStock) {
+		connect();
+		try {
+			String query = "UPDATE [CustomerStock] SET price = " + customerStock.getPrice() + "," + "share = " + customerStock.getNumofStock() + " WHERE username =\"" + username + "\" and company = \"" + customerStock.getCompany() + "\"";
+			Statement st = conn.createStatement();
+			st.executeUpdate(query);
+			
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+			close() ;
+			return false ;
+		}
+		close() ;
+		return true;
+	}
+	
 	@Override
 	public CustomerStock select(String username) {
 		return null ;
@@ -94,7 +111,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 
 		connect();
 		try {
-			String query = "SELECT * FROM AccountStock where company = \"" + company + "\" and username = \"" + username + "\"";
+			String query = "SELECT * FROM [CustomerStock] where company = \"" + company + "\" and username = \"" + username + "\"";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -114,7 +131,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 
 		connect();
 		try {
-			String query = "SELECT * FROM AccountStock where company = \"" + company + "\"";
+			String query = "SELECT * FROM [CustomerStock] where company = \"" + company + "\"";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 
@@ -135,7 +152,7 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 
 		connect();
 		try {
-			String query = "SELECT * FROM AccountStock where username = \"" + username + "\"";
+			String query = "SELECT * FROM [CustomerStock] where username = \"" + username + "\"";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 

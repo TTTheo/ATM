@@ -101,7 +101,7 @@ public class AccountDao implements Dao<CheckandSave>{
 		Balance balance = cs.getBalance() ;
 		connect() ;
 		try {
-			String query = "UPDATE Balance SET Dollar = " + balance.getDollar().getMoney() + "," + "RMB = " + balance.getRMB().getMoney() + "," + "Euro = " + balance.getEuro().getMoney() + "WHERE accountnumber =\"" + cs.getAccountNumber() + "\"" ;
+			String query = "UPDATE Balance SET Dollar = " + balance.getDollar().getMoney() + "," + "RMB = " + balance.getRMB().getMoney() + "," + "Euro = " + balance.getEuro().getMoney() + " WHERE accountnumber =\"" + cs.getAccountNumber() + "\"" ;
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			

@@ -42,21 +42,21 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test() ;
+		test() ;
 //		 init();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					// Conn con=new Conn();
-					// con.getConnection();
-
-					Login login = new Login();
-					login.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					// Conn con=new Conn();
+//					// con.getConnection();
+//
+//					Login login = new Login();
+//					login.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 	
 	public static void test() {
@@ -86,15 +86,21 @@ public class Main {
 
 //		// TransactionDao testcase
 		TransactionDao t = new TransactionDao();
-		t.delete("0");
+//		t.delete("0");
 		Transaction transaction = new Transaction(new Currency("Dollar", 100), new Date(), cs.getAccountNumber(),
 				newcs.getAccountNumber(), cs.getAccountNumber());
-		t.insert(transaction);
+//		t.insert(transaction) ;
+		Transaction trans = t.select("1");
+		System.out.println(trans);
 
 		// CustomerStockDao testcase
 		CustomerStockDao csDao = new CustomerStockDao();
+//		csDao.delete("zhjiang") ;
+//		csDao.delete("wx") ;
 		csDao.insert("zhjiang", new CustomerStock(stock.getCompany(), stock.getPrice(), 12345)) ;
-		csDao.insert("wx", new CustomerStock(stock.getCompany(), stock.getPrice(), 15)) ;
+		csDao.insert("wx", new CustomerStock(stock.getCompany(), stock.getPrice(), 0)) ;
+
+		
 		ArrayList<CustomerStock> cstock = csDao.selectByCompany(stock.getCompany()) ;
 		for(CustomerStock c : cstock) {
 			System.out.println(c.getCompany() + " " + c.getNumofStock());
@@ -102,13 +108,13 @@ public class Main {
 		
 		// LoanDao testcases
 		LoanDao ld = new LoanDao() ;
-		ld.insert("zhjiang", new Loan(new Currency("", 0), 0.1, 0, "Soul")) ;
+//		ld.insert("zhjiang", new Loan(new Currency("", 0), 0.1, 0, "Soul")) ;
 		Loan loan = ld.selectAll("zhjiang").get(0) ;
 		System.out.println(loan.getCollateral() + " " + loan.getLoanLength());
 		
 		// IncomeDao testcases
 		IncomeDao ic = new IncomeDao() ;
-		ic.insert(new Income(new Currency("Dollar", 100), "Dedication")) ;
+//		ic.insert(new Income(new Currency("Dollar", 100), "Dedication")) ;
 		for(Income i : ic.selectAll()) {
 			System.out.println(i.getType() + " " + i.getIncome().getMark() + " " + i.getIncome().getMoney());
 		}
