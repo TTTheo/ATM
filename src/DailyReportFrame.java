@@ -19,14 +19,10 @@ public class DailyReportFrame extends JFrame {
 	private JScrollPane scrollPane;	
 	private JTextArea textArea;	
 	private JButton btnBack;
-	//private Customer customer=new Customer("","","");	
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
-	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 
 	/**
 	 * Create the frame.
 	 */
-	//public DailyReportFrame(ArrayList<Customer> customers,ArrayList<Transaction> transactions) {
 	public DailyReportFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -35,9 +31,6 @@ public class DailyReportFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.customer=customer;
-		//this.customers=customers;
-		//this.transactions=transactions;
 		init();
 		addAction();
 		setReport();
@@ -70,15 +63,7 @@ public class DailyReportFrame extends JFrame {
 				coustomerinfo="";
 				coustomerinfo+="Transactions:\r\n"+trans.get(i).showTrans()+"\n";
 			}
-		}
-		/*for(int i=0;i<transactions.size();i++){
-			if(transactions.size()==0){
-				continue;
-			}else{
-				coustomerinfo+="Transactions:\r\n"+transactions.get(i).showTrans()+"\n";
-			}
-		}*/
-		
+		}		
 		textArea.setText(coustomerinfo);
 	}
 	

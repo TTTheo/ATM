@@ -17,21 +17,14 @@ public class ManagerFrame extends JFrame {
 	private JPanel contentPane;
 	private JButton btnDailyReport;
 	private JButton btnCheckup;	
-	//private Customer customer=new Customer("","","");	
-	private ArrayList<Customer> customers=new ArrayList<Customer>();
-	private ArrayList<Manager> managers=new ArrayList<Manager>();
-	private ArrayList<Income> incomes=new ArrayList<Income>();
-	private ArrayList<Loan> loans=new ArrayList<Loan>();
-	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private JButton btnLogOut;
 	private JButton btnIncome;
 	private JButton btnPayment;
 	private JButton btnManageStockMarket;
-	//private Conn con;
+
 	/**
 	 * Create the frame.
 	 */
-	//public ManagerFrame(ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
 	public ManagerFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,13 +33,6 @@ public class ManagerFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.customer=customer;
-		//this.customers=customers;
-		//this.managers=managers;
-		//this.incomes=incomes;
-		//this.loans=loans;
-		//this.transactions=transactions;
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -75,37 +61,7 @@ public class ManagerFrame extends JFrame {
 		btnManageStockMarket = new JButton("Manage Stock Market");
 		btnManageStockMarket.setBounds(54, 216, 309, 23);
 		contentPane.add(btnManageStockMarket);
-	}
-	
-	//public Customer getCustomer(){
-		//return this.customer;
-	//}
-	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
-	
-	public ArrayList<Customer> getCustomers(){
-		return this.customers;
-	}
-	
-	public ArrayList<Transaction> getTransactions(){
-		return this.transactions;
-	}
-	
-	public ArrayList<Loan> getLoans(){
-		return this.loans;
-	}
-	
-	public void setTransactions(ArrayList<Transaction> transactions){
-		this.transactions=transactions;
-	}
-	
-	public void setLoans(ArrayList<Loan> loans){
-		this.loans=loans;
-	}
-	
-	
+	}	
 	
 	public void addAction(){
 		btnDailyReport.addActionListener(new ActionListener() {   //daily report

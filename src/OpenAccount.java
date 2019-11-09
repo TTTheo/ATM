@@ -186,7 +186,7 @@ public class OpenAccount extends JFrame {
 						}else{
 							boolean ifright=true;
 							UserDao conn=new UserDao();
-							User user=conn.select(username);
+							Customer user=conn.select(username);
 							if(user!=null){
 								tool.reminder("The username exists!");
 								ifright=false;
@@ -239,17 +239,16 @@ public class OpenAccount extends JFrame {
 															tool.reminder("Your checking deposit is not enough!");
 														}else{
 															//newCustomer=new Customer(name,username, password,phone);
-															Customer customer=new Customer(name,username, password,phone);
-															UserDao con=new UserDao();
-															con.insert(customer);
 															newCustomer=new Customer(name,username, password,phone);
+															UserDao con=new UserDao();
+															con.insert(newCustomer);
 															if(checking){         //create new checking account
 																checkingID=getNewCheckingAccount();
 																
 																newCustomer.createChecking(new Checking(checkingID,PIN,new Balance(new Currency("Dollar",amount-payment),
 																		new Currency("RMB",0),new Currency("Euro",0))));
 																
-																conaccount.insert(newCustomer.getChecking());
+																conaccount.insert(newCustomer.getChecking(),newCustomer.getUsername());
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
 																
 																incomedao.insert(new Income(new Currency("Dollar",5),"Open Account"));
@@ -259,7 +258,7 @@ public class OpenAccount extends JFrame {
 																savingID=getNewSavingAccount();
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));//add bank's income
 																newCustomer.createSaving(new Saving(savingID,PIN,new Balance()));	
-																conaccount.insert(newCustomer.getSaving());
+																conaccount.insert(newCustomer.getSaving(),newCustomer.getUsername());
 																incomedao.insert(new Income(new Currency("Dollar",5),"Open Account"));
 																//conaccount.update(newCustomer.getSaving());
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));

@@ -27,6 +27,7 @@ public class UpdatePriceFrame extends JFrame{
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
 	private JButton btnUpdate;
+	private JButton btnCancel;
 	private JLabel lblPrice;
 	private JTextField textField;
 	private JTextArea textArea;
@@ -40,7 +41,6 @@ public class UpdatePriceFrame extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -63,15 +63,16 @@ public class UpdatePriceFrame extends JFrame{
 		
 		//The place where presents the price of chosen stock
 		textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		//Press "Update Price" Button to change the stock price in database
 		btnUpdate = new JButton("Update Price");
-		btnUpdate.setBounds(42, 214, 93, 23);
+		btnUpdate.setBounds(42, 214, 120, 23);
 		contentPane.add(btnUpdate);
 		
 		lblPrice = new JLabel("New Price: ");
-		lblPrice.setBounds(41, 152, 54, 15);
+		lblPrice.setBounds(41, 152, 70, 15);
 		contentPane.add(lblPrice);
 		
 		//The place where captures the banker's input for the new stock price
@@ -80,9 +81,9 @@ public class UpdatePriceFrame extends JFrame{
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-//		btnCancel = new JButton("Cancel");
-//		btnCancel.setBounds(298, 214, 93, 23);
-//		contentPane.add(btnCancel);
+		btnCancel = new JButton("Cancel");
+		btnCancel.setBounds(298, 214, 93, 23);
+		contentPane.add(btnCancel);
 		
 //		lblNubmerOfStocks = new JLabel("Nubmer of stocks you sell: ");
 //		lblNubmerOfStocks.setBounds(42, 189, 166, 15);
@@ -96,21 +97,7 @@ public class UpdatePriceFrame extends JFrame{
 	
 	public void addComboBox(){
 		List<Stock> stocks = new ArrayList<>() ;
-		stocks=conn.selectAll();
-		/*try {
-			String query = "SELECT * FROM Stock" ;
-			Statement st = con.getCon().createStatement();
-			ResultSet rs = st.executeQuery(query);
-			
-			while(rs.next()) {
-				String company = rs.getString("company") ;
-				double price = rs.getDouble("price") ;
-				stocks.add(new Stock(company,price)) ;
-			}
-		}catch(SQLException e) {
-			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-		}*/
-		
+		stocks=conn.selectAll();	
 		for(int i=0;i<stocks.size();i++){
 			comboBox.addItem(stocks.get(i).getCompany());
 		}
@@ -122,19 +109,6 @@ public class UpdatePriceFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String company=(String)comboBox.getSelectedItem();
 				Stock stock=conn.select(company);
-				/*try {
-					String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
-					Statement st = con.getCon().createStatement();
-					ResultSet rs = st.executeQuery(query);
-					Stock stock;
-					while(rs.next()) {
-						stock = new Stock(rs.getString("company"),rs.getDouble("price")) ;
-					}
-					double price=rs.getDouble("price");
-					textArea.setText("Company: "+company+"\nPrice: "+price+" Dollars");
-				}catch(SQLException ex) {
-					System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-				}*/
 				textArea.setText("Company: "+company+"\nPrice: "+stock.getPrice()+" Dollars");
 			}
 		});
@@ -149,10 +123,17 @@ public class UpdatePriceFrame extends JFrame{
 				} else {
 					if (conn.update(new Stock(company, Double.parseDouble(price)))) {
 						tool.reminder("Price Updated!!");
+						dispose();
 					} else {
 						tool.reminder("An Error has occurred!!");
 					}
 				}
+			}
+		});
+		
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
 	}

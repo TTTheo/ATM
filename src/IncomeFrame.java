@@ -24,14 +24,12 @@ public class IncomeFrame extends JFrame {
 	 private JScrollPane scrollPane;	  
 	 private JTextArea textArea;	  
 	 private JButton btnBack;
-	 //private ArrayList<Income> incomes=new ArrayList<Income>();
-	 //private ArrayList<Customer> customers=new ArrayList<Customer>();
 	 private JLabel lblNewLabel;
 	 private IncomeDao con=new IncomeDao();
 	 /**
 	  * Create the frame.
 	  */
-	// public IncomeFrame(ArrayList<Customer> customers,ArrayList<Income> incomes) {
+
 	 public IncomeFrame() {
 	 	setResizable(false);
 	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -40,8 +38,6 @@ public class IncomeFrame extends JFrame {
 	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	  setContentPane(contentPane);
 	  contentPane.setLayout(null);
-	  //this.customers=customers;
-	  //this.incomes=incomes;
 	  init();
 	  addAction();
 	 }
@@ -52,7 +48,7 @@ public class IncomeFrame extends JFrame {
 		  contentPane.add(lblManagerYourTotal);
 		  
 		  lblIncome = new JLabel("Total income:");
-		  lblIncome.setBounds(47, 234, 214, 16);
+		  lblIncome.setBounds(47, 234, 251, 16);
 		  contentPane.add(lblIncome);
 		  
 		  scrollPane = new JScrollPane();
@@ -70,7 +66,7 @@ public class IncomeFrame extends JFrame {
 		  
 		  lblNewLabel = new JLabel("New label");
 		  lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		  lblNewLabel.setBounds(126, 233, 77, 55);
+		  lblNewLabel.setBounds(126, 233, 158, 55);
 		  contentPane.add(lblNewLabel);
 		  showIncome();
 		  
@@ -81,13 +77,6 @@ public class IncomeFrame extends JFrame {
 		 double incomedollar=0;
 		 double incomermb=0;
 		 double incomeeuro=0;
-		 
-		 /*for(int i=0;i<customers.size();i++){  //add loans' income into the whole incomes
-			 
-			 for(int j=0;j<customers.get(i).getLoans().size();j++){
-				 incomes.add(new Income(customers.get(i).getLoans().get(j).getLoanTotal(),"Loan"));
-			 }
-		 }*/
 		 List<Income> incomes=con.selectAll();
 		 for(int i=0;i<incomes.size();i++){    //show incomes and calculate the total incomes for three currency
 			 printIncome+="-------------------------------\n"+incomes.get(i).showIncome();
@@ -111,10 +100,6 @@ public class IncomeFrame extends JFrame {
 	 public Customer getCustomer(){
 		 return this.customer;
 	 }
-		 
-	 /*public ArrayList<Income> getIncomes(){
-			return this.incomes;
-	}*/
 	 
 	 public void addAction(){
 		 btnBack.addActionListener(new ActionListener() {

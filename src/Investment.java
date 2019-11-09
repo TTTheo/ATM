@@ -37,13 +37,36 @@ public class Investment {
 	}*/
 	
 	public void addStock(CustomerStock stock){
-		stocks.add(stock);
+		boolean ifsame=false;
+		int j=0;
+		for(int i=0;i<getStock().size();i++){
+			if(getStock().get(i).getCompany().equals(stock.getCompany())){
+				ifsame=true;
+				j=i;
+				break;
+			}
+		}
+		if(!ifsame){
+			stocks.add(stock);
+		}else{
+			getStock().get(j).setNumofStock(getStock().get(j).getNumofStock()+stock.getNumofStock());
+		}
+		
 	}
 	
-	public void deleteStock(CustomerStock stock){
-		//double stockmoney=stock.getPrice()*stock.getNumofStock()-5;
-		getStock().remove(stock);
-		//getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+	public void deleteStock(CustomerStock stock){	
+		int j=0;
+		for(int i=0;i<getStock().size();i++){
+			if(getStock().get(i).getCompany().equals(stock.getCompany())){
+				j=i;
+				break;
+			}
+		}
+		if(getStock().get(j).getNumofStock()-stock.getNumofStock()==0){
+			getStock().remove(getStock().get(j));
+		}else{
+			getStock().get(j).setNumofStock(getStock().get(j).getNumofStock()-stock.getNumofStock());
+		}
 	}
 	
 	public String printStock(){

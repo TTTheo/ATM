@@ -26,7 +26,6 @@ public class PaymentFrame extends JFrame {
 	private JTextArea textArea;	
 	private JButton btnBack;	
 	private JLabel lblTotalPayment;
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JLabel lblNewLabel;
 
 	/**
@@ -40,7 +39,6 @@ public class PaymentFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.customers=customers;
 		init();
 		addAction();
 		showPayment();
@@ -70,7 +68,7 @@ public class PaymentFrame extends JFrame {
 		
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel.setBounds(141, 232, 70, 56);
+		lblNewLabel.setBounds(141, 232, 138, 56);
 		contentPane.add(lblNewLabel);
 	}
 	
@@ -81,7 +79,6 @@ public class PaymentFrame extends JFrame {
 		for(int i=0;i<account.size();i++){
 			accounts.add((Saving)account.get(i));
 		}
-		//List<Customer> customers=con.selectAllCustomer();
 		String[] showpay=new String[accounts.size()];
 		for(int i=0;i<accounts.size();i++){
 			showpay[i]="";
@@ -121,48 +118,8 @@ public class PaymentFrame extends JFrame {
 				}
 			}
 		}
-		/*
-		List<Customer> customers=con.selectAllCustomer();
-		String[] showpay=new String[customers.size()];
-		for(int i=0;i<customers.size();i++){
-			showpay[i]="";
-		}
-		String show="";
-		String showtotal="";
-		double dollaramount=0;
-		double rmbamount=0;
-		double euroamount=0;
-		boolean ifgo=false;
-		for(int i=0;i<customers.size();i++){
-			boolean ifright=false;
-			if(customers.get(i).getSaving()!=null){   //check customer have saving account
-				if(customers.get(i).getSaving().getBalance().getDollar().getMoney()>50){
-					showpay[i]+="Dollar:"+customers.get(i).getSaving().getBalance().getDollar().getMoney()*0.05+" ";
-					dollaramount+=customers.get(i).getSaving().getBalance().getDollar().getMoney()*0.05;
-					ifright=true;
-					ifgo=true;
-				}
-				if(customers.get(i).getSaving().getBalance().getRMB().getMoney()>50){
-					showpay[i]+="RMB:"+customers.get(i).getSaving().getBalance().getRMB().getMoney()*0.05+" ";
-					rmbamount+=customers.get(i).getSaving().getBalance().getRMB().getMoney()*0.05;
-					ifright=true;
-					ifgo=true;
-				}
-				if(customers.get(i).getSaving().getBalance().getEuro().getMoney()>50){
-					showpay[i]+="Euro:"+customers.get(i).getSaving().getBalance().getEuro().getMoney()*0.05+" ";
-					euroamount+=customers.get(i).getSaving().getBalance().getEuro().getMoney()*0.05;
-					ifright=true;
-					ifgo=true;
-				}
-				if(ifright){
-					showpay[i]=customers.get(i).showCustomerSave()+"Payment: "+showpay[i];
-				}
-				if(!showpay[i].equals("")){
-				show+=showpay[i];
-				}
-			}
-		}*/
-		showtotal="<html>Dollar:"+dollaramount+"\r\nRMB:"+rmbamount+"\r\nEuro:"+euroamount+"</html>";   //set total payment
+		
+		showtotal="<html>Dollar:"+dollaramount+"<br>RMB:"+rmbamount+"<br>nEuro:"+euroamount+"</html>";    //set total payment
 		lblNewLabel.setText(showtotal);
 		if(!ifgo){
 			textArea.setText("No payment.");

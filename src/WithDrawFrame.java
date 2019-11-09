@@ -29,7 +29,6 @@ public class WithDrawFrame extends JFrame {
 	private JRadioButton rdbtnSaving;
 	private ButtonGroup btngroup;
 	private Customer customer=new Customer("","","","");
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 	private AccountDao con=new AccountDao();
@@ -48,7 +47,6 @@ public class WithDrawFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -100,10 +98,7 @@ public class WithDrawFrame extends JFrame {
 	public Customer getCustomer(){
 		return this.customer;
 	}
-	
-	//public ArrayList<Income> getIncomes(){
-		//return this.incomes;
-	//}
+
 	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {

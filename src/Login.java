@@ -111,7 +111,7 @@ public class Login extends JFrame {
 					boolean ifright=false;
 					//check if the username and the password are correct
 					UserDao conn=new UserDao();
-					User user=conn.select(userName);
+					Customer user=conn.select(userName);
 					if(user==null){
 						ifright=false;
 					}else{
@@ -130,8 +130,10 @@ public class Login extends JFrame {
 							InvestmentDao investdao=new InvestmentDao();
 							Investment invest=investdao.select(userName);
 							customer.createInvest(invest);
-							ArrayList<CustomerStock> custock=stockdao.selectByUsername(customer.getUsername());
-							customer.getInvest().setStock(custock);
+							if(customer.getInvest()!=null){
+								ArrayList<CustomerStock> custock=stockdao.selectByUsername(customer.getUsername());
+								customer.getInvest().setStock(custock);
+							}
 							//create investment
 							CustomerFrame customerFrame=new CustomerFrame(getCustomer());
 							customerFrame.setVisible(true);

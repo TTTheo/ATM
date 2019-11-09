@@ -30,8 +30,6 @@ public class CheckupFrame extends JFrame {
 	private JButton btnBack;	
 	private JComboBox comboBox;
 	private JScrollPane scrollPane;
-	//private Customer customer=new Customer("","","");	
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JTextArea textArea;
 	private AccountDao con=new AccountDao();
 	/**
@@ -45,8 +43,6 @@ public class CheckupFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.customer=customer;
-		//this.customers=customers;
 		init();
 		addAction();
 	}
@@ -77,9 +73,6 @@ public class CheckupFrame extends JFrame {
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
-		/*for(int i=0;i<customers.size();i++){
-			comboBox.addItem(customers.get(i).getUser().getName());
-		}*/
 		setcomboBox();
 	}
 	
@@ -102,15 +95,14 @@ public class CheckupFrame extends JFrame {
 				for(int i=0;i<customers.size();i++){
 					AccountDao accountdao=new AccountDao();
 					customers.get(i).createChecking((Checking)accountdao.selectChecking(customers.get(i).getUsername()));
-					customers.get(i).createSaving((Saving)accountdao.selectChecking(customers.get(i).getUsername()));
+					customers.get(i).createSaving((Saving)accountdao.selectSaving(customers.get(i).getUsername()));
 					LoanDao loandao=new LoanDao();
 					ArrayList<Loan> loans= loandao.selectAll(customers.get(i).getUsername());
 					customers.get(i).setLoans(loans);
 				}
 				String choosename=(String)comboBox.getSelectedItem();
 				String infoall="";
-				if(choosename.equals("All")){   //all customers' information will show					
-					//List<Customer> customers=con.selectAllCustomer();
+				if(choosename.equals("All")){   //all customers' information will show	
 					for(int i=0;i<customers.size();i++){
 						infoall+=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"
 								+customers.get(i).showLoan()+"\r\n";						

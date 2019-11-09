@@ -32,12 +32,9 @@ public class LoanFrame extends JFrame {
 	private JLabel lblCollateral;
 	private JTextField textField_1;
 	private Tool tool=new Tool();
-	//private ArrayList<Loan> loans=new ArrayList<Loan>();
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	/**
 	 * Create the frame.
 	 */
-	//public LoanFrame(Customer customer,ArrayList<Loan> loans,ArrayList<Income> incomes) {
 	public LoanFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,8 +44,6 @@ public class LoanFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.loans=loans;
-		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -107,10 +102,6 @@ public class LoanFrame extends JFrame {
 		return this.customer;
 	}
 	
-	/*public ArrayList<Loan> getLoans(){
-		return this.loans;
-	}*/
-	
 
 	
 	public void addAction(){
@@ -118,7 +109,7 @@ public class LoanFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String currency=(String)comboBox.getSelectedItem();
 				String loanAmount=textField.getText();
-				if(loanAmount.equals("")||!tool.isNumeric(loanAmount)){    //check the entering numbers
+				if(loanAmount.equals("")||!tool.isNumeric(loanAmount)||Double.parseDouble(loanAmount)==0){    //check the entering numbers
 					tool.reminder("Please input right number!");
 				}else{
 					double loannumber=Double.parseDouble(loanAmount);

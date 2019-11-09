@@ -23,8 +23,7 @@ public class DeleteStockFrame extends JFrame {
 	private JLabel lblCompany;
 	private JButton btnDelete;
 	private JButton btnCancel;
-	//private Conn con;
-	private Tool reminder=new Tool();
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -36,7 +35,6 @@ public class DeleteStockFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -64,33 +62,21 @@ public class DeleteStockFrame extends JFrame {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String company=textField.getText();
-				//ArrayList<Customer> customers=new ArrayList<Customer>();
-				//customers=selectAll();
-				//check if customer have the stock
-				/*try {
-					//need to check customer
-					String query = "DELETE FROM Stock where company = \"" + company + "\"" ;
-					Statement st = con.getCon().createStatement();
-					st.executeUpdate(query);
-					
-				}catch(SQLException ex) {
-					System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-				}*/
 				StockDao stockcon=new StockDao();
 				Stock stock=stockcon.select(company);
 				if(stock==null){
-					reminder.reminder("The stock do not exist!");
+					tool.reminder("The stock do not exist!");
 				}else{
 					//check if any customer have the stock
 					CustomerStockDao con=new CustomerStockDao();
-					List<CustomerStock> custock=con.selectByCompany(company);
-					if(custock!=null){
-						reminder.reminder("You can not delete it because someone owe it!");
+					ArrayList<CustomerStock> custock=con.selectByCompany(company);
+					if(custock.size()!=0){
+						tool.reminder("You can not delete it because someone owe it!");
 					}else{
 						StockDao conn=new StockDao();
 						conn.delete(company);
-						Tool reminder=new Tool();
-						reminder.reminder("Delete successfully!");
+						tool.reminder("Delete successfully!");
+						dispose();
 					}
 				}
 			}

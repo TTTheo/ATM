@@ -26,7 +26,6 @@ public class BuyStockFrame extends JFrame {
 	private JButton btnBuy;
 	private JButton btnCancel;
 	private Customer customer;
-	//private Conn con;
 	private PreparedStatement sql;
 	private ResultSet res;
 	private JLabel lblNumberOfStocks;
@@ -47,7 +46,6 @@ public class BuyStockFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -67,6 +65,7 @@ public class BuyStockFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		btnBuy = new JButton("Buy");
@@ -87,11 +86,11 @@ public class BuyStockFrame extends JFrame {
 		textField_1.setColumns(10);
 		
 		lblCompany = new JLabel("Company:");
-		lblCompany.setBounds(41, 151, 54, 15);
+		lblCompany.setBounds(41, 151, 73, 15);
 		contentPane.add(lblCompany);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(110, 145, 280, 21);
+		textField_2.setBounds(124, 145, 266, 21);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 	}
@@ -125,7 +124,6 @@ public class BuyStockFrame extends JFrame {
 						tool.reminder("No such stock!");
 					}else{
 						CustomerStock custock=new CustomerStock(stock.getCompany(),stock.getPrice(),Integer.parseInt(num));
-						//getCustomer().getInvest().addStock(custock);
 						//add stock to customer
 						AccountDao con=new AccountDao();
 						double checking=getCustomer().getChecking().getBalance().getDollar().getMoney();
@@ -140,7 +138,13 @@ public class BuyStockFrame extends JFrame {
 								//add stock to customer
 								getCustomer().getInvest().addStock(custock);
 								CustomerStockDao conn=new CustomerStockDao();
-								conn.insert(getCustomer().getUsername(),custock);
+								CustomerStock companystock=conn.select(getCustomer().getUsername(),company);
+								if(companystock==null){
+									conn.insert(getCustomer().getUsername(),custock);
+								}else{
+									CustomerStock newcustock=new CustomerStock(custock.getCompany(),custock.getPrice(),companystock.getNumofStock()+custock.getNumofStock());
+									conn.update(getCustomer().getUsername(),newcustock);
+								}
 								//substract balance
 								getCustomer().getChecking().getBalance().substract(new Currency("Dollar",stockmoney));
 								con.update(getCustomer().getChecking());
@@ -148,6 +152,7 @@ public class BuyStockFrame extends JFrame {
 								IncomeDao incomedao=new IncomeDao();
 								incomedao.insert(new Income(new Currency("Dollar",5),"Buy Stock"));
 								tool.reminder("Buy successfully!");
+								dispose();
 							}
 						}
 					}

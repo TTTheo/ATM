@@ -23,7 +23,6 @@ public class AddStockFrame extends JFrame {
 	private JLabel lblPrice;;
 	private JButton btnAdd;
 	private JButton btnCancel;
-	//private Conn con;
 	private PreparedStatement sql;
 	private ResultSet res;
 	private Tool tool=new Tool();
@@ -38,7 +37,6 @@ public class AddStockFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -83,18 +81,7 @@ public class AddStockFrame extends JFrame {
 				}else if(!Tool.isNumeric(pricestr)){
 					tool.reminder("The price can not be negtive!");
 				}else{
-					Stock stock=new Stock(company,Double.parseDouble(pricestr));
-					/*try{
-							
-							String query = "INSERT INTO Stock(`company`, `price`) VALUES (\"" + stock.getCompany() + "\", "+  stock.getPrice() + ")" ;
-							Statement st = con.getCon().createStatement();
-							st.executeUpdate(query);
-							reminder.reminder("Add successfully!");
-						
-					}catch(SQLException ex) {
-						System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-					}*/
-					
+					Stock stock=new Stock(company,Double.parseDouble(pricestr));					
 					StockDao conn=new StockDao();
 					Stock selectstock=conn.select(company);
 					if(selectstock!=null){
@@ -102,6 +89,7 @@ public class AddStockFrame extends JFrame {
 					}else{
 						conn.insert(stock);
 						tool.reminder("Add successfully!");
+						dispose();
 					}
 				}
 			}
@@ -114,9 +102,4 @@ public class AddStockFrame extends JFrame {
 		});
 	}
 	
-	/*public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}*/
 }

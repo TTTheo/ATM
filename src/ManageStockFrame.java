@@ -26,19 +26,18 @@ public class ManageStockFrame extends JFrame {
 	private JButton btnUpdatePrice;
 	private JButton btnBack;
 	private StockDao conn=new StockDao();
-	//private Tool reminder=new Tool();
+	private JButton btnUpdateMarket;
 
 	/**
 	 * Create the frame.
 	 */
 	public ManageStockFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 496, 302);
+		setBounds(100, 100, 519, 302);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.con=con;
 		init();
 		addAction();
 		setMarket();
@@ -57,20 +56,24 @@ public class ManageStockFrame extends JFrame {
 		contentPane.add(lblStockMarket);
 		
 		btnAddStock = new JButton("Add stock");
-		btnAddStock.setBounds(365, 41, 105, 23);
+		btnAddStock.setBounds(365, 85, 128, 23);
 		contentPane.add(btnAddStock);
 		
 		btnDeleteStock = new JButton("Delete stock");
-		btnDeleteStock.setBounds(365, 100, 105, 23);
+		btnDeleteStock.setBounds(365, 129, 128, 23);
 		contentPane.add(btnDeleteStock);
 		
 		btnUpdatePrice = new JButton("Update price");
-		btnUpdatePrice.setBounds(365, 160, 105, 23);
+		btnUpdatePrice.setBounds(365, 172, 128, 23);
 		contentPane.add(btnUpdatePrice);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(365, 217, 105, 23);
+		btnBack.setBounds(365, 217, 128, 23);
 		contentPane.add(btnBack);
+		
+		btnUpdateMarket = new JButton("Update market");
+		btnUpdateMarket.setBounds(365, 44, 130, 23);
+		contentPane.add(btnUpdateMarket);
 	}
 	
 	public void setMarket(){
@@ -112,6 +115,12 @@ public class ManageStockFrame extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+			}
+		});
+		
+		btnUpdateMarket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setMarket();
 			}
 		});
 	}

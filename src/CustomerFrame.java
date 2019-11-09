@@ -25,13 +25,7 @@ public class CustomerFrame extends JFrame {
 	private JButton btnDeposit;	
 	private JButton btnWithdraw;	
 	private JButton btnLoan;
-	private Customer customer=new Customer("","","","");
-	//private ArrayList<Manager> managers=new ArrayList<Manager>();
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
-	//private ArrayList<Loan> loans=new ArrayList<Loan>();
-	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
-	
+	private Customer customer=new Customer("","","","");	
 	private JButton btnCloseAccount;
 	private JButton btnLogOut;
 	private JButton btnOpenSaving;
@@ -42,7 +36,6 @@ public class CustomerFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	//public CustomerFrame(Customer customer,ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
 	public CustomerFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,12 +45,6 @@ public class CustomerFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.customers=customers;
-		//this.managers=managers;
-		//this.incomes=incomes;
-		//this.loans=loans;
-		//this.transactions=transactions;
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -68,40 +55,6 @@ public class CustomerFrame extends JFrame {
 	public Customer getCustomer(){
 		return this.customer;
 	}
-	/*public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
-	
-	public void setIncomes(ArrayList<Income> incomes){
-		this.incomes=incomes;
-	}
-	public void setCustomers(ArrayList<Customer> customers){
-		this.customers=customers;
-	}
-	
-	public ArrayList<Customer> getCustomers(){
-		return this.customers;
-	}
-	
-	
-	
-	public ArrayList<Transaction> getTransactions(){
-		return this.transactions;
-	}
-	
-	public ArrayList<Loan> getLoans(){
-		return this.loans;
-	}
-	
-	
-	public void setTransactions(ArrayList<Transaction> transactions){
-		this.transactions=transactions;
-	}
-	
-	public void setLoans(ArrayList<Loan> loans){
-		this.loans=loans;
-	}
-	*/
 	
 	public void init(){
 		btnBalance = new JButton("Balance");
@@ -149,15 +102,13 @@ public class CustomerFrame extends JFrame {
 				DepositFrame depositframe=new DepositFrame(getCustomer());
 				depositframe.setVisible(true);
 				setCustomer(depositframe.getCustomer());
-				//setIncomes(depositframe.getIncomes());
 			}
 		});
 		
 		btnBalance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//test();
 				BalanceFrame balanceframe=new BalanceFrame(getCustomer());
-				//balanceframe.setCustomer(getCustomer());
+				balanceframe.setCustomer(getCustomer());
 				balanceframe.setVisible(true);
 			}
 		});
@@ -167,7 +118,6 @@ public class CustomerFrame extends JFrame {
 				WithDrawFrame withdrawframe=new WithDrawFrame(getCustomer());
 				withdrawframe.setVisible(true);
 				setCustomer(withdrawframe.getCustomer());
-				//setIncomes(withdrawframe.getIncomes());
 			}
 		});
 		
@@ -176,7 +126,6 @@ public class CustomerFrame extends JFrame {
 				LoanFrame loanframe=new LoanFrame(getCustomer());
 				loanframe.setVisible(true);
 				setCustomer(loanframe.getCustomer());
-				//setLoans(loanframe.getLoans());
 			}
 		});
 		
@@ -185,22 +134,14 @@ public class CustomerFrame extends JFrame {
 				TransactionFrame transactionframe=new TransactionFrame(getCustomer());
 				transactionframe.setVisible(true);
 				setCustomer(transactionframe.getCustomer());
-				//setCustomers(transactionframe.getCustomers());
-				//setIncomes(transactionframe.getIncomes());
-				//setTransactions(transactionframe.getTransactions());
 			}
 		});
 		
 		btnCloseAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer(),customers,managers,
-						getIncomes(),getLoans(),getTransactions());
+				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer());
 				closeaccountframe.setVisible(true);
 				setCustomer(closeaccountframe.getCustomer());
-				setCustomers(closeaccountframe.getCustomers());
-				setIncomes(closeaccountframe.getIncomes());*/
-				CloseAccountFrame closeaccountframe=new CloseAccountFrame(getCustomer());
-				dispose();
 			}
 		});
 		
@@ -240,8 +181,12 @@ public class CustomerFrame extends JFrame {
 		
 		btnInvestment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(getCustomer().getInvest()!=null){
 				InvestFrame invest=new InvestFrame(getCustomer());
 				invest.setVisible(true);
+				}else{
+					tool.reminder("You do not have investment account!");
+				}
 			}
 		});
 		
@@ -263,18 +208,6 @@ public class CustomerFrame extends JFrame {
     	     }
     	     newAccount=newAccounts;
 	     }
-	     /*for(int i=0;i<customers.size();i++){   // check if the account number exist
-	    	 if(customers.get(i).getSaving()!=null){
-		    	 while(newAccount.equals(customers.get(i).getSaving().getAccountNumber())){	
-		    		 Random rands=new Random();
-			    	 String newAccounts="";
-			    	 for(int a=0;a<12;a++){
-			    	     newAccounts+=rand.nextInt(10);
-			    	 }
-			    	 newAccount=newAccounts;
-		    	 }
-	    	 }		
-	     }*/
 	     return newAccount;
 	}
 }

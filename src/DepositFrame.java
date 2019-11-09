@@ -34,7 +34,6 @@ public class DepositFrame extends JFrame {
 	private JRadioButton rdbtnSaving;
 	private ButtonGroup btngroup;
 	private Customer customer=new Customer("","","","");
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 	private AccountDao con=new AccountDao();
@@ -52,7 +51,6 @@ public class DepositFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.incomes=incomes;
 		init();
 		addAction();
 	}
@@ -69,7 +67,6 @@ public class DepositFrame extends JFrame {
 		
 		String[] currency={"Dollar","RMB","Euro"};
 		combCurrency = new JComboBox(currency);
-		//combCurrency.addItemListener(this);
 		combCurrency.setBounds(79, 56, 68, 21);
 		contentPane.add(combCurrency);
 		
@@ -106,10 +103,6 @@ public class DepositFrame extends JFrame {
 		return this.customer;
 	}
 	
-	/*public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}*/
-	
 	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
@@ -133,7 +126,6 @@ public class DepositFrame extends JFrame {
 									double depositnumber=Double.parseDouble(deposit);
 									Currency curren=new Currency(currency,depositnumber);
 									getCustomer().getChecking().getBalance().add(curren);
-									
 									con.update(getCustomer().getChecking());
 									tool.reminder("Deposit successfully!");
 									dispose();

@@ -29,7 +29,6 @@ public class SellStockFrame extends JFrame {
 	private JButton btnSell;
 	private JButton btnCancel;
 	private Customer customer;
-	//private Conn con;
 	private JLabel lblCompany;
 	private JTextField textField;
 	private JLabel lblNubmerOfStocks;
@@ -48,7 +47,6 @@ public class SellStockFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.con=con;
 		init();
 		addAction();
 	}
@@ -68,6 +66,7 @@ public class SellStockFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		btnSell = new JButton("Sell");
@@ -79,11 +78,11 @@ public class SellStockFrame extends JFrame {
 		contentPane.add(btnCancel);
 		
 		lblCompany = new JLabel("Company: ");
-		lblCompany.setBounds(41, 152, 54, 15);
+		lblCompany.setBounds(41, 152, 75, 15);
 		contentPane.add(lblCompany);
 		
 		textField = new JTextField();
-		textField.setBounds(104, 149, 287, 21);
+		textField.setBounds(126, 149, 265, 21);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -100,19 +99,6 @@ public class SellStockFrame extends JFrame {
 	public void addComboBox(){
 		List<Stock> stocks = new ArrayList<>() ;
 		stocks=conn.selectAll();
-		/*try {
-			String query = "SELECT * FROM Stock" ;
-			Statement st = con.getCon().createStatement();
-			ResultSet rs = st.executeQuery(query);
-			
-			while(rs.next()) {
-				String company = rs.getString("company") ;
-				double price = rs.getDouble("price") ;
-				stocks.add(new Stock(company,price)) ;
-			}
-		}catch(SQLException e) {
-			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-		}*/
 		
 		for(int i=0;i<stocks.size();i++){
 			comboBox.addItem(stocks.get(i).getCompany());
@@ -124,19 +110,6 @@ public class SellStockFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String company=(String)comboBox.getSelectedItem();
 				Stock stock=conn.select(company);
-				/*try {
-					String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
-					Statement st = con.getCon().createStatement();
-					ResultSet rs = st.executeQuery(query);
-					Stock stock;
-					while(rs.next()) {
-						stock = new Stock(rs.getString("company"),rs.getDouble("price")) ;
-					}
-					double price=rs.getDouble("price");
-					textArea.setText("Company: "+company+"\nPrice: "+price+" Dollars");
-				}catch(SQLException ex) {
-					System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-				}*/
 				textArea.setText("Company: "+company+"\nPrice: "+stock.getPrice()+" Dollars");
 			}
 		});
@@ -157,24 +130,32 @@ public class SellStockFrame extends JFrame {
 						tool.reminder("No such stock!");
 					}else{
 						//delete stock and reset balance
-						CustomerStock custock=new CustomerStock(company, stock.getPrice(),Integer.parseInt(num));
+						int amount=Integer.parseInt(num);
+						CustomerStock custock=new CustomerStock(company, stock.getPrice(),amount);
 						double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
 						CustomerStockDao con=new CustomerStockDao();
-						con.delete(getCustomer().getUsername());
-						getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
-						AccountDao conn=new AccountDao();
-						conn.update(getCustomer().getChecking());
-						IncomeDao incomedao=new IncomeDao();
-						incomedao.insert(new Income(new Currency("Dollar",5),"Sell Stock"));
+						
+						if(con.select(getCustomer().getUsername(), company).getNumofStock()<amount){
+							tool.reminder("You do not have enough stocks!");
+						}else{
+							getCustomer().getInvest().deleteStock(custock);
+							CustomerStock companystock=con.select(getCustomer().getUsername(),company);
+							System.out.println((con.select(getCustomer().getUsername(), company).getNumofStock()));
+							if(companystock.getNumofStock()-custock.getNumofStock()==0){
+								con.delete(getCustomer().getUsername(),company);
+							}else{
+								CustomerStock newcustock=new CustomerStock(custock.getCompany(),custock.getPrice(),companystock.getNumofStock()-custock.getNumofStock());
+								con.update(getCustomer().getUsername(),newcustock);
+							}
+							getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+							AccountDao conn=new AccountDao();
+							conn.update(getCustomer().getChecking());
+							IncomeDao incomedao=new IncomeDao();
+							incomedao.insert(new Income(new Currency("Dollar",5),"Sell Stock"));
+							tool.reminder("Sell successfully!");
+							dispose();
+						}
 					}
-					/*try{
-					String query = "SELECT * FROM Stock where company = \"" + company + "\"" ;
-					Statement st = con.getCon().createStatement();
-					ResultSet rs = st.executeQuery(query);
-					//delete customer's stock and caculate 
-					}catch(SQLException ex) {
-						System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-					}*/
 				}
 			}
 		});
@@ -185,8 +166,6 @@ public class SellStockFrame extends JFrame {
 			}
 		});
 	}
-	
-
 	
 	public Customer getCustomer(){
 		return this.customer;

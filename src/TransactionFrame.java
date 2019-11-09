@@ -154,32 +154,24 @@ public class TransactionFrame extends JFrame {
 								boolean ifright=false;
 								AccountDao conn=new AccountDao();
 								CheckandSave cs=conn.select(recieverID);
-								//CheckandSave cs1=conn.select(senderID);
-								if(!recieverID.equals(senderID)&&cs!=null){
-									ifright=true;
-									Transaction transaction=new Transaction(transcurren,date,senderID,recieverID,createTransID());
-									TransactionDao con=new TransactionDao();
-									con.insert(transaction);
-									IncomeDao incomedao=new IncomeDao();
-									incomedao.insert(new Income(new Currency("Dollar",5),"Transaction"));
-								}
-								/*for(int i=0;i<customers.size();i++){
-									if(customers.get(i).getChecking().getAccountNumber().equals(recieverID)		
-										&&!customers.get(i).getChecking().getAccountNumber().equals(senderID)){   //find receiver
-										Transaction transaction=new Transaction(transcurren,date,getCustomer().getUser(),customers.get(i).getUser(),senderID,recieverID);
-										getCustomer().addTransaction(transaction);
-										customers.get(i).addTransaction(transaction);   //add customer's transaction
-										transactions.add(transaction);		//add into whole transaction
-										getCustomer().getChecking().getBalance().substract(curren);   //set receiver's balance
-										customers.get(i).getChecking().getBalance().add(curren);	//set sender's balance
-										
+								int type=conn.selectType(recieverID);
+								if(type==0){
+									if(!recieverID.equals(senderID)&&cs!=null){
 										ifright=true;
-										reminder("Transaction successfully!");
-										//getIncomes().add(new Income(new Currency("Dollar",5),"Transaction"));    //add bank's incomes
+										getCustomer().getChecking().getBalance().substract(curren);
+										conn.update(getCustomer().getChecking());
+										Checking recieverchecking=(Checking)cs;
+										conn.update(recieverchecking);
+										Currency newtranscurren=new Currency(currency,transfernumber);
+										Transaction transaction=new Transaction(newtranscurren,date,senderID,recieverID,createTransID());
+										TransactionDao con=new TransactionDao();
+										con.insert(transaction);
+										IncomeDao incomedao=new IncomeDao();
+										incomedao.insert(new Income(new Currency("Dollar",5),"Transaction"));
+										tool.reminder("Transaction successfully!");
 										dispose();
-										break;
 									}
-								}*/
+								}
 								if(!ifright){
 									tool.reminder("Wrong account number!Please input againe!");
 								}

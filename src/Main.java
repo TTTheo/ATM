@@ -42,21 +42,21 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test() ;
-//		 init();
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					// Conn con=new Conn();
-//					// con.getConnection();
-//
-//					Login login = new Login();
-//					login.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
+		//test() ;
+		 //init();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					// Conn con=new Conn();
+					// con.getConnection();
+
+					Login login = new Login();
+					login.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public static void test() {

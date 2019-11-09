@@ -31,20 +31,19 @@ public class InvestFrame extends JFrame {
 	private JButton btnSellStock;
 	private JButton btnBack;
 	private Customer customer;
-	//private Conn con;
+	private JButton btnUpdateYourStocks;
 	/**
 	 * Create the frame.
 	 */
 	public InvestFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 491, 301);
+		setBounds(100, 100, 535, 301);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.con=con;
 		init();
 		addAction();
 		setMarket();
@@ -64,20 +63,24 @@ public class InvestFrame extends JFrame {
 		scrollPane.setViewportView(textArea);
 		
 		btnStocksMarket = new JButton("Stocks Market");
-		btnStocksMarket.setBounds(350, 36, 125, 23);
+		btnStocksMarket.setBounds(350, 83, 158, 23);
 		contentPane.add(btnStocksMarket);
 		
 		btnBuyStock = new JButton("Buy stock");
-		btnBuyStock.setBounds(350, 100, 125, 23);
+		btnBuyStock.setBounds(350, 134, 158, 23);
 		contentPane.add(btnBuyStock);
 		
 		btnSellStock = new JButton("Sell stock");
-		btnSellStock.setBounds(350, 161, 125, 23);
+		btnSellStock.setBounds(350, 181, 158, 23);
 		contentPane.add(btnSellStock);
 		
 		btnBack = new JButton("Back");
-		btnBack.setBounds(350, 227, 125, 23);
+		btnBack.setBounds(350, 227, 158, 23);
 		contentPane.add(btnBack);
+		
+		btnUpdateYourStocks = new JButton("Update your stocks");
+		btnUpdateYourStocks.setBounds(350, 36, 158, 23);
+		contentPane.add(btnUpdateYourStocks);
 	}
 	
 	public void addAction(){
@@ -107,17 +110,25 @@ public class InvestFrame extends JFrame {
 				dispose();
 			}
 		});
+		
+		btnUpdateYourStocks.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setMarket();
+			}
+		});
 	}
 	
 	public void setMarket(){
 		//set customer stocks
 		ArrayList<CustomerStock> stock=getCustomer().getInvest().getStock();
 		String str="";
-		for(int i=0;i<stock.size();i++){
-			str+="Company:"+stock.get(i).getCompany()+"\nPrice:"+stock.get(i).getPrice()+"Dollars\nAmount:"+
-					stock.get(i).getNumofStock()+"\n---------------------------------------------";
+		if(stock!=null){
+			for(int i=0;i<stock.size();i++){
+				str+="Company:"+stock.get(i).getCompany()+"\nPrice:"+stock.get(i).getPrice()+" Dollars\nAmount:"+
+						stock.get(i).getNumofStock()+"\n---------------------------------------------\n";
+			}
+			textArea.setText(str);
 		}
-		textArea.setText(str);
 	}
 	
 	public Customer getCustomer(){

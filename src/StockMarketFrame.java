@@ -21,7 +21,6 @@ public class StockMarketFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton btnBack;
 	private JLabel lblStocksMarket;
-	//private Conn con;
 	private PreparedStatement sql;
 	private ResultSet res;
 	private StockDao conn=new StockDao();
@@ -36,7 +35,6 @@ public class StockMarketFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.con=con;
 		init();
 		addAction();
 		setMarket();
@@ -77,30 +75,6 @@ public class StockMarketFrame extends JFrame {
 		
 		table = new JTable(content, title);
 		scrollPane.setViewportView(table);
-		/*try{
-			sql = con.getCon().prepareStatement("SELECT COUNT(*) FROM 'Stock'");
-			res=sql.executeQuery();
-			 int rowCount = 0;  
-			    while (res.next()) {  
-			        rowCount = res.getInt("rec");  
-			    }  
-			Object[][] content=new Object[rowCount][2];
-			res = sql.executeQuery("SELECT * FROM 'Stock'");
-			int n=0;
-			while(res.next()){
-				String company=res.getString("company");
-				content[n][0]=company;
-				double price=res.getDouble("price");
-				content[n][1]=price;
-				n++;
-			}
-			Object[] title={"company","price"};
-			
-			table = new JTable(content, title);
-			scrollPane.setViewportView(table);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 }

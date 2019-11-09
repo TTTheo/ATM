@@ -89,9 +89,15 @@ public class BalanceFrame extends JFrame {
 	}
 	
 	public void showBalance(){  //set the balance in label
-		lblCheckingMoney.setText(getCustomer().getChecking().getBalance().showDollar());		
-		lblCheckingrmb.setText(getCustomer().getChecking().getBalance().showRMB());
-		lblCheckingeruo.setText(getCustomer().getChecking().getBalance().showEuro());
+		if(getCustomer().getChecking()!=null){
+			lblCheckingMoney.setText(getCustomer().getChecking().getBalance().showDollar());		
+			lblCheckingrmb.setText(getCustomer().getChecking().getBalance().showRMB());
+			lblCheckingeruo.setText(getCustomer().getChecking().getBalance().showEuro());
+		}else{
+			lblCheckingMoney.setText("");		
+			lblCheckingrmb.setText("");
+			lblCheckingeruo.setText("");
+		}
 		if(getCustomer().getSaving()!=null){     //if saving account do not exist, it will not show
 			lblSavingAccount.setText("Saving account:");
 			lblSavingMoney.setText(getCustomer().getSaving().getBalance().showDollar());

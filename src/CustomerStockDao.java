@@ -80,6 +80,23 @@ public class CustomerStockDao implements Dao<CustomerStock>{
 		return true;
 	}
 	
+	public boolean delete(String username,String company) {
+		// TODO Auto-generated method stub
+		connect() ;
+		try {
+			String query = "DELETE FROM CustomerStock where company = \"" + company + "\" and username = \"" + username + "\"";
+			Statement st = conn.createStatement();
+			st.executeUpdate(query);
+			
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+			close() ;
+			return false ;
+		}
+		close() ;
+		return true;
+	}
+	
 	@Override
 	public boolean update(CustomerStock customerStock) {
 		return true ;

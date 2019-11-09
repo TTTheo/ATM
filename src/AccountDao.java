@@ -146,6 +146,27 @@ public class AccountDao implements Dao<CheckandSave>{
 		return cs;
 	}
 	
+	public int selectType(String accountnumber) {
+		// TODO Auto-generated method stub
+		int type=0;
+		connect() ;
+		try {
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE accountnumber = \"" + accountnumber + "\"" ;
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			
+			while(rs.next()) {
+				type = rs.getInt("type") ;
+			}
+		}catch(SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		}finally {
+			close() ;
+		}
+		
+		return type;
+	}
+	
 	public CheckandSave selectSaving(String username) {
 		// TODO Auto-generated method stub
 		CheckandSave cs = null ;
@@ -183,7 +204,7 @@ public class AccountDao implements Dao<CheckandSave>{
 		CheckandSave cs = null ;
 		connect() ;
 		try {
-			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE username = \"" + username + "\""+"and type = \"" + 2 + "\"";
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE username = \"" + username + "\""+"and type = \"" + 0 + "\"";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
@@ -212,16 +233,16 @@ public class AccountDao implements Dao<CheckandSave>{
 	
 	public List<CheckandSave> selectAllSaving() {
 		// TODO Auto-generated method stub
-		List<CheckandSave> cs = null ;
+		List<CheckandSave> cs = new ArrayList<>() ;
 		connect() ;
 		try {
-			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance" ;
+			String query = "SELECT name, password, phone, username, accountnumber, moneypassword, Type, Dollar,RMB, Euro FROM User NATURAL JOIN Account NATURAL JOIN Balance WHERE type = \"" + 1 + "\"";
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(query);
 			
 			while(rs.next()) {
 				int type = rs.getInt("Type") ;
-				User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
+				//User account = new User(rs.getString("name"),rs.getString("username"), rs.getString("password"), rs.getString("phone")) ;
 				Balance balance = new Balance() ;
 				balance.setDollar(new Currency("Dollar",rs.getDouble("Dollar")));
 				balance.setRMB(new Currency("RMB", rs.getDouble("RMB")));
