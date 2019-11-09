@@ -82,8 +82,8 @@ public class DeleteStockFrame extends JFrame {
 					reminder.reminder("The stock do not exist!");
 				}else{
 					//check if any customer have the stock
-					AccountStockDao con=new AccountStockDao();
-					List<CustomerStock> custock=con.selectList(company);
+					CustomerStockDao con=new CustomerStockDao();
+					List<CustomerStock> custock=con.selectByCompany(company);
 					if(custock!=null){
 						reminder.reminder("You can not delete it because someone owe it!");
 					}else{

@@ -124,13 +124,13 @@ public class Login extends JFrame {
 							customer.createChecking(check);
 							customer.createSaving(save);
 							LoanDao loandao=new LoanDao();
-							ArrayList<Loan> loans=(ArrayList<Loan>) loandao.selectSpecific(customer.getUsername());
+							ArrayList<Loan> loans=(ArrayList<Loan>) loandao.selectAll(customer.getUsername());
 							customer.setLoans(loans);
-							AccountStockDao stockdao=new AccountStockDao();
+							CustomerStockDao stockdao=new CustomerStockDao();
 							InvestmentDao investdao=new InvestmentDao();
 							Investment invest=investdao.select(userName);
 							customer.createInvest(invest);
-							ArrayList<CustomerStock> custock=(ArrayList<CustomerStock>) stockdao.selectListofAccount(customer.getInvest().getAccountID());
+							ArrayList<CustomerStock> custock=stockdao.selectByUsername(customer.getUsername());
 							customer.getInvest().setStock(custock);
 							//create investment
 							CustomerFrame customerFrame=new CustomerFrame(getCustomer());

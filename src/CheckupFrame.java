@@ -104,7 +104,7 @@ public class CheckupFrame extends JFrame {
 					customers.get(i).createChecking((Checking)accountdao.selectChecking(customers.get(i).getUsername()));
 					customers.get(i).createSaving((Saving)accountdao.selectChecking(customers.get(i).getUsername()));
 					LoanDao loandao=new LoanDao();
-					ArrayList<Loan> loans=(ArrayList<Loan>) loandao.selectSpecific(customers.get(i).getUsername());
+					ArrayList<Loan> loans= loandao.selectAll(customers.get(i).getUsername());
 					customers.get(i).setLoans(loans);
 				}
 				String choosename=(String)comboBox.getSelectedItem();

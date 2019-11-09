@@ -2,7 +2,7 @@
 
 public class Loan {
 	private Currency loan=new Currency("",0);
-	private float interest;
+	private double interest;
 	private int loanlength;
 	private String collateral;
 	
@@ -12,7 +12,7 @@ public class Loan {
 		this.loanlength=0;
 	}
 	
-	public Loan(Currency currency,float interest,int loanlength, String collateral){
+	public Loan(Currency currency,double interest,int loanlength, String collateral){
 		this.loan=currency;
 		this.interest=interest;
 		this.loanlength=loanlength;
@@ -23,7 +23,7 @@ public class Loan {
 		return this.loan;
 	}
 	
-	public float getIntesest(){
+	public double getIntesest(){
 		return this.interest;
 	}
 	

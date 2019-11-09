@@ -130,7 +130,9 @@ public class LoanFrame extends JFrame {
 						tool.reminder("You are not allowed to loan if you do not have a collateral!");
 					}else{
 						Loan loan=new Loan(curren,interest,loanlength,collateral);
-						getCustomer().addLoan(loan);  					 //add loans to customer's whole loan
+						getCustomer().addLoan(loan);  	//add loans to customer's whole loan
+						LoanDao loanDao = new LoanDao() ;
+						loanDao.insert(getCustomer().getUsername(), loan) ;
 						//loans.add(loan);  
 						//incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));//add loans to whole loan
 						IncomeDao incomedao=new IncomeDao();

@@ -159,8 +159,8 @@ public class SellStockFrame extends JFrame {
 						//delete stock and reset balance
 						CustomerStock custock=new CustomerStock(company, stock.getPrice(),Integer.parseInt(num));
 						double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
-						AccountStockDao con=new AccountStockDao();
-						con.delete(getCustomer().getInvest().getAccountID(),custock);
+						CustomerStockDao con=new CustomerStockDao();
+						con.delete(getCustomer().getUsername());
 						getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
 						AccountDao conn=new AccountDao();
 						conn.update(getCustomer().getChecking());

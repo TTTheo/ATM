@@ -139,8 +139,8 @@ public class BuyStockFrame extends JFrame {
 							}else{
 								//add stock to customer
 								getCustomer().getInvest().addStock(custock);
-								AccountStockDao conn=new AccountStockDao();
-								conn.insert(getCustomer().getInvest().getAccountID(),custock);
+								CustomerStockDao conn=new CustomerStockDao();
+								conn.insert(getCustomer().getUsername(),custock);
 								//substract balance
 								getCustomer().getChecking().getBalance().substract(new Currency("Dollar",stockmoney));
 								con.update(getCustomer().getChecking());

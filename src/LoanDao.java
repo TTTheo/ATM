@@ -1,31 +1,32 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+public class LoanDao implements Dao<Loan> {
+	private Connection conn = null;
 
-public class LoanDao implements Dao<Loan>{
-	private Connection conn = null ;
 	@Override
 	public void connect() {
 		// TODO Auto-generated method stub
-	
-    // auto close connection
-    try {
-    	conn =  DriverManager.getConnection(url) ;
-        if (conn != null) {
-            System.out.println("Connected to the database!");
-        } else {
-            System.out.println("Failed to make connection!");
-        }
 
-    } catch (SQLException e) {
-        System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+		// auto close connection
+		try {
+			conn = DriverManager.getConnection(url);
+			if (conn != null) {
+				System.out.println("Connected to the database!");
+			} else {
+				System.out.println("Failed to make connection!");
+			}
+
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -38,12 +39,15 @@ public class LoanDao implements Dao<Loan>{
 			System.out.println("Failed to close connection!");
 		}
 	}
-	
+	@Override
 	public boolean insert(Loan loan) {
 		// TODO Auto-generated method stub
+		return true;
+	}
+	public boolean insert(String username, Loan loan) {
 		connect() ;
 		try {
-			String query = "INSERT INTO User VALUES ";   //need to be completed
+			String query = "INSERT INTO [Loan] VALUES(\"" + username + "\","  + loan.getIntesest() + "," + loan.getLoanLength() + ",\"" + loan.getCollateral() + "\"," + loan.getLoan().getMoney() + ")";  //need to be completed
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			
@@ -59,9 +63,6 @@ public class LoanDao implements Dao<Loan>{
 	@Override
 	public boolean delete(String type) {
 		// TODO Auto-generated method stub
-		connect() ;
-		
-		close() ;
 		return true;
 	}
 
@@ -75,30 +76,28 @@ public class LoanDao implements Dao<Loan>{
 	@Override
 	public Loan select(String type) {
 		// TODO Auto-generated method stub
-		Loan loan = null ;
-		connect() ;
-		
-		
-		return loan;
+		return null;
 	}
-	
-	public List<Loan> selectSpecific(String username) {
+
+	public ArrayList<Loan> selectAll(String username) {
 		// TODO Auto-generated method stub
-		List<Loan> loans = new ArrayList<>() ;
-		
-		connect() ;
-		
-		
-		return loans;
-	}
-	
-	public List<Loan> selectAll() {
-		// TODO Auto-generated method stub
-		List<Loan> loans = new ArrayList<>() ;
-		
-		connect() ;
-		
-		
-		return loans;
+		ArrayList<Loan> loans = new ArrayList<>();
+
+		connect();
+		try {
+			String query = "SELECT * FROM [Loan] where username = \"" + username + "\"";
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(query);
+
+			while (rs.next()) {
+				Loan loan = new Loan(new Currency("", rs.getDouble("amount")), rs.getDouble("interest"), rs.getInt("loanlength"), rs.getString("collateral")) ;
+				loans.add(loan) ;
+			}
+		} catch (SQLException e) {
+			System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+		} finally {
+			close();
+		}
+		return loans ;
 	}
 }
