@@ -37,7 +37,6 @@ public class WithDrawFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	//public WithDrawFrame(Customer customer,ArrayList<Income> incomes) {
 	public WithDrawFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

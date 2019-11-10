@@ -102,14 +102,13 @@ public class LoanFrame extends JFrame {
 		return this.customer;
 	}
 	
-
-	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String currency=(String)comboBox.getSelectedItem();
 				String loanAmount=textField.getText();
-				if(loanAmount.equals("")||!tool.isNumeric(loanAmount)||Double.parseDouble(loanAmount)==0){    //check the entering numbers
+				//check the entering numbers
+				if(loanAmount.equals("")||!tool.isNumeric(loanAmount)||Double.parseDouble(loanAmount)==0){    
 					tool.reminder("Please input right number!");
 				}else{
 					double loannumber=Double.parseDouble(loanAmount);
@@ -117,15 +116,18 @@ public class LoanFrame extends JFrame {
 					int loanlength=Integer.parseInt((String)comboBox_1.getSelectedItem());
 					float interest=(float) 0.1;
 					String collateral=textField_1.getText();
-					if(collateral.equals("")){       					 //check the collateral
+					//check the collateral
+					if(collateral.equals("")){       					 
 						tool.reminder("You are not allowed to loan if you do not have a collateral!");
 					}else{
 						Loan loan=new Loan(curren,interest,loanlength,collateral);
-						getCustomer().addLoan(loan);  	//add loans to customer's whole loan
+						//add loans to customer's whole loan
+						getCustomer().addLoan(loan);  	
 						LoanDao loanDao = new LoanDao() ;
 						loanDao.insert(getCustomer().getUsername(), loan) ;
 						//loans.add(loan);  
-						//incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));//add loans to whole loan
+						//incomes.add(new Income(new Currency(currency,loannumber*0.1),"Loan"));
+						//add incomes
 						IncomeDao incomedao=new IncomeDao();
 						incomedao.insert(new Income(new Currency(currency,loannumber*0.1),"Loan"));
 						tool.reminder("Loan successfully!");

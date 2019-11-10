@@ -8,16 +8,11 @@ public class Transaction {
 	private Date date;
 	private String sendAccount;
 	private String recieAccount;
-	//private User senderAccount;
-	//private User recieveAccount;
 	private String transID;
 	
 	public Transaction(Currency trans, Date date,String sendAccount,String recieAccount,String transID){
-	//public Transaction(Currency trans, Date date,String sendAccount,String recieAccount){
 		this.trans=trans;
 		this.date=date;
-		//this.senderAccount=senderAccount;
-		//this.recieveAccount=recieveAccount;
 		this.sendAccount=sendAccount;
 		this.recieAccount=recieAccount;
 		this.transID=transID;
@@ -38,15 +33,7 @@ public class Transaction {
 	public Date getDate(){
 		return this.date;
 	}
-	
-	/*public User getRecieveAccount(){
-		return this.recieveAccount;
-	}
-	
-	public User getSendAccount(){
-		return this.senderAccount;
-	}*/
-	
+
 	public String getRecieAccount(){
 		return this.recieAccount;
 	}
@@ -59,8 +46,8 @@ public class Transaction {
 		return this.transID;
 	}
 	
-	
-	public String showTrans(){   //show single transaction
+	//show single transaction
+	public String showTrans(){   
 		SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr=sdf.format(getDate());
 		String showtrans="("+getSenAccount()+")--> "

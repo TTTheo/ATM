@@ -72,13 +72,15 @@ public class IncomeFrame extends JFrame {
 		  
 	 }
 	 
-	 public void showIncome(){	 //show the income in the textArea and label 
+	//show the income in the textArea and label 
+	 public void showIncome(){	
 		 String printIncome="";
 		 double incomedollar=0;
 		 double incomermb=0;
 		 double incomeeuro=0;
 		 List<Income> incomes=con.selectAll();
-		 for(int i=0;i<incomes.size();i++){    //show incomes and calculate the total incomes for three currency
+		//show incomes and calculate the total incomes for three currency
+		 for(int i=0;i<incomes.size();i++){    
 			 printIncome+="-------------------------------\n"+incomes.get(i).showIncome();
 			 if(incomes.get(i).getIncome().getMark().equals("Dollar")){
 				 incomedollar+=incomes.get(i).getIncome().getMoney();

@@ -100,7 +100,7 @@ public class ManagerFrame extends JFrame {
 			}
 		});
 		
-		btnManageStockMarket.addActionListener(new ActionListener() {
+		btnManageStockMarket.addActionListener(new ActionListener() {     //manager stock market
 			public void actionPerformed(ActionEvent e) {
 				ManageStockFrame managestock=new ManageStockFrame();
 				managestock.setVisible(true);

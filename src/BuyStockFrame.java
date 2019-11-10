@@ -97,6 +97,7 @@ public class BuyStockFrame extends JFrame {
 	
 	public void addAction(){
 		btnSearch.addActionListener(new ActionListener() {
+			//search the stock from the database
 			public void actionPerformed(ActionEvent e) {
 				String company=textField.getText();
 				Stock stock=conn.select(company);
@@ -112,6 +113,7 @@ public class BuyStockFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String company=textField_2.getText();
 				String num=textField_1.getText();
+				//check if all the filling information are in right form
 				if(company.equals("")){
 					tool.reminder("The company can not be empty!");
 				}else if(num.equals("")){
@@ -120,6 +122,7 @@ public class BuyStockFrame extends JFrame {
 					tool.reminder("The price can not be negtive!");
 				}else{
 					Stock stock=conn.select(company);
+					//check if the stock exists
 					if(stock==null){
 						tool.reminder("No such stock!");
 					}else{
@@ -128,9 +131,11 @@ public class BuyStockFrame extends JFrame {
 						AccountDao con=new AccountDao();
 						double checking=getCustomer().getChecking().getBalance().getDollar().getMoney();
 						double stockmoney=custock.getPrice()*custock.getNumofStock()+5;
+						//check if the cutomer have enough money to buy the stocks
 						if(checking<stockmoney){
 							tool.reminder("You do not have enough money!");
 						}else{
+							//check if the stock exists
 							Stock selctstock=conn.select(stock.getCompany());
 							if(selctstock==null){
 								tool.reminder("No such stock!");
@@ -139,16 +144,17 @@ public class BuyStockFrame extends JFrame {
 								getCustomer().getInvest().addStock(custock);
 								CustomerStockDao conn=new CustomerStockDao();
 								CustomerStock companystock=conn.select(getCustomer().getUsername(),company);
+								//check if the customer already have the stock, update if yes, insert if no
 								if(companystock==null){
 									conn.insert(getCustomer().getUsername(),custock);
 								}else{
 									CustomerStock newcustock=new CustomerStock(custock.getCompany(),custock.getPrice(),companystock.getNumofStock()+custock.getNumofStock());
 									conn.update(getCustomer().getUsername(),newcustock);
 								}
-								//substract balance
+								//Subtract balance and update the balance
 								getCustomer().getChecking().getBalance().substract(new Currency("Dollar",stockmoney));
 								con.update(getCustomer().getChecking());
-								
+								//add bank's income
 								IncomeDao incomedao=new IncomeDao();
 								incomedao.insert(new Income(new Currency("Dollar",5),"Buy Stock"));
 								tool.reminder("Buy successfully!");

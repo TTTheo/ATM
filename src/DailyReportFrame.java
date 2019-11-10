@@ -56,6 +56,7 @@ public class DailyReportFrame extends JFrame {
 	
 	public void setReport(){   //set daily report in textArea
 		String coustomerinfo="No transactions";
+		//get all transaction from database
 		TransactionDao con=new TransactionDao();
 		List<Transaction> trans=con.selectAll();
 		if(trans!=null){

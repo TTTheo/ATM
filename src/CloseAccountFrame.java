@@ -26,6 +26,7 @@ public class CloseAccountFrame extends JFrame {
 	private JButton btnSubmit;
 	private Customer customer=new Customer("","","","");
 	private AccountDao con=new AccountDao();
+	private Tool tool=new Tool();
 
 	/**
 	 * Create the frame.
@@ -73,30 +74,25 @@ public class CloseAccountFrame extends JFrame {
 		return this.customer;
 	}
 	
-	public void reminder(String str){
-		Object[] okObjects = new Object[] {"OK"};
-		JOptionPane.showOptionDialog(null, str, "Message", 
-				JOptionPane.OK_OPTION,JOptionPane.WARNING_MESSAGE,null,okObjects,null);
-	}
-	
 	public void addAction(){	
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!chckbxChecking.isSelected()&&!chckbxSaving.isSelected()){   //reminder when no account is chosen
-					reminder("Choose an account!");
+					tool.reminder("Choose an account!");
 				}
 				if(chckbxSaving.isSelected()){
 					if(customer.getSaving()==null){    //reminder when there is no saving account
-						reminder("You do not have saving account!");
+						tool.reminder("You do not have saving account!");
 					}else{						
 						if(chckbxChecking.isSelected()){       //if checking account is chosen
 							if(customer.getChecking().getBalance().getDollar().getMoney()<10){    
 								//reminder when there are not enough money to pay the charge
-								reminder("You do not have enough money to close the account!"); 
+								tool.reminder("You do not have enough money to close the account!"); 
 							}else{
 								if(customer.getChecking()==null){
-									reminder("You do not have checking account!"); //reminder when there is no checking account
+									tool.reminder("You do not have checking account!"); //reminder when there is no checking account
 								}else{
+									//delete account
 									con.delete(getCustomer().getSaving().getAccountNumber());
 									con.delete(getCustomer().getChecking().getAccountNumber());
 									destroySaving();
@@ -107,7 +103,7 @@ public class CloseAccountFrame extends JFrame {
 						}else{
 							if(customer.getChecking().getBalance().getDollar().getMoney()<5){
 								//reminder when there are not enough money to pay the charge
-								reminder("You do not have enough money to close the account!");
+								tool.reminder("You do not have enough money to close the account!");
 							}else{
 								con.delete(getCustomer().getSaving().getAccountNumber());
 								destroySaving();
@@ -121,11 +117,11 @@ public class CloseAccountFrame extends JFrame {
 					if(chckbxChecking.isSelected()){
 						if(customer.getSaving()==null){
 							if(customer.getChecking()==null){
-								reminder("You do not have checking account!");
+								tool.reminder("You do not have checking account!");
 							}else{
 								if(customer.getChecking().getBalance().getDollar().getMoney()<5){
 									//reminder when there are not enough money to pay the charge
-									reminder("You do not have enough money to close the account!");
+									tool.reminder("You do not have enough money to close the account!");
 								}else{
 									destroyChecking();
 									dispose();
@@ -133,7 +129,7 @@ public class CloseAccountFrame extends JFrame {
 							}
 						}else{
 							//checking account can not be chosen alone
-							reminder("You will also close the saving account!Please choose saving account!");
+							tool.reminder("You will also close the saving account!Please choose saving account!");
 						}
 					}	
 				}
@@ -161,18 +157,20 @@ public class CloseAccountFrame extends JFrame {
 	
 	public void destroyChecking(){	
 		getCustomer().createChecking(null);  //close checking account
-		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));  //add bank's income
+		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));  
+		//add bank's income
 		IncomeDao incomedao=new IncomeDao();
 		incomedao.insert(new Income(new Currency("Dollar",5),"Close Account"));
-		reminder("Close checking account successfully!");		
+		tool.reminder("Close checking account successfully!");		
 	}
 	
 	public void destroySaving(){
 		getCustomer().createSaving(null);    //close saving account
 		customer.getChecking().getBalance().substract(new Currency("Dollar",5));   //pay the charge
-		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));   //add bank's income
+		//getIncomes().add(new Income(new Currency("Dollar",5),"Close Accounts"));   
+		//add bank's income
 		IncomeDao incomedao=new IncomeDao();
 		incomedao.insert(new Income(new Currency("Dollar",5),"Close Account"));
-		reminder("Close saving account successfully!");
+		tool.reminder("Close saving account successfully!");
 	}
 }

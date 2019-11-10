@@ -155,12 +155,11 @@ public class CustomerFrame extends JFrame {
 		
 		btnOpenSaving.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//check
+				//check if the customer have saving account
 				AccountDao con=new AccountDao();
 				con.select(getCustomer().getUsername());
-				if(customer.getSaving()==null){
-					
-					
+				if(customer.getSaving()==null){		
+					//check if the customer have enough money to close the account
 					if(customer.getChecking().getBalance().getDollar().getMoney()>=5){
 						customer.createSaving(new Saving(getNewSavingAccount(),customer.getChecking().getMoneypassword(),new Balance()));
 						con.insert(customer.getSaving());
@@ -182,8 +181,8 @@ public class CustomerFrame extends JFrame {
 		btnInvestment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(getCustomer().getInvest()!=null){
-				InvestFrame invest=new InvestFrame(getCustomer());
-				invest.setVisible(true);
+					InvestFrame invest=new InvestFrame(getCustomer());
+					invest.setVisible(true);
 				}else{
 					tool.reminder("You do not have investment account!");
 				}

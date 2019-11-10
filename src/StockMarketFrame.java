@@ -21,10 +21,7 @@ public class StockMarketFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton btnBack;
 	private JLabel lblStocksMarket;
-	private PreparedStatement sql;
-	private ResultSet res;
 	private StockDao conn=new StockDao();
-	private Tool reminder=new Tool();
 	/**
 	 * Create the frame.
 	 */

@@ -74,6 +74,7 @@ public class AddStockFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String company=textField.getText();
 				String pricestr=textField_1.getText();
+				//check if all the filling information is in right form
 				if(company.equals("")){
 					tool.reminder("The company can not be empty!");
 				}else if(pricestr.equals("")){
@@ -81,12 +82,14 @@ public class AddStockFrame extends JFrame {
 				}else if(!Tool.isNumeric(pricestr)){
 					tool.reminder("The price can not be negtive!");
 				}else{
-					Stock stock=new Stock(company,Double.parseDouble(pricestr));					
+					Stock stock=new Stock(company,Double.parseDouble(pricestr));	
+					//connect to the database and check if the stock exists
 					StockDao conn=new StockDao();
 					Stock selectstock=conn.select(company);
 					if(selectstock!=null){
 						tool.reminder("The stock have already existed!");
 					}else{
+						//insert the stock to the database
 						conn.insert(stock);
 						tool.reminder("Add successfully!");
 						dispose();

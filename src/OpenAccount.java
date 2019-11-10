@@ -37,8 +37,6 @@ public class OpenAccount extends JFrame {
 	private JLabel lblpasswordShouldBe;	
 	private JLabel lblPinNumber;	
 	private JLabel lblThePinOf;
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
 	private JLabel lblYouMustDeposit;
 	private Customer newCustomer;
 	private JButton btnBack;
@@ -56,9 +54,6 @@ public class OpenAccount extends JFrame {
 	 * Create the frame.
 	 */
 	public OpenAccount() {
-		//customers=new Customers(custo.getCustomers());
-		//this.customers=customers;
-		//this.incomes=incomes;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 515, 428);
 		contentPane = new JPanel();
@@ -171,17 +166,19 @@ public class OpenAccount extends JFrame {
 	public void addAction(){
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//String accountID=getNewAccount();
 				String name=textname.getText();
-				if(name.equals("")){    //check name
+				//check name
+				if(name.equals("")){    
 					tool.reminder("Please fill the name!");
 				}else{
-					String phone=textField_1.getText();     
-					if(phone.equals("")||!tool.isNumeric(phone)||phone.length()!=10){     //check phone
+					String phone=textField_1.getText(); 
+					//check phone
+					if(phone.equals("")||!tool.isNumeric(phone)||phone.length()!=10){     
 						tool.reminder("Please fill the right phone!");
 					}else{
 						String username=textusername.getText();
-						if(username.equals("")||username.length()>10){           //check username
+						//check username
+						if(username.equals("")||username.length()>10){           
 							tool.reminder("Please fill the right username!");
 						}else{
 							boolean ifright=true;
@@ -193,13 +190,7 @@ public class OpenAccount extends JFrame {
 							}else{
 								ifright=true;
 							}
-							/*for(int i=0;i<customers.size();i++){
-								if(customers.get(i).getUser().getUsername().equals(username)){  //check if username exist
-									reminder("The username exists!");
-									ifright=false;
-									break;
-								}
-							}*/
+
 							if(ifright){
 								String password=textpassword.getText();
 								if(password.equals("")){     //check password
@@ -238,7 +229,6 @@ public class OpenAccount extends JFrame {
 														if(amount<payment){    //check deposit
 															tool.reminder("Your checking deposit is not enough!");
 														}else{
-															//newCustomer=new Customer(name,username, password,phone);
 															newCustomer=new Customer(name,username, password,phone);
 															UserDao con=new UserDao();
 															con.insert(newCustomer);
@@ -263,10 +253,6 @@ public class OpenAccount extends JFrame {
 																//conaccount.update(newCustomer.getSaving());
 																//getIncomes().add(new Income(new Currency("Dollar",5),"Open Accounts"));
 															}
-															//conaccount.update(newCustomer.getChecking());
-															//newCustomer.getChecking().getBalance().add(new Currency("Dollar",amount));   //set balance
-															//newCustomer.getChecking().getBalance().substract(new Currency("Dollar",payment));  //pay the charge
-															//customers.add(newCustomer);   //add customer
 															tool.reminder("Open account successfully!");
 															ShowInfo showinfo=new ShowInfo(name,username,checkingID,savingID,phone);  //show information
 															showinfo.setVisible(true);

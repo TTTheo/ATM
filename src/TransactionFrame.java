@@ -31,9 +31,6 @@ public class TransactionFrame extends JFrame {
 	private JButton btnSubmit;	
 	private JButton btnCancle;
 	private Customer customer=new Customer("","","","");
-	//private ArrayList<Income> incomes=new ArrayList<Income>();
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
-	//private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private JLabel lblEnterYourPin;
 	private JPasswordField passwordField;
 	private Tool tool=new Tool();
@@ -41,7 +38,6 @@ public class TransactionFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	//public TransactionFrame(Customer customer,ArrayList<Income> incomes,ArrayList<Transaction> transactions) {
 	public TransactionFrame(Customer customer) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -51,9 +47,6 @@ public class TransactionFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		this.customer=customer;
-		//this.customers=customers;
-		//this.incomes=incomes;
-		//this.transactions=transactions;
 		init();
 		addAction();
 		
@@ -104,20 +97,6 @@ public class TransactionFrame extends JFrame {
 		return this.customer;
 	}
 	
-	/*public ArrayList<Customer> getCustomers(){
-		return this.customers;
-	}
-	
-	public ArrayList<Income> getIncomes(){
-		return this.incomes;
-	}
-	
-	public ArrayList<Transaction> getTransactions(){
-		return this.transactions;
-	}
-	public void setTransactions(ArrayList<Transaction> transactions){
-		this.transactions=transactions;
-	}*/
 	
 	public void addAction(){
 		btnSubmit.addActionListener(new ActionListener() {
@@ -125,7 +104,8 @@ public class TransactionFrame extends JFrame {
 				String currency=(String)comboBox.getSelectedItem();
 				String transferAmount=textAmount.getText();
 				String PINnumber=String.valueOf(passwordField.getPassword());
-				if(transferAmount.equals("")||!tool.isNumeric(transferAmount)){    //check transaction number
+				//check transaction number
+				if(transferAmount.equals("")||!tool.isNumeric(transferAmount)){    
 					tool.reminder("Please input right transaction!");
 				}else{
 					double transfernumber=Double.parseDouble(transferAmount)+5;
@@ -137,7 +117,8 @@ public class TransactionFrame extends JFrame {
 					}else if(currency.equals("Euro")){
 						actualnumber=getCustomer().getChecking().getBalance().getEuro().getMoney();
 					}
-					if(transfernumber>actualnumber){      //check if the customer have enough money
+					//check if the customer have enough money
+					if(transfernumber>actualnumber){      
 						tool.reminder("You do not have enough money!");
 					}else{
 						Currency curren=new Currency(currency,transfernumber);
@@ -145,27 +126,32 @@ public class TransactionFrame extends JFrame {
 						String recieverID=textTransfer.getText();
 						Date date=new Date();
 						String senderID=getCustomer().getChecking().getAccountNumber();	
+						//check reciever's account number
 						if(recieverID.equals("")){
 							tool.reminder("Please input reciever's account number!");
 						}else{
-							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())){      //check PIN number
+							//check PIN number
+							if(!PINnumber.equals(getCustomer().getChecking().getMoneypassword())){      
 								tool.reminder("Wrong PIN number!");
 							}else{
 								boolean ifright=false;
 								AccountDao conn=new AccountDao();
 								CheckandSave cs=conn.select(recieverID);
 								int type=conn.selectType(recieverID);
-								if(type==0){
+								if(type==0){   //the reciever's account should be checking account
 									if(!recieverID.equals(senderID)&&cs!=null){
 										ifright=true;
+										//update customer's balance
 										getCustomer().getChecking().getBalance().substract(curren);
 										conn.update(getCustomer().getChecking());
 										Checking recieverchecking=(Checking)cs;
 										conn.update(recieverchecking);
+										//add new transaction
 										Currency newtranscurren=new Currency(currency,transfernumber);
 										Transaction transaction=new Transaction(newtranscurren,date,senderID,recieverID,createTransID());
 										TransactionDao con=new TransactionDao();
 										con.insert(transaction);
+										//insert income
 										IncomeDao incomedao=new IncomeDao();
 										incomedao.insert(new Income(new Currency("Dollar",5),"Transaction"));
 										tool.reminder("Transaction successfully!");

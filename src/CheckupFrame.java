@@ -90,6 +90,7 @@ public class CheckupFrame extends JFrame {
 	public void addAction(){
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//get all customers
 				UserDao conn=new UserDao();
 				List<Customer> customers=conn.selectAll();
 				for(int i=0;i<customers.size();i++){
@@ -102,7 +103,8 @@ public class CheckupFrame extends JFrame {
 				}
 				String choosename=(String)comboBox.getSelectedItem();
 				String infoall="";
-				if(choosename.equals("All")){   //all customers' information will show	
+				//all customers' information will show
+				if(choosename.equals("All")){   	
 					for(int i=0;i<customers.size();i++){
 						infoall+=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"
 								+customers.get(i).showLoan()+"\r\n";						
@@ -110,7 +112,8 @@ public class CheckupFrame extends JFrame {
 					textArea.setText(infoall);
 				}else{
 					Customer customer=null;
-					for(int i=0;i<customers.size();i++){  //specific customer's information will show
+					//specific customer's information will show
+					for(int i=0;i<customers.size();i++){  
 						if(choosename.equals(customers.get(i).getName())){
 							customer=customers.get(i);
 							infoall=customers.get(i).showCustomer()+"------------------------\r\nLoan:\r\n"+customers.get(i).showLoan();

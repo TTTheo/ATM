@@ -73,6 +73,7 @@ public class DeleteStockFrame extends JFrame {
 					if(custock.size()!=0){
 						tool.reminder("You can not delete it because someone owe it!");
 					}else{
+						//delete the stock
 						StockDao conn=new StockDao();
 						conn.delete(company);
 						tool.reminder("Delete successfully!");

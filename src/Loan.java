@@ -7,7 +7,6 @@ public class Loan {
 	private String collateral;
 	
 	public Loan(){
-		//this.loan=new Currency("",0);
 		this.interest=0;
 		this.loanlength=0;
 	}
@@ -51,7 +50,8 @@ public class Loan {
 		this.collateral=collateral;
 	}
 	
-	public Currency getLoanTotal(){   //get the income of loan
+	//get the income of loan
+	public Currency getLoanTotal(){   
 		double income=0;
 		if(this.loan.getMark().equalsIgnoreCase("Dollar")){
 			income=this.loan.getMoney()*0.1;

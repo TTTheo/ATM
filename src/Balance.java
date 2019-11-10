@@ -41,7 +41,8 @@ public class Balance {
 		return this.Euro;
 	}
 	
-	public void add(Currency currency){     //add money in balance
+	//add money in balance
+	public void add(Currency currency){     
 		if(currency.getMark().equals("Dollar")){
 			double money=getDollar().getMoney();
 			getDollar().setMoney(money+currency.getMoney());
@@ -54,7 +55,8 @@ public class Balance {
 		}
 	}
 	
-	public void substract(Currency currency){     //substract money in balance
+	//substract money in balance
+	public void substract(Currency currency){     
 		if(currency.getMark().equals("Dollar")){
 			double money=getDollar().getMoney();
 			getDollar().setMoney(money-currency.getMoney());

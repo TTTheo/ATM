@@ -106,8 +106,8 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String userName=username.getText();
 				String passWord=String.valueOf(password.getPassword());
-				
-				if(rdbtnCustomer.isSelected()){   //login as customer
+				//login as customer
+				if(rdbtnCustomer.isSelected()){   
 					boolean ifright=false;
 					//check if the username and the password are correct
 					UserDao conn=new UserDao();
@@ -117,6 +117,7 @@ public class Login extends JFrame {
 					}else{
 						if(user.getPassword().equals(passWord)){
 							ifright=true;
+							//get the login customer with whole information and account information
 							AccountDao con=new AccountDao();
 							Checking check=(Checking) con.selectChecking(userName);
 							Saving save=(Saving) con.selectSaving(userName);
@@ -134,36 +135,20 @@ public class Login extends JFrame {
 								ArrayList<CustomerStock> custock=stockdao.selectByUsername(customer.getUsername());
 								customer.getInvest().setStock(custock);
 							}
-							//create investment
+							//open customer GUI
 							CustomerFrame customerFrame=new CustomerFrame(getCustomer());
 							customerFrame.setVisible(true);
 							dispose();
 						}
-						//setCustomer(customers.get(i));
 						
 					}
-					/*for(int i=0;i<customers.size();i++){  
-						//check if the username and the password are correct
-						/*if(customers.get(i).getUser().getUsername().equals(userName)&&customers.get(i).getUser().getPassword().equals(passWord)){
-							setCustomer(customers.get(i));
-							
-							CustomerFrame customerFrame=new CustomerFrame(getCustomer(),customers,managers,incomes,loans,transactions);
-							customerFrame.setVisible(true);
-							ifright=true; 
-							dispose();
-							setCustomers(customerFrame.getCustomers());
-							setTransactions(customerFrame.getTransactions());
-							setLoans(customerFrame.getLoans());
-							break;
-						}	
-						
-					}*/
 					if(!ifright){  //if wrong, reminder
 						tool.reminder("Wrong Username or Password!");
 					}
-					
-				}else if(rdbtnManager.isSelected()){   //login as manager
+					//login as manager
+				}else if(rdbtnManager.isSelected()){   
 					boolean ifright=false;
+					//check if there is such manager account
 					ManagerDao conn=new ManagerDao();
 					Manager mg=conn.select(userName);
 					if(mg==null){
@@ -176,16 +161,6 @@ public class Login extends JFrame {
 							dispose();
 						}
 					}
-					/*for(int i=0;i<managers.size();i++){
-						//check if the username and the password are correct
-						if(managers.get(i).getUser().getUsername().equals(userName)&&managers.get(i).getUser().getPassword().equals(passWord)){
-							ManagerFrame managerFrame=new ManagerFrame(customers,managers,incomes,loans,transactions);
-							managerFrame.setVisible(true);
-							ifright=true;
-							dispose();
-							break;
-						}						
-					}*/
 					if(!ifright){
 						tool.reminder("Wrong Username or Password!");
 					}
@@ -197,12 +172,11 @@ public class Login extends JFrame {
 			}
 		});
 		
-		btnOpenANew.addActionListener(new ActionListener() {    //open a new account
+		//open a new account
+		btnOpenANew.addActionListener(new ActionListener() {    
 			public void actionPerformed(ActionEvent e) {
 				OpenAccount newAccount=new OpenAccount();
 				newAccount.setVisible(true);
-				//setCustomers(newAccount.getCusto());
-				//setIncomes(newAccount.getIncomes());
 			}
 		});
 	}
@@ -215,27 +189,6 @@ public class Login extends JFrame {
 	public Customer getCustomer(){
 		return this.customer;
 	}
-	
-	/*public void setIncomes(ArrayList<Income> incomes){
-		this.incomes=incomes;
-	}
-	
-	public void setTransactions(ArrayList<Transaction> transactions){
-		this.transactions=transactions;
-	}
-	
-	public void setLoans(ArrayList<Loan> loans){
-		this.loans=loans;
-	}
-	
-	
-	public ArrayList<Customer> getCustomers(){
-		return this.customers;
-	}
-	
-	public void setCustomers(ArrayList<Customer> customers){
-		this.customers=customers;
-	}*/
 	
 	
 }

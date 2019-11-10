@@ -3,9 +3,6 @@ import java.util.ArrayList;
 
 public class Investment {
 	private ArrayList<CustomerStock> stocks=new ArrayList<CustomerStock>();
-	//private Customer customer;
-	private Tool reminder=new Tool();
-	private StockDao conn=new StockDao();
 	
 	public Investment(ArrayList<CustomerStock> stocks){
 		setStock(stocks);
@@ -19,26 +16,11 @@ public class Investment {
 		return this.stocks;
 	}
 	
-	/*public User getUser(){
-		return this.user;
-	}
-	
-	public void setUser(User user){
-		this.user=user;
-	}*/
-	
-	
-	/*public Customer getCustomer(){
-		return this.customer;
-	}
-	
-	public void setCustomer(Customer user){
-		this.customer=user;
-	}*/
-	
+	//add stock
 	public void addStock(CustomerStock stock){
 		boolean ifsame=false;
 		int j=0;
+		//get if customer have such stock, update if yes, add if no
 		for(int i=0;i<getStock().size();i++){
 			if(getStock().get(i).getCompany().equals(stock.getCompany())){
 				ifsame=true;
@@ -56,6 +38,7 @@ public class Investment {
 	
 	public void deleteStock(CustomerStock stock){	
 		int j=0;
+		//get if customer have such stock
 		for(int i=0;i<getStock().size();i++){
 			if(getStock().get(i).getCompany().equals(stock.getCompany())){
 				j=i;
@@ -63,8 +46,10 @@ public class Investment {
 			}
 		}
 		if(getStock().get(j).getNumofStock()-stock.getNumofStock()==0){
+			//if the amount is 0, delete the stock from customer
 			getStock().remove(getStock().get(j));
 		}else{
+			//else update
 			getStock().get(j).setNumofStock(getStock().get(j).getNumofStock()-stock.getNumofStock());
 		}
 	}
