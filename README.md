@@ -1,4 +1,4 @@
-# This branch is outdated, switch to the most recent branch
+# GitHub README
 
 ## Running with SQLite
 We currently use `SQLite` as an offline database. All the persistent data is stored in a file called `ATM.db`.
@@ -34,11 +34,17 @@ If it works, there should be no errors, and the program should continue as expec
 Untested, but the general idea is to add `sqlite-jdbc-3.27.2.1.jar` to your class path and run Main.java.
 
 ## Logging in
+(Users are created from the `main` function of `Main.java`)
+
+
 Customer
-* username: bob
-* password: 00000
-* account pin: 123456
+* username: wx
+* password: 12345
+
+
+* username: zhjiang
+* password: 123
 
 Manager
-* username: lisa
-* password: 11111
+* username: boss
+* password: boss
