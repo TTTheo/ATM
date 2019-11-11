@@ -81,9 +81,9 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 * WithDrawFrame.java
     * UI for customer to withdraw.
 
-##Database and DAO Class Design
+## Database and DAO Class Design
 We used a SQLite database to make data persistent and wrote data access object(DAO) classes to pass queries to database.
-###ATM.db
+### ATM.db
 Contains 9 tables:
 * User
     * This table stores the basic information of a customer: username, name, password and phone number. Username is the primary key. 
@@ -104,7 +104,7 @@ Contains 9 tables:
 * Loan
     * This table stores loan histories of customers: username, interest, length of loan, collateral and amount of loan. Username is a foreign key reference to username in User.
 
-###DAO classes:
+### DAO classes:
 * Dao.java
     * An interface that all other Dao classes implement. It contains a public static final String url for JDBC purpose and 6 methods: connect, close, insert, select, update and delete. 
     * final String url = "jdbc:sqlite:src/ATM.db" ;
