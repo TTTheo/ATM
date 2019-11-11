@@ -34,21 +34,26 @@ If it works, there should be no errors, and the program should continue as expec
 Right click on JRE System Library, choose Build Path -> Add External JARs, select `sqlite-jdbc-3.27.2.1.jar` and click Apply and Close.
 
 ## Logging in
-(Users are created from the `main` function of `Main.java`)
+A manager has been created and inserted into the database already. In addition, some test users have also been created.
 
+* Manager
+```
+username: boss
+password: boss
+```
 
-Test Customer
-* username: fr
-* password: 12345
-* checking account number: 1
-* saving account number: 2
+* Test Customer 1
+```
+username: fr
+password: 12345
+checking account number: 1
+saving account number: 2
+```
 
-
-* username: dj
-* password: 123
-* checking account number: 3
-* saving account number: 4
-
-Manager
-* username: boss
-* password: boss
+* Test Customer 2
+```
+username: dj
+password: 123
+checking account number: 3
+saving account number: 4
+```
