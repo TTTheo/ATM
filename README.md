@@ -38,13 +38,13 @@ Right click on JRE System Library, choose Build Path -> Add External JARs, selec
 
 
 Test Customer
-* username: wx
+* username: fr
 * password: 12345
 * checking account number: 1
 * saving account number: 2
 
 
-* username: zhjiang
+* username: dj
 * password: 123
 * checking account number: 3
 * saving account number: 4
