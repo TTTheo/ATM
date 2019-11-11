@@ -25,7 +25,7 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 * CustomerFrame.java
     * UI for customer to view the operations.
 * CustomerStock.java
-    * It is for customer's stock. It extends Stock class and have its own property numofStock. If customer's stock have more properties, they can be added here.
+    * It is for customer's stock. It extends Stock class and have its own property numofStock. It is a general class. If customer's stock have more properties, they can be added here.
 * DailyReportFrame.java
     * UI for manager to see daily report about transactions.
 * DeleteStockFrame.java
@@ -65,7 +65,7 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 * ShowInfo.java
     * UI for customer to see information after opening new an account.
 * Stock.java
-    * It is class for a single stock. A sigle stock have price and company name. The stock can be used anywhere being an independent class.
+    * It is class for a single stock. It is a general class. A sigle stock have price and company name. The stock can be used anywhere being an independent class.
 * StockMarketFrame.java
     * UI for customer to see stock market.
 * Tool.java
@@ -77,7 +77,7 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 * UpdatePriceFrame.java
     * UI for manager to update stocks' pices.
 * User.java
-    * This is for the user’s general account, including name, phone, username and password. If the account need more information, it can be put here. Any type of user can extend it.
+    * This is for the user’s general account, including name, phone, username and password. It is a general class. If the account need more information, it can be put here. Any type of user can extend it.
 * WithDrawFrame.java
     * UI for customer to withdraw.
 
