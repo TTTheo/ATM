@@ -106,7 +106,7 @@ Contains 9 tables:
 
 ### DAO classes:
 * Dao.java
-    * An interface that all other Dao classes implement. It contains a public static final String url for JDBC purpose and 6 methods: connect, close, insert, select, update and delete. 
+    * An interface that all other Dao classes implement. It contains a final String url for JDBC purpose and 6 methods: connect, close, insert, select, update and delete. 
         * final String url = "jdbc:sqlite:src/ATM.db" ;
         * void connect() ;
         * void close() ;
