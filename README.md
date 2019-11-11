@@ -1,5 +1,5 @@
 # README
-Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
+Group Members: Yujing Chen (`yujchen@bu.edu`), Zehui Jiang (`zhjiang@bu.edu`), Wenrui Lai (`wlai4@bu.edu`), David Shen (`dshen1@bu.edu`)
 
 
 ## Instructions for running through the command line
