@@ -116,6 +116,7 @@ Contains 9 tables:
         * T select(String s) ;
     * It’s a generic interface which allows the operation on every object. 
 * Dao classes that implement Dao interface :
+    * For most of them, they follow the interface. But for specific classes like CustomerStockDao.java, where composite primary key is used, it’s not possible to select or delete with a single key word. So, select and delete method is overloaded with two-argument methods that allows us to pass in a combination of keywords.
         * AccountDao.java
         * CustomerStockDao.java
         * IncomeDao.java
@@ -125,7 +126,7 @@ Contains 9 tables:
         * StockDao.java
         * UserDao.java
         * TransactionDao.java
-    * For most of them, they follow the interface. But for specific classes like CustomerStockDao.java, where composite primary key is used, it’s not possible to select or delete with a single key word. So, select and delete method is overloaded with two-argument methods that allows us to pass in a combination of keywords.
+    
 
 ## Starting Design and Explanation
 We decided to use Yujing Chen's Bank ATM as our starting design. There were numerous reasons for choosing this design. 
