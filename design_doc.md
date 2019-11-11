@@ -82,7 +82,8 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
     * UI for customer to withdraw.
 
 ## Database and DAO Class Design
-We used a SQLite database to make data persistent and wrote data access object(DAO) classes to pass queries to database.
+We used a SQLite database to make data persistent and wrote data access object(DAO) classes to pass queries to database. For all foreign keys, on update and delete it cascades. Because customer should be able to modify their information. And once the username or account number is modified, we need to make sure that all table has the same data. And for primary keys, on conflict it will rollback the operation that caused the conflict.
+
 ### ATM.db
 Contains 9 tables:
 * User
@@ -103,7 +104,6 @@ Contains 9 tables:
     * This table stores all income for the bank: currency, amount and income type. It’s only accessible for manager uses.
 * Loan
     * This table stores loan histories of customers: username, interest, length of loan, collateral and amount of loan. Username is a foreign key reference to username in User.
-For all foreign keys, on update and delete it cascades. Because customer should be able to modify their information. And once the username or account number is modified, we need to make sure that all table has the same data. And for primary keys, on conflict it will rollback the operation that caused the conflict.
 
 ### DAO classes:
 * Dao.java
