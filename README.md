@@ -31,13 +31,13 @@ If it works, there should be no errors, and the program should continue as expec
 
 
 ### Running from an IDE
-Untested, but the general idea is to add `sqlite-jdbc-3.27.2.1.jar` to your class path and run Main.java.
+Right click on JRE System Library, choose Build Path -> Add External JARs, select `sqlite-jdbc-3.27.2.1.jar` and click Apply and Close.
 
 ## Logging in
 (Users are created from the `main` function of `Main.java`)
 
 
-Customer
+Test Customer
 * username: wx
 * password: 12345
 * checking account number: 1
