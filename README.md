@@ -10,8 +10,8 @@ To run, start in the `src` directory, then run:
 ```
 javac Main.java  # Compile program
 cd ..            # Move out of the src directory
-java -classpath "src;sqlite-jdbc-3.27.2.1.jar" Main   # Windows
-java -classpath "src:sqlite-jdbc-3.27.2.1.jar" Main   # Mac or Linux
+java -classpath "src:src/sqlite-jdbc-3.27.2.1.jar" Main   # Mac or Linux
+java -classpath "src;src/sqlite-jdbc-3.27.2.1.jar" Main   # Windows
 ```
 
 The Bank ATM window should now appear.
