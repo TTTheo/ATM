@@ -5,53 +5,101 @@ Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 * AccountDao.java
     * Stuff
 * AddStockFrame.java
+    * UI for manager to add a stock.
 * Balance.java
+    * This is the class o f balance in the account. The balance contains three currencies and it can change with the operations related to money. If there are other currencies should be included into the balance, they can also be added here.
 * BalanceFrame.java
+    * UI for customer to check the balance.
 * BuyStockFrame.java
+    * UI for customer to buy a stock.
 * CheckandSave.java
+    * This is super class of Checking and Saving. All the common properties of checking and saving are added here. In the future if they have more common properties, they can be added here.
 * Checking.java
+    * This class extends CheckandSave class. This is the class of checking account. It inherits the methods of super class and this class can have checking’s own properties. If the checking account have more its own properties, such properties can be added here.
 * CheckupFrame.java
+    * UI for manager to check up all customers or one specific customer.
 * CloseAccountFrame.java
+    * UI for customer to close accounts.
 * Currency.java
+    * This is the class of a single currency that can be stored in the bank. The currency should have its own mark and amount of money. It is a general class because it only have gets and sets methods.
 * Customer.java
+    * This is for the customer account. It extends User class. A customer now have a checking account, a saving account, loans, transactions and a investment account. If the customers have other properties, these properties can be added here.
 * CustomerFrame.java
+    * UI for customer to view the operations.
 * CustomerStock.java
+    * It is for customer's stock. It extends Stock class and have its own property numofStock. If customer's stock have more properties, they can be added here.
 * CustomerStockDao.java
+    * 
 * DailyReportFrame.java
+    * UI for manager to see daily report about transactions.
 * Dao.java
+    * This is an interface.
 * DeleteStockFrame.java
+    * UI for manager to delete a stock.
 * DepositFrame.java
+    * UI for customer to deposit.
 * Income.java
+    * This is about the income/charge of the bank. Every charge have its own type like loan and withdraw, and also amount of charge. The income should be a single class that it can show to manager more conveniently.
 * IncomeDao.java
+    * 
 * IncomeFrame.java
+    * UI for manager to check all incomes.
 * InvestFrame.java
+    * UI for customer to manage stocks.
 * Investment.java
+    * This is the class for customer's investment. It have list of stocks belong to the customer. If customer have other type of investment, they can be added here.
 * InvestmentDao.java
+    * 
 * Loan.java
+    * This is the class of customers’ loan. The loan should have its own currency, interest, length of loan and collateral. And because the bank charge the interest of all loans, methods are added to calculate the amount of the interest of the loan according to its currency. If the loan have more properties, they can be added here.
 * LoanDao.java
+    * 
 * LoanFrame.java
+    * UI for customer to loan.
 * Login.java
+    * Login UI of the program.
 * Main.java
+    * This is the entrance of the program.
 * ManageStockFrame.java
+    * UI for manager to manage stock market.
 * Manager.java
+    * This is the class of manager. It extends User class. And it is a general class. If the manager have more properties in the future, they can be added here.
 * ManagerDao.java
+    * 
 * ManagerFrame.java
+    * UI for manager to view operations.
 * OpenAccount.java
+    * UI of opening a new customer account.
 * PaymentFrame.java
+    * UI of checking the payment of the bank.
 * Saving.java
+    * This class extends CheckandSave class. This is the class of saving account. It inherits the methods of super class and this class can have saving’s own properties. If the saving account have more properties, such properties can be added here.
 * SellStockFrame.java
+    * UI for customer to sell stock.
 * ShowInfo.java
+    * UI for customer to see information after opening new an account.
 * Stock.java
+    * It is class for a single stock. A sigle stock have price and company name. The stock can be used anywhere being an independent class.
 * StockDao.java
+    * 
 * StockMarketFrame.java
+    * UI for customer to see stock market.
 * Tool.java
+    * It is a class implementing some help functions.
 * Transaction.java
+    * This is the class of a single transaction.  For customers, they have their own transactions, for managers, they need to see all the transactions. So it should be a single class. In this class, currency, date, the account of sender and receiver should be considered.
 * TransactionDao.java
+    * 
 * TransactionFrame.java
+    * UI for customer to do transactions.
 * UpdatePriceFrame.java
+    * UI for manager to update stocks' pices.
 * User.java
+    * This is for the user’s general account, including name, phone, username and password. If the account need more information, it can be put here. Any type of user can extend it.
 * UserDao.java
+    * 
 * WithDrawFrame.java
+    * UI for customer to withdraw.
 
 ## Starting Design and Explanation
 We decided to use Yujing Chen's Bank ATM as our starting design. There were numerous reasons for choosing this design. 
