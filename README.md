@@ -1,37 +1,20 @@
-# GitHub README
+# README
+Group Members: Yujing Chen, Zehui Jiang, Wenrui Lai, David Shen
 
-## Running with SQLite
-We currently use `SQLite` as an offline database. All the persistent data is stored in a file called `ATM.db`.
-In order to run FancyBank with SQLite, first download the sqlite-jdbc jar file from `https://bitbucket.org/xerial/sqlite-jdbc/downloads/`.
 
-Click on the most recent one (`sqlite-jdbc-3.27.2.1.jar`) to download it.
+## Instructions for running through the command line
+We currently use SQLite as an offline database. All the persistent data is stored in a file called `ATM.db`.
+We use the sqlite-jdbc jar file (`sqlite-jdbc-3.27.2.1.jar`) to connect with SQLite. `sqlite-jdbc-3.27.2.1.jar` is located in the `src` directory.
 
-Place `sqlite-jdbc-3.27.2.1.jar` in the `ATM` directory
-
-### Running through the command line
-Make sure you've pulled the recent changes
-
-Start in the `src` directory, run:
+To run, start in the `src` directory, then run:
 ```
 javac Main.java  # Compile program
-cd ..            # Change to the `ATM` directory
-```
-
-Then on Windows, run:
-```
+cd ..            # Move out of the src directory
 java -classpath "src;sqlite-jdbc-3.27.2.1.jar" Main   # Windows
-```
-
-On macOS or Linux, run:
-```
 java -classpath "src:sqlite-jdbc-3.27.2.1.jar" Main   # Mac or Linux
 ```
 
-If it works, there should be no errors, and the program should continue as expected
-
-
-### Running from an IDE
-Right click on JRE System Library, choose Build Path -> Add External JARs, select `sqlite-jdbc-3.27.2.1.jar` and click Apply and Close.
+The Bank ATM window should now appear.
 
 ## Logging in
 A manager has been created and inserted into the database already. In addition, some test users have also been created.
