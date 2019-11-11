@@ -40,10 +40,14 @@ Untested, but the general idea is to add `sqlite-jdbc-3.27.2.1.jar` to your clas
 Customer
 * username: wx
 * password: 12345
+* checking account number: 1
+* saving account number: 2
 
 
 * username: zhjiang
 * password: 123
+* checking account number: 3
+* saving account number: 4
 
 Manager
 * username: boss
