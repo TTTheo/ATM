@@ -130,34 +130,39 @@ public class SellStockFrame extends JFrame {
 					if(stock==null){
 						tool.reminder("No such stock!");
 					}else{
-						
-						int amount=Integer.parseInt(num);
-						CustomerStock custock=new CustomerStock(company, stock.getPrice(),amount);
-						double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
-						CustomerStockDao con=new CustomerStockDao();
-						//check if the customer have such stock
-						if(con.select(getCustomer().getUsername(), company).getNumofStock()<amount){
-							tool.reminder("You do not have enough stocks!");
+						CustomerStockDao custockdao=new CustomerStockDao();
+						CustomerStock cus=custockdao.select(getCustomer().getUsername(), company);
+						if(cus==null){
+							tool.reminder("You do not have this stock!");
 						}else{
-							//delete stock and reset balance
-							getCustomer().getInvest().deleteStock(custock);
-							CustomerStock companystock=con.select(getCustomer().getUsername(),company);
-							System.out.println((con.select(getCustomer().getUsername(), company).getNumofStock()));
-							//delete stock if customer has 0 such stock, else update the amount
-							if(companystock.getNumofStock()-custock.getNumofStock()==0){
-								con.delete(getCustomer().getUsername(),company);
+							int amount=Integer.parseInt(num);
+							CustomerStock custock=new CustomerStock(company, stock.getPrice(),amount);
+							double stockmoney=custock.getPrice()*custock.getNumofStock()-5;
+							CustomerStockDao con=new CustomerStockDao();
+							//check if the customer have such stock
+							if(con.select(getCustomer().getUsername(), company).getNumofStock()<amount){
+								tool.reminder("You do not have enough stocks!");
 							}else{
-								CustomerStock newcustock=new CustomerStock(custock.getCompany(),custock.getPrice(),companystock.getNumofStock()-custock.getNumofStock());
-								con.update(getCustomer().getUsername(),newcustock);
+								//delete stock and reset balance
+								getCustomer().getInvest().deleteStock(custock);
+								CustomerStock companystock=con.select(getCustomer().getUsername(),company);
+								System.out.println((con.select(getCustomer().getUsername(), company).getNumofStock()));
+								//delete stock if customer has 0 such stock, else update the amount
+								if(companystock.getNumofStock()-custock.getNumofStock()==0){
+									con.delete(getCustomer().getUsername(),company);
+								}else{
+									CustomerStock newcustock=new CustomerStock(custock.getCompany(),custock.getPrice(),companystock.getNumofStock()-custock.getNumofStock());
+									con.update(getCustomer().getUsername(),newcustock);
+								}
+								//update balance
+								getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
+								AccountDao conn=new AccountDao();
+								conn.update(getCustomer().getChecking());
+								IncomeDao incomedao=new IncomeDao();
+								incomedao.insert(new Income(new Currency("Dollar",5),"Sell Stock"));
+								tool.reminder("Sell successfully!");
+								dispose();
 							}
-							//update balance
-							getCustomer().getChecking().getBalance().add(new Currency("Dollar",stockmoney));
-							AccountDao conn=new AccountDao();
-							conn.update(getCustomer().getChecking());
-							IncomeDao incomedao=new IncomeDao();
-							incomedao.insert(new Income(new Currency("Dollar",5),"Sell Stock"));
-							tool.reminder("Sell successfully!");
-							dispose();
 						}
 					}
 				}

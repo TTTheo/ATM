@@ -162,7 +162,7 @@ public class CustomerFrame extends JFrame {
 					//check if the customer have enough money to close the account
 					if(customer.getChecking().getBalance().getDollar().getMoney()>=5){
 						customer.createSaving(new Saving(getNewSavingAccount(),customer.getChecking().getMoneypassword(),new Balance()));
-						con.insert(customer.getSaving());
+						con.insert(customer.getSaving(),customer.getUsername());
 						customer.getChecking().getBalance().substract(new Currency("Dollar",5));
 						con.update(customer.getChecking());
 						//incomes.add(new Income(new Currency("Dollar",5),"Open account"));

@@ -145,6 +145,7 @@ public class TransactionFrame extends JFrame {
 										getCustomer().getChecking().getBalance().substract(curren);
 										conn.update(getCustomer().getChecking());
 										Checking recieverchecking=(Checking)cs;
+										recieverchecking.deposit(transcurren);
 										conn.update(recieverchecking);
 										//add new transaction
 										Currency newtranscurren=new Currency(currency,transfernumber);

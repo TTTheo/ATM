@@ -25,8 +25,6 @@ public class Login extends JFrame {
 	private JButton btnLogin;
 	private ButtonGroup btngroup;
 	private ArrayList<Income> incomes=new ArrayList<Income>();
-	//private ArrayList<Customer> customers=new ArrayList<Customer>();
-	//private ArrayList<Manager> managers=new ArrayList<Manager>();
 	private ArrayList<Loan> loans=new ArrayList<Loan>();
 	private ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 	private Customer customer;
@@ -37,7 +35,6 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	//public Login(ArrayList<Income> incomes,ArrayList<Loan> loans,ArrayList<Transaction> transactions) {
 	public Login() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,13 +43,6 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//this.customers=customers;
-		//this.managers=managers;
-		//this.incomes=incomes;
-		//this.loans=loans;
-		//this.transactions=transactions;
-		//this.con=con;
-
 		init();
 		addAction();
 	}

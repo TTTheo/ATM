@@ -92,12 +92,18 @@ public class CloseAccountFrame extends JFrame {
 								if(customer.getChecking()==null){
 									tool.reminder("You do not have checking account!"); //reminder when there is no checking account
 								}else{
-									//delete account
-									con.delete(getCustomer().getSaving().getAccountNumber());
-									con.delete(getCustomer().getChecking().getAccountNumber());
-									destroySaving();
-									destroyChecking();
-									dispose();
+									LoanDao loandao=new LoanDao();
+									ArrayList<Loan> loans=loandao.selectAll(getCustomer().getUsername());
+									if(loans.size()!=0){
+										tool.reminder("You still have loans, you can not close checking account!");
+									}else{
+										//delete account
+										con.delete(getCustomer().getSaving().getAccountNumber());
+										con.delete(getCustomer().getChecking().getAccountNumber());
+										destroySaving();
+										destroyChecking();
+										dispose();
+									}
 								}
 							}
 						}else{
@@ -107,7 +113,7 @@ public class CloseAccountFrame extends JFrame {
 							}else{
 								con.delete(getCustomer().getSaving().getAccountNumber());
 								destroySaving();
-								
+								dispose();
 							}
 						}
 						
@@ -123,8 +129,14 @@ public class CloseAccountFrame extends JFrame {
 									//reminder when there are not enough money to pay the charge
 									tool.reminder("You do not have enough money to close the account!");
 								}else{
-									destroyChecking();
-									dispose();
+									LoanDao loandao=new LoanDao();
+									ArrayList<Loan> loans=loandao.selectAll(getCustomer().getUsername());
+									if(loans.size()!=0){
+										tool.reminder("You still have loans, you can not close checking account!");
+									}else{
+										destroyChecking();
+										dispose();
+									}
 								}
 							}
 						}else{
@@ -146,10 +158,7 @@ public class CloseAccountFrame extends JFrame {
 		});
 		
 		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CustomerFrame customerframe=new CustomerFrame(getCustomer());
-				customerframe.setVisible(true);
-				
+			public void actionPerformed(ActionEvent e) {				
 				dispose();
 			}
 		});
